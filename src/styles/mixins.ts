@@ -1,4 +1,6 @@
-export const mixins = {
+import { mediaSize } from './constants';
+
+export const includes = {
   // flex
   flexBox: (align = 'center', justify = 'center') => `
     display: flex;
@@ -44,3 +46,9 @@ export const mixins = {
     return;
   },
 };
+
+export const media = {
+  tablet: `screen and (min-width: ${mediaSize.BREAKE_POINT_MD})`,
+  pc: `screen and (min-width: ${mediaSize.BREAKE_POINT_LG})`,
+}
+
