@@ -1,6 +1,8 @@
 export const mediaSize = {
-  BREAKE_POINT_MD: "768px",
-  BREAKE_POINT_LG: "1200px",
+  BREAKE_POINT_TL_S: "768px",
+  BREAKE_POINT_TL_L: "992px",
+  BREAKE_POINT_PC_S: "1200px",
+  BREAKE_POINT_PC_L: "1600px",
 }
 
 export const colors = {
@@ -18,3 +20,9 @@ export const colors = {
   red: '#F86D7D',
   green: '#22C58B',
 };
+
+export const inputMessage = {
+  required: "필수 입력 항목입니다.",
+  maxLen: (maxNum: number) => `최대 ${maxNum}자 까지 입력할 수 있습니다.`,
+  minLen: (minNum: number) => `최소 ${minNum}자 까지 입력해야 합니다.`
+}
