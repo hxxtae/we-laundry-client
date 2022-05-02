@@ -48,7 +48,9 @@ export const includes = {
 };
 
 export const media = {
-  tablet: `screen and (min-width: ${mediaSize.BREAKE_POINT_MD})`,
-  pc: `screen and (min-width: ${mediaSize.BREAKE_POINT_LG})`,
+  tablet_s: `screen and (min-width: ${mediaSize.BREAKE_POINT_TL_S})`,
+  tablet_l: `screen and (min-width: ${mediaSize.BREAKE_POINT_TL_L})`,
+  pc_s: `screen and (min-width: ${mediaSize.BREAKE_POINT_PC_S})`,
+  pc_l: `screen and (min-width: ${mediaSize.BREAKE_POINT_PC_L})`,
 }
 

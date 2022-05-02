@@ -17,7 +17,7 @@ export const inputStyle = {
     appearance: none;
     transition: background-color 200ms ease-in-out;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 16px;
 
     &::placeholder {
       font-size: 14px;
@@ -34,10 +34,6 @@ export const inputStyle = {
   Button Style
 --------------------------------
 */
-const buttonBase = {
-  
-}
-
 export const buttonStyle = {
   base: () => `
     padding: 8px;
