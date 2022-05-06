@@ -5,7 +5,9 @@ import 'styled-components';
 declare module 'styled-components' {
   export interface DefaultTheme {
     bgColor: string;
+    bgColorSub: string;
     textColor: string;
     borderColor: string;
+    sameColor: string;
   }
 }
