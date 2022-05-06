@@ -1,13 +1,17 @@
 import { DefaultTheme } from 'styled-components';
 
 export const darkTheme: DefaultTheme = {
-  bgColor: '#2979FF',
+  bgColor: '#0d1117',
+  bgColorSub: '#010409',
   textColor: '#ffffff',
-  borderColor: '#ffffff',
+  borderColor: '#30363d',
+  sameColor: '#3F4150',
 }
 
 export const lightTheme: DefaultTheme = {
-  bgColor: '#e7e7e7',
-  textColor: '#000000',
-  borderColor: '#000000',
+  bgColor: '#ffffff',
+  bgColorSub: '#ffffff',
+  textColor: '#3F4150',
+  borderColor: '#e7e7e7',
+  sameColor: '#E0E2E7',
 }
