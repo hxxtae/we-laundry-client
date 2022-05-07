@@ -11,11 +11,11 @@ export const inputStyle = {
     width: 100%;
     height: 40px;
     padding: 0 16px;
-    background-color: ${colors.background};
-    border: 1px solid ${colors.border};
+    background-color: ${colors.backgroundLight};
+    border: 1px solid ${colors.borderLight};
     border-radius: 4px;
     appearance: none;
-    transition: background-color 200ms ease-in-out;
+    transition: background-color border-color 200ms ease-in-out;
     font-weight: 400;
     font-size: 16px;
 
@@ -61,7 +61,7 @@ export const buttonStyle = {
   secondary: () => `
     ${buttonStyle.base()}
     color: ${colors.primary};
-    background-color: ${colors.border};
+    background-color: ${colors.borderLight};
     transition: background-color 200ms ease-in-out;
 
     &:not(:disabled):hover {

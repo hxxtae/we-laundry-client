@@ -9,5 +9,7 @@ declare module 'styled-components' {
     textColor: string;
     borderColor: string;
     sameColor: string;
+    inputColor: string;
+    inputFocusColor: string;
   }
 }

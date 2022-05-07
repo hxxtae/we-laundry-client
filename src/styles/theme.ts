@@ -1,17 +1,22 @@
 import { DefaultTheme } from 'styled-components';
+import { colors } from './constants';
 
 export const darkTheme: DefaultTheme = {
-  bgColor: '#0d1117',
-  bgColorSub: '#010409',
-  textColor: '#ffffff',
-  borderColor: '#30363d',
-  sameColor: '#3F4150',
+  bgColor: `${colors.darkSlate}`,
+  bgColorSub: `${colors.darkSlateSub}`,
+  textColor: `${colors.white}`, 
+  borderColor: `${colors.borderDark}`,
+  sameColor: `${colors.primary}`,
+  inputColor: `${colors.backgroundDark}`,
+  inputFocusColor: `${colors.borderLight}`,
 }
 
 export const lightTheme: DefaultTheme = {
-  bgColor: '#ffffff',
-  bgColorSub: '#ffffff',
-  textColor: '#3F4150',
-  borderColor: '#e7e7e7',
-  sameColor: '#E0E2E7',
+  bgColor: `${colors.white}`,
+  bgColorSub: `${colors.light}`,
+  textColor: `${colors.primary}`, // chk
+  borderColor: `${colors.borderLight}`, // chk
+  sameColor: `${colors.borderLight}`,
+  inputColor: `${colors.backgroundLight}`,
+  inputFocusColor: `${colors.secondary}`,
 }
