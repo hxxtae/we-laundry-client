@@ -6,14 +6,25 @@ export const mediaSize = {
 }
 
 export const colors = {
+  white: '#FFF',
   black: '#000',
+
+  light: '#e7e7e7',
   dark: '#191A20',
+
+  darkSlate: '#0d1117',
+  darkSlateSub: '#010409',
+  darkSlateGray: '#424953',
+  
   primary: '#3F4150',
   secondary: '#8C8D96',
   tertiary: '#B2B3B9',
-  border: '#E0E2E7',
-  background: '#F7F8FA',
-  white: '#FFF',
+  
+  borderLight: '#E0E2E7',
+  borderDark: '#30363d',
+  backgroundLight: '#F7F8FA',
+  backgroundDark: '#171e28',
+  
   blue: '#3DA5F5',
   blueDark: '#3186C4',
   blueLight: '#ECF6FE',
