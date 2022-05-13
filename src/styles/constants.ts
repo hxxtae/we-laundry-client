@@ -32,18 +32,79 @@ export const colors = {
   green: '#22C58B',
 };
 
-export const regexrObj = {
-  signup: {
-    username: /^(?=.*[a-zA-Z])[^\sㄱ-ㅎㅏ-ㅣ!@#$%^&*()_\-+[\]{}=:;"'?/.,`~\\|<>]*$/, // 영문 또는 영문 + 숫자 (조합)
-    password: /^(?=.*[0-9])(?=.*[a-zA-Z])[^\sㄱ-ㅎㅏ-ㅣ{}[\]()/\\'"`~,;:.<>]*$/, // 영문 + 숫자 (포함)
-    tel: /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/,
-  },
-};
+export const headerHeight = '72px'; // 20 + 20 + 32
+export const mainContextPaddingPc = '20px';
+export const mainContextPaddingTablet = '16px';
 
-export const inputMessage = {
-  required: "필수 입력 항목입니다.",
-  maxLen: (maxNum: number) => `최대 ${maxNum}자 까지 입력할 수 있습니다.`,
-  minLen: (minNum: number) => `최소 ${minNum}자 까지 입력해야 합니다.`,
+export const zIndexes = {
+  overlay: 10,
+  overlayContext: 20,
 }
 
-export const headerHeight = '72px'; // 20 + 20 + 32
+export const linePosition = {
+  y1: {
+    tabletY: '0px',
+    pcY: '0px',
+  },
+  y2: {
+    tabletY: '54px',
+    pcY: '64px',
+  },
+  y3: {
+    tabletY: '152px',
+    pcY: '174px',
+  },
+  y4: {
+    tabletY: '204px',
+    pcY: '242px',
+  },
+  y5: {
+    tabletY: '264px',
+    pcY: '310px',
+  },
+  y6: {
+    tabletY: '358px',
+    pcY: '418px',
+  },
+}
+
+export const lineSecLocation = {
+  Top: {
+    tabletDeg: '48deg',
+    pcDeg: '48deg',
+  },
+  Middle: {
+    tabletDeg: '0deg',
+    pcDeg: '0deg',
+  },
+  Bottom: {
+    tabletDeg: '-48deg',
+    pcDeg: '-48deg',
+  },
+}
+
+export const lineThiLocation = {
+  Top: {
+    tabletX: '-26px',
+    tabletY: '54px',
+    pcX: '-30px',
+    pcY: '67px',
+  },
+  Middle: {
+    tabletX: '-26px',
+    tabletY: '0px',
+    pcX: '-30px',
+    pcY: '0px',
+  },
+  Bottom: {
+    tabletX: '-26px',
+    tabletY: '-54px',
+    pcX: '-30px',
+    pcY: '-67px',
+  },
+}
+
+export const descText = {
+  step1: (weight: number) => `상품과 갯수를 선택하여 새로운 주문을 작성할 수 있습니다.`,
+  step2: (weight: number) => `작성된 주문을 조회할 수 있습니다.작성된 주문을 찾을 수 있도록 검색이 가능합니다.`,
+}
