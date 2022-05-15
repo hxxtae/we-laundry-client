@@ -8,13 +8,14 @@ const httpClient = new HttpClient(baseURL, () => fetchCsrfToken());
 const authService = new AuthService(httpClient);
 
 const localTheme = localStorage.getItem('theme');
+const localDesc = localStorage.getItem('mainDesc');
 
 export const authApi = atom<AuthService>({
   key: 'fetch',
   default: authService
 });
 
-export const themeState = atom({
+export const themeState = atom<boolean>({
   key: 'theme',
   default: !!localTheme,
 });
@@ -24,7 +25,12 @@ export const userState = atom<string | undefined>({
   default: undefined,
 });
 
-export const sidebarState = atom({
+export const sidebarState = atom<boolean>({
   key: 'sidebar',
   default: true,
+});
+
+export const descState = atom<boolean>({
+  key: 'mainDesc',
+  default: !!localDesc,
 });
