@@ -13,7 +13,7 @@ function LoadingComponent({ loadingMessage }: ILoadingComponent) {
   return (
     <AnimatePresence>
       <LoadingBox>
-        <Loading variants={loadingVariant} initial="init" animate="start" exit="end">
+        <Loading animate={{rotate: 360}} transition={{repeatType: "loop", repeat: Infinity, duration: 1}} >
           <FontAwesomeIcon icon={faSpinner} size="2x" />
         </Loading>
         <LoadingMessage>
@@ -25,20 +25,6 @@ function LoadingComponent({ loadingMessage }: ILoadingComponent) {
 }
 
 export default LoadingComponent;
-
-const loadingVariant = {
-  init: {
-    rotate: 0,
-  },
-  start: {
-    rotate: 360,
-    transition: {
-      duration: 1,
-      repeat: Infinity,
-      type: "tween",
-    }
-  }
-}
 
 const LoadingBox = styled(motion.div)`
   ${includes.flexBox()}
