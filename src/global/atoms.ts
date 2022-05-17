@@ -9,6 +9,7 @@ const authService = new AuthService(httpClient);
 
 const localTheme = localStorage.getItem('theme');
 const localDesc = localStorage.getItem('mainDesc');
+const localOpen = localStorage.getItem('open');
 
 export const authApi = atom<AuthService>({
   key: 'fetch',
@@ -30,7 +31,17 @@ export const sidebarState = atom<boolean>({
   default: true,
 });
 
+export const sidebarClickState = atom({
+  key: 'sidebarClick',
+  default: '',
+})
+
 export const descState = atom<boolean>({
   key: 'mainDesc',
   default: !!localDesc,
+});
+
+export const openState = atom<boolean>({
+  key: 'open',
+  default: !!localOpen,
 });

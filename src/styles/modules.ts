@@ -28,7 +28,6 @@ export const inputStyle = {
     }
   `,
 }
-
 /*  
 --------------------------------
   Button Style
@@ -78,6 +77,28 @@ export const buttonStyle = {
 
     &:not(:disabled):hover {
       background-color: ${colors.blueLight};
+    }
+  `,
+
+  open: () => `
+    ${buttonStyle.base()}
+    color: white;
+    background-color: ${colors.green};
+    transition: background-color 200ms ease-in-out;
+
+    &:not(:disabled):hover {
+      background-color: ${colors.greenDark};
+    }
+  `,
+
+  close: () => `
+    ${buttonStyle.base()}
+    color: white;
+    background-color: ${colors.red};
+    transition: background-color 200ms ease-in-out;
+
+    &:not(:disabled):hover {
+      background-color: ${colors.redDark};
     }
   `,
 }

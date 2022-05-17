@@ -20,6 +20,7 @@ interface SignupRequest {
 interface IAuthService {
   signup: ({ username, password, tel }: SignupRequest) => Promise<AxiosResponse>;
   login: ({ username, password }: LoginRequest) => Promise<AxiosResponse>;
+  logout: () => Promise<AxiosResponse>;
   me: () => Promise<AxiosResponse>;
   csrfToken: () => Promise<AxiosResponse>;
 }
@@ -49,6 +50,13 @@ export default class AuthService implements IAuthService {
         username,
         password,
       }),
+    });
+    return data;
+  }
+
+  async logout() {
+    const data = this.http.fetch('/auth/logout', {
+      method: 'POST',
     });
     return data;
   }
