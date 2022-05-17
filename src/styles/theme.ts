@@ -4,6 +4,7 @@ import { colors } from './constants';
 export const darkTheme: DefaultTheme = {
   bgColor: `${colors.darkSlate}`,
   bgColorSub: `${colors.darkSlateSub}`,
+  bgColorThi: `${colors.darkSlate}`,
   textColor: `${colors.white}`, 
   borderColor: `${colors.borderDark}`,
   sameColor: `${colors.primary}`,
@@ -14,6 +15,7 @@ export const darkTheme: DefaultTheme = {
 export const lightTheme: DefaultTheme = {
   bgColor: `${colors.white}`,
   bgColorSub: `${colors.light}`,
+  bgColorThi: `${colors.light}`,
   textColor: `${colors.primary}`, // chk
   borderColor: `${colors.borderLight}`, // chk
   sameColor: `${colors.borderLight}`,

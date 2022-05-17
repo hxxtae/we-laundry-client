@@ -1,10 +1,19 @@
+/*
+=============================
+  media
+=============================
+*/
 export const mediaSize = {
   BREAKE_POINT_TL_S: "768px",
   BREAKE_POINT_TL_L: "992px",
   BREAKE_POINT_PC_S: "1200px",
   BREAKE_POINT_PC_L: "1600px",
 }
-
+/*
+=============================
+  colors
+=============================
+*/
 export const colors = {
   white: '#FFF',
   black: '#000',
@@ -29,10 +38,25 @@ export const colors = {
   blueDark: '#3186C4',
   blueLight: '#ECF6FE',
   red: '#F86D7D',
+  redDark: '#dd616f',
   green: '#22C58B',
+  greenDark: '#1dac7a'
 };
+/*
+=============================
+  any
+=============================
+*/
+export const headerHeight = {
+  tablet: '56px', // 16 + 24 + 16
+  pc: '68px', // 20 + 28 + 20
+}
 
-export const headerHeight = '72px'; // 20 + 20 + 32
+export const sidebarWidth = {
+  tablet: '62px',
+  pc: '75px',
+}
+
 export const mainContextPaddingPc = '20px';
 export const mainContextPaddingTablet = '16px';
 
@@ -42,29 +66,29 @@ export const zIndexes = {
 }
 
 export const linePosition = {
-  y1: {
-    tabletY: '0px',
-    pcY: '0px',
+  posit_1: {
+    tabletPos: '0px',
+    pcPos: '0px',
   },
-  y2: {
-    tabletY: '54px',
-    pcY: '64px',
+  posit_2: {
+    tabletPos: '54px',
+    pcPos: '64px',
   },
-  y3: {
-    tabletY: '152px',
-    pcY: '174px',
+  posit_3: {
+    tabletPos: '152px',
+    pcPos: '174px',
   },
-  y4: {
-    tabletY: '204px',
-    pcY: '242px',
+  posit_4: {
+    tabletPos: '204px',
+    pcPos: '242px',
   },
-  y5: {
-    tabletY: '264px',
-    pcY: '310px',
+  posit_5: {
+    tabletPos: '264px',
+    pcPos: '310px',
   },
-  y6: {
-    tabletY: '358px',
-    pcY: '418px',
+  posit_6: {
+    tabletPos: '358px',
+    pcPos: '418px',
   },
 }
 
@@ -105,6 +129,10 @@ export const lineThiLocation = {
 }
 
 export const descText = {
-  step1: (weight: number) => `상품과 갯수를 선택하여 새로운 주문을 작성할 수 있습니다.`,
-  step2: (weight: number) => `작성된 주문을 조회할 수 있습니다.작성된 주문을 찾을 수 있도록 검색이 가능합니다.`,
+  text1: `[품목]을 선택하고 [갯수]를 선택하여 새로운 주문을 작성할 수 있습니다.`,
+  text2: `[작성된 주문]을 조회할 수 있으며, 작성된 주문을 찾을 수 있도록 검색이 가능합니다.`,
+  text3: `[고객의 정보]를 고객주소와 함께 확인하여 관리할 수 있습니다. (고객조회 / 고객추가 / 고객수정 / 고객삭제)`,
+  text4: `[카테고리] 와 [품목]을 유연하게 관리할 수 있습니다. (품목조회 / 품목추가 / 품목수정 / 품목삭제 / 카테고리 추가, 수정 및 삭제)`,
+  text5: `[고객의 주소]를 유연하게 관리할 수 있습니다. (주소조회 / 주소추가 / 주소수정 / 주소삭제)`,
+  text6: `[오늘 매출]과 [월별 매출]을 테이블과 차트로 시각화된 데이터를 확인하실 수 있습니다.`
 }
