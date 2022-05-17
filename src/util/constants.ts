@@ -1,3 +1,8 @@
+/*
+=============================
+  input
+=============================
+*/
 export const regexrObj = {
   signup: {
     username: /^(?=.*[a-zA-Z])[^\sㄱ-ㅎㅏ-ㅣ!@#$%^&*()_\-+[\]{}=:;"'?/.,`~\\|<>]*$/, // 영문 또는 영문 + 숫자 (조합)
@@ -11,3 +16,12 @@ export const inputMessage = {
   maxLen: (maxNum: number) => `최대 ${maxNum}자 까지 입력할 수 있습니다.`,
   minLen: (minNum: number) => `최소 ${minNum}자 까지 입력해야 합니다.`,
 };
+
+export enum SidePaths {
+  "records",
+  "history",
+  "customer",
+  "products",
+  "address",
+  "sales",
+}
