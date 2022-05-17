@@ -1,7 +1,7 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import MainContext from '../pages/Main/MainContext';
-import UserMenuRouter from './UserMenuRouter';
+import UserContextRouter from './UserContextRouter';
 
 function UserRouter() {
   return (
@@ -9,7 +9,7 @@ function UserRouter() {
       <Switch>
         <Route path={process.env.PUBLIC_URL + "/"}>
           <MainContext>
-            <UserMenuRouter />
+            <UserContextRouter />
           </MainContext>
         </Route>
       </Switch>
