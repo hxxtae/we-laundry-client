@@ -4,16 +4,17 @@ import styled from 'styled-components';
   
 import { colors, includes } from '../styles';
 import { themeState } from '../global/atoms';
+import { themeStorage } from '../util';
 
 function ThemeButton() {
   const [theme, setTheme] = useRecoilState(themeState);
   const onClick = () => {
     setTheme((prev) => {
       if (prev) {
-        localStorage.removeItem('theme');
+        themeStorage.remove();
         return !prev;
       }
-      localStorage.setItem('theme', JSON.stringify('dark'));
+      themeStorage.set();
       return !prev;
     });
   }

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { openState, sidebarClickState } from '../../../global/atoms';
 import { buttonStyle, includes } from '../../../styles';
+import { openStorage } from '../../../util';
 
 function OpenAndClose() {
   console.log('Introduce');
@@ -19,9 +20,9 @@ function OpenAndClose() {
 
   const onClick = () => {
     if (open) {
-      localStorage.removeItem('open');
+      openStorage.remove();
     } else {
-      localStorage.setItem('open', 'open');
+      openStorage.set();
     }
     setOpen((prev) => !prev);
   }
