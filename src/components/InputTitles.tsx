@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { media } from '../styles';
 import { colors } from '../styles/constants';
 
 interface IInputTitles {
@@ -23,8 +24,13 @@ const Wrapper = styled.div`
 
 const Title = styled.h2`
   margin-bottom: 8px;
+  font-size: 14px;
   font-weight: 600;
   color: ${(props) => props.theme.textColor};
+
+  @media ${media.pc_s} {
+    font-size: 16px;
+  }
 `;
 
 const Des = styled.span`
