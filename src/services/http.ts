@@ -44,7 +44,7 @@ export default class HttpClient implements IHttpClient {
     } catch (e: any) {
       if (e.response) {
         const data = e.response.data;
-        const message = data && data.message ? data.message : 'Something went wrong!';
+        const message = data && data.message ? data.message : 'Server went wrong!';
         console.log(message);
         throw new Error(message);
       }

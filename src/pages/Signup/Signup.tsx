@@ -6,7 +6,7 @@ import { useRef } from 'react';
 import styled from 'styled-components';
 
 import { colors, includes, media, buttonStyle, inputStyle } from '../../styles';
-import { inputMessage, regexrObj } from '../../util';
+import { inputMessage, mainDescStorage, regexrObj } from '../../util';
 import { authApi, descState } from '../../global/atoms';
 import { Background, Containers, ErrorMessage, InputTitles } from '../../components';
 
@@ -43,7 +43,7 @@ function Signup() {
         setValue('passwordRepeat', '');
         setValue('tel', '');
 
-        localStorage.setItem('mainDesc', JSON.stringify('true'));
+        mainDescStorage.set();
         setDesc(true);
 
         if (window.confirm('회원가입이 완료되었습니다.\n\n로그인 화면으로 이동하시겠습니까?')) {
@@ -154,11 +154,15 @@ const Wrapper = styled.div`
   border: 1px solid ${(props) => props.theme.borderColor};
   background-color: ${(props) => props.theme.bgColor};
   overflow: hidden;
-  padding: 40px;
+  padding: 30px 40px;
   transition: background-color border-color 200ms ease-in-out;
 
   @media ${media.tablet_s} {
     width: 400px;
+  }
+
+  @media ${media.pc_s} {
+    padding: 40px;
   }
 `;
 
@@ -168,11 +172,15 @@ const InputBox = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
-  color: ${(props) => props.theme.textColor};;
+  color: ${(props) => props.theme.textColor};
   margin-bottom: 20px;
   width: 100%;
+
+  @media ${media.pc_s} {
+    font-size: 20px;
+  }
 `;
 
 const Form = styled.form`

@@ -24,7 +24,7 @@ function AuthContext({ children }: IAuthContextProps) {
     onSuccess: (data) => {
       setUser(data?.data.username);
     },
-  });
+  }); 
 
   return (
     <>
@@ -40,4 +40,3 @@ function AuthContext({ children }: IAuthContextProps) {
 }
 
 export default AuthContext;
-
