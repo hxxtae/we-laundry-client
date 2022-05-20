@@ -7,8 +7,10 @@ declare module 'styled-components' {
     bgColor: string;
     bgColorSub: string;
     bgColorThi: string;
+    bgColorFur: string;
     textColor: string;
     borderColor: string;
+    borderColorSub: string;
     sameColor: string;
     inputColor: string;
     inputFocusColor: string;
