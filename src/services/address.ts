@@ -9,6 +9,7 @@ export interface IAddressResponse {
 }
 
 export interface IAddressRequest {
+  id?: string;
   addname: string;
   addfullname: string;
 }
@@ -17,6 +18,7 @@ interface IAddressService {
   fetchAdd: () => Promise<AxiosResponse>;
   createAdd: ({ addname, addfullname }: IAddressRequest) => Promise<AxiosResponse>;
   updateAdd: ({ addname, addfullname }: IAddressRequest) => Promise<AxiosResponse>;
+  deleteAdd: (id: string) => Promise<AxiosResponse>;
 }
 
 export default class AddressService implements IAddressService {
@@ -42,13 +44,20 @@ export default class AddressService implements IAddressService {
     return data;
   };
 
-  async updateAdd({ addname, addfullname }: IAddressRequest): Promise<AxiosResponse> {
-    const data = await this.http.fetch('/address:id', {
+  async updateAdd({ id, addname, addfullname }: IAddressRequest): Promise<AxiosResponse> {
+    const data = await this.http.fetch(`/address/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
         addname,
         addfullname,
       }),
+    });
+    return data;
+  }
+
+  async deleteAdd(id: string): Promise<AxiosResponse> {
+    const data = await this.http.fetch(`/address/${id}`, {
+      method: 'DELETE',
     });
     return data;
   }
