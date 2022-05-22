@@ -39,11 +39,12 @@ export default class HttpClient implements IHttpClient {
     };
 
     try {
-      const res = await this.client(req);      
+      const res = await this.client(req);
       return res;
     } catch (e: any) {
       if (e.response) {
         const data = e.response.data;
+        
         const message = data && data.message ? data.message : 'Server went wrong!';
         console.log(message);
         throw new Error(message);
