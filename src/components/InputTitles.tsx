@@ -19,7 +19,7 @@ function InputTitles({ title, des }: IInputTitles) {
 export default InputTitles;
 
 const Wrapper = styled.div`
-  padding: 25px 0 10px;
+  padding-bottom: 10px;
 `;
 
 const Title = styled.h2`
@@ -27,10 +27,6 @@ const Title = styled.h2`
   font-size: 14px;
   font-weight: 600;
   color: ${(props) => props.theme.textColor};
-
-  @media ${media.pc_s} {
-    font-size: 16px;
-  }
 `;
 
 const Des = styled.span`
