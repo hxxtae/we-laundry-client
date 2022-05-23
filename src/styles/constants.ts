@@ -31,6 +31,7 @@ export const colors = {
   
   borderLight: '#E0E2E7',
   borderDark: '#30363d',
+  borderGray: '#bcc0c7',
   backgroundLight: '#F7F8FA',
   backgroundDark: '#171e28',
   

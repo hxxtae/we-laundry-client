@@ -103,7 +103,7 @@ const ImgBox = styled(motion.div)`
   width: 100%;
   height: 500px;
 
-  @media ${media.tablet_s} {
+  @media ${media.pc_s} {
     height: 700px;
   }
 `;

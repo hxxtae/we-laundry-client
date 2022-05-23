@@ -23,8 +23,8 @@ function AuthContext({ children }: IAuthContextProps) {
     refetchOnMount: 'always',
     onSuccess: (data) => {
       setUser(data?.data.username);
-    },
-  });
+    }
+  }); 
 
   return (
     <>
@@ -40,4 +40,3 @@ function AuthContext({ children }: IAuthContextProps) {
 }
 
 export default AuthContext;
-

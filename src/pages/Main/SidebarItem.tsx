@@ -15,7 +15,7 @@ function SidebarItem({ children, click, path, name }: IItem) {
   const history = useHistory();
 
   return (
-    <Item onClick={() => history.push(`/${path}`)}>
+    <Item clicked={click} path={path} onClick={() => history.push(`/${path}`)}>
       {children}
       <ItemTitle>{name}</ItemTitle>
       {click === `/${path}` ?
@@ -28,17 +28,18 @@ function SidebarItem({ children, click, path, name }: IItem) {
 
 export default SidebarItem;
 
-const Item = styled(motion.li)`
+const Item = styled(motion.li)<{clicked: string, path: string}>`
   position: relative;
   ${includes.flexBox()}
   width: 100%;
   padding: 16px;
   font-size: 12px;
   color: ${colors.white};
+  opacity: ${(props) => props.clicked === `/${props.path}` ? 1 : .6 };
   cursor: pointer;
 
   &:hover {
-    opacity: .6;
+    opacity: 1;
   }
 
   &:nth-child(2),

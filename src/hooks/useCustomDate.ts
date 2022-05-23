@@ -14,8 +14,8 @@ export const useCustomDate = () => {
       if (seconds === 0) {
         setReLoad((prev) => !prev);
       }
-      return () => clearInterval(setTimer.current);
     }, 1000);
+    return () => clearInterval(setTimer.current);
   }, []);
 
   useEffect(() => {

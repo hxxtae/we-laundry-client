@@ -29,15 +29,14 @@ function Login() {
     mutate(data, {
       onSuccess: () => {
         setValue('username', '');
-        setValue('password', '');
+        setValue('password', '');        
         setUser(data.username);
       },
       onError: (error: any) => {
         setError('username', { type: 'custom', message: error.message });
         setError('password', { type: 'custom', message: error.message });
-      }
+      },
     })
-    console.log(data);
   }
 
   const onSingup = () => {

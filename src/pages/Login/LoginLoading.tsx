@@ -7,7 +7,7 @@ function LoginLoading() {
   return (
     <Background>
       <Wrapper>
-        <LoadingComponent loadingMessage='현재 로그인중 입니다.' />
+        <LoadingComponent loadingMessage='잠시만 기다려주세요.' />
       </Wrapper>
     </Background>
   );

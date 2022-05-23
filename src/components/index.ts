@@ -6,3 +6,4 @@ export { default as LoadingComponent } from './LoadingComponent';
 export { default as NotFoundPage } from './NotFoundPage';
 export { default as Overlay } from './Overlay';
 export { default as ThemeButton } from './ThemeButton';
+export { default as DeleteConfirm } from './DeleteConfirm';
