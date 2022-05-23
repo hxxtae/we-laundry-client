@@ -29,7 +29,12 @@ export default LoadingComponent;
 const LoadingBox = styled(motion.div)`
   ${includes.flexBox()}
   flex-direction: column;
+  width: 250px;
+  height: 120px;
   padding: 20px;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  border-radius: 5px;
+  background-color: ${(props) => props.theme.bgColor};
 `;
 
 const Loading = styled(motion.div)`

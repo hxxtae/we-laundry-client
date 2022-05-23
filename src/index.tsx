@@ -3,9 +3,11 @@ import { RecoilRoot } from 'recoil';
 import { createGlobalStyle } from 'styled-components';
 import { reset } from 'styled-reset';
 import ReactDOM from 'react-dom/client';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 import App from './App';
-
 console.log('Index');
 
 const client = new QueryClient();
@@ -15,7 +17,7 @@ const GlobalStyled = createGlobalStyle`
 
   * {
     font-family: 'Source Sans Pro', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -25,12 +27,12 @@ const GlobalStyled = createGlobalStyle`
 
   html {
     font-family: 'Source Sans Pro', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
   }
 
   body {
     font-family: 'Source Sans Pro', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     
   }
 
@@ -60,8 +62,10 @@ const root = ReactDOM.createRoot(
 root.render(
   //<React.StrictMode>
     <QueryClientProvider client={client}>
+      <ReactQueryDevtools initialIsOpen={false} />
       <RecoilRoot>
         <GlobalStyled />
+        <ToastContainer />
         <App/>
       </RecoilRoot>
     </QueryClientProvider>

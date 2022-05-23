@@ -23,7 +23,7 @@ function AuthContext({ children }: IAuthContextProps) {
     refetchOnMount: 'always',
     onSuccess: (data) => {
       setUser(data?.data.username);
-    },
+    }
   }); 
 
   return (

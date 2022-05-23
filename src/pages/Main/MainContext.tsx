@@ -55,11 +55,12 @@ const Group = styled.main`
   }
 `;
 
-const Context = styled(motion.div)`
+const Context = styled(motion.section)`
+  ${includes.flexBox('flex-start', 'flex-start')}
   flex-grow: 0;
   width: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 10px;
   background-color: ${(props) => props.theme.bgColorThi};
   transition: background-color 200ms ease-in-out;
 `;

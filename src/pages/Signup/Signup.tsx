@@ -65,73 +65,81 @@ function Signup() {
       <Containers>
         <Section>
           <Wrapper>
-            <InputBox>
+            <InputGroup>
               <Title>{'회원가입'}</Title>
               <Form onSubmit={handleSubmit(onSubmit)}>
-                <InputTitles
-                  title='닉네임'
-                  des='다른 유저와 겹치지 않는 영문 별명을 입력해주세요. (2~10자)' />
-                <Input
-                  err={errors.username?.message}
-                  autoComplete='off'
-                  {...register('username',
-                    {
-                      required: inputMessage.required,
-                      minLength: { value: 2, message: inputMessage.minLen(2) },
-                      maxLength: { value: 10, message: inputMessage.maxLen(10) },
-                      pattern: {
-                        value: regexrObj.signup.username, message: '영문, 영문 + 숫자 조합이여야 합니다.'
-                      }
-                    })}
-                />
-                <ErrorMessage message={errors.username?.message} />
-                <InputTitles
-                  title='비밀번호'
-                  des='영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.' />
-                <Input
-                  type='password'
-                  err={errors.password?.message}
-                  {...register('password',
-                    {
-                      required: inputMessage.required,
-                      maxLength: { value: 18, message: inputMessage.maxLen(18) },
-                      minLength: { value: 6, message: inputMessage.minLen(6) },
-                      pattern: {
-                        value: regexrObj.signup.password, message: '영문 + 숫자를 포함하여야 합니다. (한글, 일부 특수문자 불가)'
-                      }
-                    })}
-                />
-                <ErrorMessage message={errors.password?.message} />
-                <InputTitles title='비밀번호 확인' />
-                <Input
-                  type='password'
-                  err={errors.passwordRepeat?.message}
-                  {...register('passwordRepeat',
-                    {
-                      required: inputMessage.required,
-                      validate: pwdValidate
-                    })}
-                />
-                <ErrorMessage message={errors.passwordRepeat?.message} />
-                <InputTitles
-                  title='전화번호'
-                  des='서비스 사용을 위해 전화번호 인증이 필요합니다.' />
-                <Input
-                  err={errors.tel?.message}
-                  autoComplete='off'
-                  {...register('tel',
-                    {
-                      required: inputMessage.required,
-                      pattern: { value: regexrObj.signup.tel, message: '잘못된 입력 입니다.'}
-                    })}
-                />
-                <ErrorMessage message={errors.tel?.message} />
+                <InputBox>
+                  <InputTitles
+                    title='닉네임'
+                    des='다른 유저와 겹치지 않는 영문 별명을 입력해주세요. (2~10자)' />
+                  <Input
+                    err={errors.username?.message}
+                    autoComplete='off'
+                    {...register('username',
+                      {
+                        required: inputMessage.required,
+                        minLength: { value: 2, message: inputMessage.minLen(2) },
+                        maxLength: { value: 10, message: inputMessage.maxLen(10) },
+                        pattern: {
+                          value: regexrObj.signup.username, message: '영문, 영문 + 숫자 조합이여야 합니다.'
+                        }
+                      })}
+                  />
+                  <ErrorMessage absolute={true} message={errors.username?.message} />
+                </InputBox>
+                <InputBox>
+                  <InputTitles
+                    title='비밀번호'
+                    des='영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.' />
+                  <Input
+                    type='password'
+                    err={errors.password?.message}
+                    {...register('password',
+                      {
+                        required: inputMessage.required,
+                        maxLength: { value: 18, message: inputMessage.maxLen(18) },
+                        minLength: { value: 6, message: inputMessage.minLen(6) },
+                        pattern: {
+                          value: regexrObj.signup.password, message: '영문 + 숫자를 포함하여야 합니다. (한글, 일부 특수문자 불가)'
+                        }
+                      })}
+                  />
+                  <ErrorMessage absolute={true} message={errors.password?.message} />
+                </InputBox>
+                <InputBox>
+                  <InputTitles title='비밀번호 확인' />
+                  <Input
+                    type='password'
+                    err={errors.passwordRepeat?.message}
+                    {...register('passwordRepeat',
+                      {
+                        required: inputMessage.required,
+                        validate: pwdValidate
+                      })}
+                  />
+                  <ErrorMessage absolute={true} message={errors.passwordRepeat?.message} />
+                </InputBox>
+                <InputBox>
+                  <InputTitles
+                    title='전화번호'
+                    des='서비스 사용을 위해 전화번호 인증이 필요합니다.' />
+                  <Input
+                    err={errors.tel?.message}
+                    autoComplete='off'
+                    {...register('tel',
+                      {
+                        required: inputMessage.required,
+                        pattern: { value: regexrObj.signup.tel, message: '잘못된 입력 입니다.'}
+                      })}
+                  />
+                  <ErrorMessage absolute={true} message={errors.tel?.message} />
+                </InputBox>
                 <ButtonBox>
                   <Button>{'회원가입하기'}</Button>
                   <Button type='button' onClick={onLogin}>{'로그인하기'}</Button>
                 </ButtonBox>
               </Form>
-            </InputBox>
+            </InputGroup>
           </Wrapper>
         </Section>
       </Containers>
@@ -166,7 +174,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const InputBox = styled.div`
+const InputGroup = styled.div`
   ${includes.flexBox()}
   flex-direction: column;
 `;
@@ -187,6 +195,10 @@ const Form = styled.form`
   width: 100%;
   padding-top: 20px;
   border-top: 1px solid ${colors.borderLight};
+`;
+
+const InputBox = styled.div`
+  margin-bottom: 25px;
 `;
 
 const Input = styled.input<{err?: string}>`
