@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 import { useEffect, useState } from 'react';
 
-import { buttonStyle, colors, includes, toastStyle } from '../../../styles';
+import { buttonStyle, includes, toastStyle } from '../../../styles';
 import { IAddressRequest } from '../../../services/address';
 import { addressApi } from '../../../global/atoms';
 import { LoadingComponent, Overlay } from '../../../components';
