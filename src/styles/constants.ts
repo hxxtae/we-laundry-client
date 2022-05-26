@@ -62,8 +62,8 @@ export const mainContextPaddingPc = '20px';
 export const mainContextPaddingTablet = '16px';
 
 export const zIndexes = {
-  overlay: 10,
-  overlayContext: 20,
+  overlay: 100,
+  overlayContext: 200,
 }
 
 export const linePosition = {
