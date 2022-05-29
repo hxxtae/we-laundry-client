@@ -62,6 +62,7 @@ export const mainContextPaddingPc = '20px';
 export const mainContextPaddingTablet = '16px';
 
 export const zIndexes = {
+  themeButton: 90,
   overlay: 100,
   overlayContext: 200,
 }
