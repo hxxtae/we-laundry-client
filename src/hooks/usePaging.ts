@@ -21,7 +21,7 @@ export function usePaging(datas: any[] | undefined, dataLen: number | undefined,
   const indexOfFirst = indexOfLast - pagePost; // 10 - 10 = 0, 20 - 10 = 10, 30 - 10 = 20
 
   const ASC = (num: number) => (((currentPage - 1) * pagePost) + num) + 1;
-  const DESC = (num: number) => dataLen && dataLen - (((currentPage - 1) * pagePost) + num);
+  const DESC = (num: number) => dataLen ? dataLen - (((currentPage - 1) * pagePost) + num) : 0;
 
   const { pageList, pageLen } = pageListFnc(currentPage, dataLen, pagePost, pagelistPost);
 
