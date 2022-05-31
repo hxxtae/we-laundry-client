@@ -1,13 +1,14 @@
 import { atom } from 'recoil';
 
 import { fetchCsrfToken } from '../App';
-import { AuthService, HttpClient, AddressService } from '../services';
+import { AuthService, HttpClient, AddressService, CustomerService } from '../services';
 import { mainDescStorage, openStorage, themeStorage } from '../util';
 
 const baseURL = process.env.REACT_APP_BASE_URL!;
 const httpClient = new HttpClient(baseURL, () => fetchCsrfToken());
 const authService = new AuthService(httpClient);
 const addressService = new AddressService(httpClient);
+const customerService = new CustomerService(httpClient);
 
 const localTheme = themeStorage.get();
 const localDesc = mainDescStorage.get();
@@ -22,6 +23,13 @@ export const addressApi = atom<AddressService>({
   key: 'addressFetch',
   default: addressService
 });
+
+export const customerApi = atom<CustomerService>({
+  key: 'customerFetch',
+  default: customerService
+});
+
+
 
 export const themeState = atom<boolean>({
   key: 'theme',
