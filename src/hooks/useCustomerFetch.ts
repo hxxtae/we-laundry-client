@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import { customerApi } from '../global';
 import { ICustomerRequest, ICustomerResponse } from '../services/customer';
@@ -14,7 +14,6 @@ interface ICustomerFetch {
 
 export const useCustomerFetch = ({addname, dong, ho}: ICustomerRequest): ICustomerFetch => {
   const customerService = useRecoilValue(customerApi);
-  const client = useQueryClient();
 
   const {
     isLoading: loading,
