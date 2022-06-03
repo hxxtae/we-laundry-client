@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useState } from 'react';
 import '@fortawesome/fontawesome-svg-core';
 import styled from 'styled-components';
@@ -10,32 +10,24 @@ import { buttonStyle, colors, includes, media, scroll, toastStyle } from '../../
 import { DeleteConfirm, LoadingComponent, Overlay } from '../../../components';
 import { addressApi } from '../../../global/atoms';
 import { usePaging } from '../../../hooks';
+import { useAddressFetch } from '../../../hooks/useAddressFetch';
+import { addressRequestState } from '../../../global';
 
 interface IAddressList {
-  setAddressData: React.Dispatch<React.SetStateAction<{id: string, addname: string, addfullname: string}>>;
   setUpdateActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function AddressList({ setAddressData, setUpdateActive }: IAddressList) {
+function AddressList({ setUpdateActive }: IAddressList) {
   console.log('AddressList');
   
+  const setData = useSetRecoilState(addressRequestState);
   const [deletePop, setDeletePop] = useState(false);
   const [deleteId, setDeleteId] = useState('');
   const addressService = useRecoilValue(addressApi);
   const client = useQueryClient();
 
   const { mutate, isLoading: deleteLoading } = useMutation((id: string) => addressService.deleteAdd(id));
-  
-  const {
-    isLoading: loading,
-    isFetching: reLoading,
-    data: addDatas
-  } = useQuery(["/address", "fetch"], () => addressService.fetchAdd(), {
-    retry: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: 'always',
-  });
-
+  const { loading, reLoading, addDatas } = useAddressFetch();
   const {
     fetchDatas,
     pageList,
@@ -44,10 +36,10 @@ function AddressList({ setAddressData, setUpdateActive }: IAddressList) {
     nextPage,
     prevPage,
     pageSort: { DESC }
-  } = usePaging(addDatas?.data, addDatas?.data.length, 10, 5);
+  } = usePaging(addDatas, addDatas?.length, 10, 5);
 
   const onUpdateActive = (id: string, addname: string, addfullname: string) => {
-    setAddressData({
+    setData({
       id,
       addname,
       addfullname,
@@ -65,6 +57,7 @@ function AddressList({ setAddressData, setUpdateActive }: IAddressList) {
     mutate(id, {
       onSuccess: () => {
         client.invalidateQueries(["/address", "fetch"]);
+        client.invalidateQueries(["/customer", "fetch"]);
         toastStyle.info('삭제되었습니다.');
       },
       onError: (error: any) => {
@@ -74,12 +67,12 @@ function AddressList({ setAddressData, setUpdateActive }: IAddressList) {
   };
   
   return (
-    <>
-      <Count>총 {addDatas?.data.length || 0} 개</Count>
+    <Wrapper>
+      <Count>총 {addDatas?.length || 0} 개</Count>
       <List>
         <Items>
           <Title>No.</Title>
-          <Title>주소별명</Title>
+          <Title>주소이름</Title>
           <Title>주소</Title>
           <Title>생성날짜</Title>
           <Title>설정</Title>
@@ -122,15 +115,25 @@ function AddressList({ setAddressData, setUpdateActive }: IAddressList) {
         <Overlay>
           <LoadingComponent loadingMessage='잠시만 기다려주세요' />
         </Overlay> : null}
-    </>
+    </Wrapper>
   )
 }
 
 export default AddressList;
 
+const Wrapper = styled.div`
+  width: 100%;
+  padding: 20px;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  border-radius: 4px;
+  background-color: ${(props) => props.theme.bgColor};
+  transition: background-color border-color 200ms ease-in-out;
+`;
+
 const Count = styled.strong`
+  ${includes.flexBox('center', 'flex-start')}
   color: ${(props) => props.theme.textColor};
-  margin-top: 30px;
+  height: 40px;
   font-weight: 600;
 `;
 
@@ -138,13 +141,13 @@ const List = styled.ul`
   ${includes.flexBox('center', 'flex-start')}
   flex-direction: column;
   width: 100%;
-  height: 320px;
+  max-height: 200px;
   overflow-y: scroll;
   ${(props) => scroll.custom(8, props.theme.borderColorSub, props.theme.textColor)}
 
   @media ${media.pc_s} {
     overflow-y: hidden;
-    height: 450px;
+    max-height: 450px;
   }
 `;
 
@@ -192,7 +195,7 @@ const Title = styled.h2`
     width: 250px;
   }
 
-  @media ${media.tablet_l} {
+  @media ${media.tablet_s} {
     &:nth-of-type(3) {
       width: 390px;
     }
@@ -236,7 +239,7 @@ const Item = styled.span`
     }
   }
 
-  @media ${media.tablet_l} {
+  @media ${media.tablet_s} {
     &:nth-of-type(3) {
       width: 390px;
     }

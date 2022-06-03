@@ -9,33 +9,37 @@ import { IAddressRequest } from '../../../services/address';
 import { addressApi } from '../../../global/atoms';
 import { LoadingComponent, Overlay } from '../../../components';
 import Postcode from './Postcode';
-import AddressName from './AddressInputs/AddressName';
-import AddressFullName from './AddressInputs/AddressFullName';
+import { AddressName, AddressFullName } from './AddressInputs';
+import { addressRequestState } from '../../../global';
+
 
 interface IAddressInput {
-  addressData: {id: string, addname: string, addfullname: string};
   updateActive: boolean;
   setUpdateActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function AddressInput({ addressData, updateActive, setUpdateActive }: IAddressInput) { 
+function AddressInput({ updateActive, setUpdateActive }: IAddressInput) { 
   console.log('AddressInput');
 
-  const client = useQueryClient();
   const addressService = useRecoilValue(addressApi);
+  const data = useRecoilValue(addressRequestState);
   const [addClose, setAddClose] = useState(false);
   const method = useForm<IAddressRequest>();
-
+  const client = useQueryClient();
+  
   const { mutate, isLoading: loading } = useMutation(({ id, addname, addfullname }: IAddressRequest) => !updateActive
     ? addressService.createAdd({ addname, addfullname })
     : addressService.updateAdd({ id, addname, addfullname }));
   
   useEffect(() => {
+    if (!updateActive) {
+      return;
+    }
     method.reset();
-    method.setValue('id', addressData.id);
-    method.setValue('addname', addressData.addname);
-    method.setValue('addfullname', addressData.addfullname);
-  }, [addressData]);
+    method.setValue('id', data.id);
+    method.setValue('addname', data.addname);
+    method.setValue('addfullname', data.addfullname);
+  }, [data]);
 
   const onSubmit = async ({ id, addname, addfullname }: IAddressRequest) => {
     const data = { id, addname, addfullname };
@@ -45,6 +49,7 @@ function AddressInput({ addressData, updateActive, setUpdateActive }: IAddressIn
         updateActive ? toastStyle.info('변경되었습니다.') : toastStyle.success('추가되었습니다.');
         setUpdateActive(false);
         client.invalidateQueries(["/address", "fetch"]);
+        client.invalidateQueries(["/customer", "fetch"]);
       },
       onError: (error: any) => {
         toastStyle.error(error.message);
@@ -67,20 +72,20 @@ function AddressInput({ addressData, updateActive, setUpdateActive }: IAddressIn
       <FormProvider {...method}>
         <InputGroup onSubmit={method.handleSubmit(onSubmit)}>
           <input {...method.register("id")} style={{ display: "none" }} />
-          <AddressName />
+          <AddressName/>
           <AddressFullName onFindAddress={onFindAddress} />
           <ButtonBox>
-            <SubmitButton updateChk={updateActive + ""} disabled={loading} >
-              {!updateActive ? '추가' : '변경'}
-            </SubmitButton>
             {updateActive &&
               <ResetButton type='button' onClick={onUpdateCancel} disabled={loading}>
                 {'취소'}
               </ResetButton>}
+            <SubmitButton disabled={loading} >
+              {!updateActive ? '추가' : '변경'}
+            </SubmitButton>
           </ButtonBox>
         </InputGroup>
       </FormProvider>
-      
+
       {addClose &&
       <Overlay>
         <Postcode setClose={setAddClose} setData={(data: string) => method.setValue('addfullname', data)} />
@@ -96,20 +101,30 @@ function AddressInput({ addressData, updateActive, setUpdateActive }: IAddressIn
 export default AddressInput;
 
 const InputGroup = styled.form`
-  ${includes.flexBox('flex-end', 'center')}
+  ${includes.flexBox('flex-end', 'flex-start')}
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 20px;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  border-radius: 4px;
+  background-color: ${(props) => props.theme.bgColor};
+  transition: background-color border-color 200ms ease-in-out;
 `;
 
 const ButtonBox = styled.div`
   ${includes.flexBox()}
+  height: 40px;
 `;
 
-const SubmitButton = styled.button<{updateChk: string}>`
+const SubmitButton = styled.button`
   ${buttonStyle.primary()}
   width: 80px;
-  margin-right: 5px;
+  height: 100%;
 `;
 
 const ResetButton = styled.button`
   ${buttonStyle.secondary()}
   width: 80px;
+  height: 100%;
+  margin-right: 5px;
 `;

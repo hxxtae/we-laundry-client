@@ -9,30 +9,31 @@ import { dragging, includes } from '../styles';
 
 interface IKeyboardBox {
   setValue: UseFormSetValue<FieldValues>;
+  name: string;
   value: string;
 }
 
-function KeyboardBox({ setValue, value }: IKeyboardBox) {
-  const [comStrNum, setComStrNum] = useState('');
+function KeyboardBox({ setValue, name, value }: IKeyboardBox) {
+  const [comStrNum, setComStrNum] = useState(value);
   const keyPad = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const onClick = (num: string) => {
     setComStrNum((prev) => {
-      setValue(value, prev + num);
+      setValue(name, prev + num);
       return prev + num;
     })
   }
 
   const onClean = () => {
     setComStrNum('');
-    setValue(value, '');
+    setValue(name, '');
   }
 
   const onErase = () => {
     setComStrNum((prev) => {
       const arr = prev.split('');
       arr.pop();
-      setValue(value, arr.join(''));
+      setValue(name, arr.join(''));
       return arr.join('');
     });
   }
