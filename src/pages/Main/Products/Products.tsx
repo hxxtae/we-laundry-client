@@ -1,24 +1,56 @@
 import { useRouteMatch } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
-import { sidebarClickState } from '../../../global/atoms';
+import { LoadingComponent, Overlay } from '../../../components';
+import { sidebarClickState } from '../../../global';
+import { includes, media } from '../../../styles';
+import { useProductObjFetch } from '../../../hooks';
+import ProductsList from './ProductsList';
+import CategorysTabs from './CategorysTabs';
 
 function Products() {
   console.log('Products');
 
   const setSideClick = useSetRecoilState(sidebarClickState);
+  const [categoryIdx, setCategoryIdx] = useState(0);
+  const { loading, reLoading, productObjs } = useProductObjFetch();
   const { path } = useRouteMatch();
-  
+
   useEffect(() => {
     setSideClick(path);
   }, []);
 
   return (
-    <div>
-      Products!!
-    </div>
+    <Wrapper>
+      <CategorysTabs productObjs={productObjs} categoryIdx={categoryIdx} setCategoryIdx={setCategoryIdx} />
+      {productObjs?.map((productObj, index) => (
+          index === categoryIdx && 
+          <ProductsList
+            key={productObj.id}
+            reLoading={reLoading}
+            productObj={productObj} />
+      ))}
+
+      {loading &&
+      <Overlay>
+        <LoadingComponent loadingMessage='잠시만 기다려주세요.' />
+      </Overlay>}
+    </Wrapper>
   )
 }
 
 export default Products;
+
+const Wrapper = styled.div`
+  position: relative;
+  ${includes.flexBox('flex-start', 'flex-start')}
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  @media ${media.pc_s} {
+    width: auto;
+  }
+`;

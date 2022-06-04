@@ -36,6 +36,7 @@ const InputBox = styled.div`
   ${includes.flexBox('flex-start', 'center')}
   flex-direction: column;
   margin-right: 10px;
+  width: 100%;
 `;
 
 const Input = styled.input<{err?: string}>`

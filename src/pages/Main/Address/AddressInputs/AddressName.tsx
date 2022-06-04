@@ -10,16 +10,16 @@ function AddressName() {
 
   return (
     <InputBox>
-      <InputTitles title='주소별명' des='주소의 별명을 입력해주세요.' />
+      <InputTitles title='주소이름' des='주소의 이름을 입력해주세요.' />
       <Input
         err={errors.addname?.message}
         autoComplete="off"
-        placeholder="주소별명입력"
+        placeholder="주소이름입력"
         {...register('addname', {
         required: inputMessage.required,
         maxLength: { value: 10, message: inputMessage.maxLen(10) },
         minLength: { value: 2, message: inputMessage.minLen(2) },
-        pattern: { value: regexrObj.address.addname, message: "공백과 특수문자 사용은 불가합니다." },
+        pattern: { value: regexrObj.notSpaceAndSpecial, message: "공백과 특수문자 사용은 불가합니다." },
       })} />
       <ErrorMessage absolute={true} message={errors.addname?.message} />
     </InputBox>
@@ -31,6 +31,7 @@ export default AddressName;
 const InputBox = styled.div`
   ${includes.flexBox('flex-start', 'center')}
   flex-direction: column;
+  min-width: 200px;
   margin-right: 10px;
 `;
 
