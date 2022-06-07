@@ -15,6 +15,11 @@ const localTheme = themeStorage.get();
 const localDesc = mainDescStorage.get();
 const localOpen = openStorage.get();
 
+/*
+===================
+  Api.
+===================
+*/
 export const authApi = atom<AuthService>({
   key: 'authApi',
   default: authService
@@ -35,9 +40,11 @@ export const productsApi = atom<ProductsService>({
   default: productsService
 });
 
-
-
-
+/*
+===================
+  Main.
+===================
+*/
 export const themeState = atom<boolean>({
   key: 'theme',
   default: !!localTheme,
@@ -68,7 +75,22 @@ export const openState = atom<boolean>({
   default: !!localOpen,
 });
 
+/*
+===================
+  Page Products.
+===================
+*/
 export const productUpdState = atom<boolean>({
   key: 'productUpd',
+  default: false,
+});
+
+export const productDelState = atom<boolean>({
+  key: 'productDel',
+  default: false,
+});
+
+export const productPopupState = atom<boolean>({
+  key: 'productPopup',
   default: false,
 });

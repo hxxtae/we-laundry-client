@@ -1,42 +1,38 @@
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 
-import { colors, includes, inputStyle, media } from '../../../../styles';
+import { colors, includes, inputStyle } from '../../../../styles';
 import { ErrorMessage, InputTitles } from '../../../../components';
 import { inputMessage, regexrObj } from '../../../../util';
 
-function ProductName() {
+function CategoryName() {
   const { register, formState: { errors } } = useFormContext();
 
   return (
     <InputBox>
-      <InputTitles title='품목명' des='사용 할 품목명을 입력해주세요.' />
+      <InputTitles title='카테고리명' des='카테고리 이름을 입력해주세요.' />
       <Input
-        err={errors.productName?.message}
+        err={errors.categoryName?.message}
         autoComplete="off"
-        placeholder="품목명입력"
-        {...register("productName", {
+        placeholder="카테고리명입력"
+        {...register("categoryName", {
           required: inputMessage.required,
-          maxLength: { value: 10, message: inputMessage.maxLen(10) },
+          maxLength: { value: 8, message: inputMessage.maxLen(8) },
           minLength: { value: 1, message: inputMessage.minLen(1) },
-          pattern: { value: regexrObj.notOnlySpecial, message: "특수문자는 입력할 수 없습니다." },
+          pattern: { value: regexrObj.notPartSpecial, message: "_ / , 제외 특수문자 입력 불가합니다." },
           setValueAs: value => value.trim(),
         })} />
-      <ErrorMessage absolute={true} message={errors.productName?.message} />
+      <ErrorMessage absolute={true} message={errors.categoryName?.message} />
     </InputBox>
   )
 }
 
-export default ProductName;
+export default CategoryName;
 
 const InputBox = styled.div`
   ${includes.flexBox('flex-start', 'flex-start')}
   flex-direction: column;
-  margin-top: 50px;
-
-  @media ${media.pc_s} {
-    margin-top: 100px;
-  }
+  margin-top: 60px;
 `;
 
 const Input = styled.input<{err: string}>`

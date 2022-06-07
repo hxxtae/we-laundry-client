@@ -12,7 +12,7 @@ interface ICustomerHo {
 
 function CustomerHo({ searchActive }: ICustomerHo) {
   const [selectAct, setSelectAct] = useState(false);
-  const { register, formState: { errors }, setValue } = useFormContext();
+  const { register, formState: { errors }, setValue, getValues } = useFormContext();
 
   return (
     <InputBox>
@@ -32,7 +32,7 @@ function CustomerHo({ searchActive }: ICustomerHo) {
       <ErrorMessage absolute={true} message={errors.ho?.message} />
 
       <AnimatePresence>
-        {selectAct && <KeyboardBox value={'ho'} setValue={setValue} />}
+        {selectAct && <KeyboardBox name={'ho'} setValue={setValue} value={getValues('ho')} />}
       </AnimatePresence>
     </InputBox>
   )

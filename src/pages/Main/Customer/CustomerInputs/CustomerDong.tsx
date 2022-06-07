@@ -12,7 +12,7 @@ interface ICustomerDong {
 
 function CustomerDong({ searchActive }: ICustomerDong) {
   const [selectAct, setSelectAct] = useState(false);
-  const { register, formState: { errors }, setValue } = useFormContext();
+  const { register, formState: { errors }, setValue, getValues } = useFormContext();
 
   return (
     <InputBox>
@@ -26,13 +26,13 @@ function CustomerDong({ searchActive }: ICustomerDong) {
         {...register('dong', {
           required: !searchActive ? inputMessage.required : false,
           maxLength: { value: 5, message: inputMessage.maxLen(5) },
-          minLength: { value: 2, message: inputMessage.minLen(1) },
+          minLength: { value: 1, message: inputMessage.minLen(1) },
           pattern: { value: regexrObj.notSpaceAndSpecial, message: "숫자만 입력가능합니다." },
       })}/>
       <ErrorMessage absolute={true} message={errors.dong?.message} />
 
       <AnimatePresence>
-        {selectAct && <KeyboardBox value={'dong'} setValue={setValue} />}
+        {selectAct && <KeyboardBox name={'dong'} setValue={setValue} value={getValues('dong')}/>}
       </AnimatePresence>
     </InputBox>
   )

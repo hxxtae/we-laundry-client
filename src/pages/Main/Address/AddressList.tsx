@@ -28,6 +28,7 @@ function AddressList({ setUpdateActive }: IAddressList) {
 
   const { mutate, isLoading: deleteLoading } = useMutation((id: string) => addressService.deleteAdd(id));
   const { loading, reLoading, addDatas } = useAddressFetch();
+  const addLoading = loading || reLoading;
   const {
     fetchDatas,
     pageList,
@@ -111,7 +112,7 @@ function AddressList({ setUpdateActive }: IAddressList) {
         <Overlay>
           <DeleteConfirm deleteId={deleteId} onDelete={onDelete} setDeletePop={setDeletePop} loading={deleteLoading} />
         </Overlay>}
-      {loading || reLoading || deleteLoading ?
+      {(addLoading || deleteLoading) ?
         <Overlay>
           <LoadingComponent loadingMessage='잠시만 기다려주세요' />
         </Overlay> : null}

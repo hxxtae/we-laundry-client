@@ -27,12 +27,12 @@ const GlobalStyled = createGlobalStyle`
 
   html {
     font-family: 'Source Sans Pro', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   body {
     font-family: 'Source Sans Pro', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     
   }
 
