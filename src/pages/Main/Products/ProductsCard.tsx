@@ -50,13 +50,14 @@ function ProductsCard({ products, product: { productName, price }, index, setCop
 
 export default ProductsCard;
 
-const Card = styled.div<{updActive: boolean, delActive: boolean}>`
+const Card = styled.div<{ updActive: boolean, delActive: boolean }>`
+  position: relative;
   ${includes.flexBox()}
   flex-direction: column;
   ${dragging.stop}
   width: 100px;
   height: 100px;
-  background-color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.inputColor};
   border-radius: 4px;
   border: 1px solid ${(props) =>
     (props.updActive === true) ? colors.green :
@@ -68,9 +69,12 @@ const Card = styled.div<{updActive: boolean, delActive: boolean}>`
 const Name = styled.span`
   padding: 10px;
   color: ${(props) => props.theme.textColor};
+  font-weight: 600;
 `;
 
 const Price = styled.span`
   padding: 10px;
   color: ${(props) => props.theme.textColor};
+  font-size: 14px;
+  font-weight: 600;
 `;
