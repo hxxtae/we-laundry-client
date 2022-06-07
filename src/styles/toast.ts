@@ -1,37 +1,38 @@
-import { toast } from 'react-toastify';
+import { toast, ToastOptions } from 'react-toastify';
+
+const toastOptions: ToastOptions = {
+  autoClose: 2000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: false,
+  pauseOnFocusLoss: false,
+  draggable: true,
+  theme: 'colored',
+};
 
 export const toastStyle = {
   success: (message: string) => {
     toast.success(message, {
+      ...toastOptions,
       position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      theme: 'colored',
     });
   },
   error: (message: string) => {
     toast.error(message, {
+      ...toastOptions,
       position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      theme: 'colored',
     });
   },
   info: (message: string) => {
-    toast(message, {
+    toast.info(message, {
+      ...toastOptions,
       position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      theme: 'colored',
+    });
+  },
+  infoSecondary: (message: string) => {
+    toast(message, {
+      ...toastOptions,
+      position: "top-center",
     });
   }
 };

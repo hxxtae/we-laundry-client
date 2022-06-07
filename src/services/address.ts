@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import HttpClient from './http';
 
 export interface IAddressResponse {
+  _id: string;
   id: string;
   addname: string;
   addfullname: string;

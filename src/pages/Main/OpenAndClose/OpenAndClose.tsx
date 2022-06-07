@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { openState, sidebarClickState } from '../../../global/atoms';
-import { buttonStyle, includes } from '../../../styles';
+import { buttonStyle, includes, media } from '../../../styles';
 import { openStorage } from '../../../util';
 
 function OpenAndClose() {
@@ -29,9 +29,9 @@ function OpenAndClose() {
 
   return (
     <Group>
-      <Title>
-        <Logo src={'./assets/svg/welaundry_small.svg'}></Logo>
-      </Title>
+      <LogoBox>
+        <Logo src={'./assets/svg/welaundry_medium2.svg'} />
+      </LogoBox>
       <StartButton state={open.toString()} onClick={onClick} type='button'>{open ? '영업 마감하기' : '영업 시작하기'}</StartButton>
     </Group>
   );
@@ -51,10 +51,14 @@ const Group = styled.div`
   background-size: cover;
 `;
 
-const Title = styled.div`
+const LogoBox = styled.div`
   ${includes.flexBox('flex-start', 'center')}
   width: 300px;
   margin-bottom: 50px;
+
+  @media ${media.pc_s} {
+    width: 400px;
+  }
 `;
 
 const Logo = styled.img`
@@ -64,8 +68,7 @@ const Logo = styled.img`
 `;
 
 const StartButton = styled.button<{state: string}>`
-  ${(props) => props.state === 'true' ? `${buttonStyle.close()}` : `${buttonStyle.outline()}` }
+  ${(props) => props.state === 'true' ? `${buttonStyle.close()}` : `${buttonStyle.open()}` }
   border: transparent;
   margin-bottom: 100px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .4);
 `;

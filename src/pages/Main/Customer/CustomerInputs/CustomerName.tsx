@@ -1,42 +1,37 @@
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
-
 import { ErrorMessage, InputTitles } from '../../../../components';
 import { colors, includes, inputStyle } from '../../../../styles';
-import { inputMessage } from '../../../../util';
+import { inputMessage, regexrObj } from '../../../../util';
 
-interface IAddressFullName {
-  onFindAddress: () => void;
-}
-
-function AddressFullName({ onFindAddress }: IAddressFullName) {
+function CustomerName() {
   const { register, formState: { errors } } = useFormContext();
 
   return (
     <InputBox>
-      <InputTitles title='주소' des='상세 주소를 입력해주세요.' />
+      <InputTitles title='고객이름' des='신규 고객의 이름을 입력해주세요.' />
       <Input
-        err={errors.addfullname?.message}
+        err={errors.name?.message}
         autoComplete="off"
-        readOnly
-        onClick={onFindAddress}
-        onFocus={onFindAddress}
-        {...register('addfullname', {
+        placeholder="고객이름입력"
+        {...register('name', {
         required: inputMessage.required,
-        maxLength: { value: 50, message: inputMessage.maxLen(50) },
+        maxLength: { value: 10, message: inputMessage.maxLen(10) },
+        minLength: { value: 2, message: inputMessage.minLen(1) },
+        pattern: { value: regexrObj.notSpaceAndSpecial, message: "공백과 특수문자 사용은 불가합니다." },
       })} />
-      <ErrorMessage absolute={true} message={errors.addfullname?.message} />
+      <ErrorMessage absolute={true} message={errors.name?.message} />
     </InputBox>
   )
 }
 
-export default AddressFullName;
+export default CustomerName;
 
 const InputBox = styled.div`
   ${includes.flexBox('flex-start', 'center')}
   flex-direction: column;
+  min-width: 200px;
   margin-right: 10px;
-  width: 100%;
 `;
 
 const Input = styled.input<{err?: string}>`

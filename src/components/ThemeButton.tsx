@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
   
-import { colors, includes } from '../styles';
+import { colors, includes, zIndexes } from '../styles';
 import { themeState } from '../global/atoms';
 import { themeStorage } from '../util';
 
@@ -71,6 +71,7 @@ const Box = styled(motion.div)`
   height: 50px;
   padding: 5px;
   background-color: transparent;
+  z-index: ${zIndexes.themeButton};
 `;
 
 const ToggleButton = styled(motion.button)`

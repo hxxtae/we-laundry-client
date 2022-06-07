@@ -29,7 +29,7 @@ function Login() {
     mutate(data, {
       onSuccess: () => {
         setValue('username', '');
-        setValue('password', '');        
+        setValue('password', '');
         setUser(data.username);
       },
       onError: (error: any) => {

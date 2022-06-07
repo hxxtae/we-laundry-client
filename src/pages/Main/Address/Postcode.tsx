@@ -44,11 +44,14 @@ function Postcode({ setClose, setData }: IPostcode) {
 export default Postcode;
 
 const Box = styled.div`
+  position: relative;
   width: 400px;
 `;
 
 const Button = styled.button`
-  ${buttonStyle.outline}
+  position: absolute;
+  bottom: -35px;
+  ${buttonStyle.primary}
   width: 100%;
   margin-top: 5px;
 `;
