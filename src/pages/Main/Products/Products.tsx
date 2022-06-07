@@ -14,7 +14,7 @@ function Products() {
   console.log('Products');
 
   const setSideClick = useSetRecoilState(sidebarClickState);
-  const [categoryIdx, setCategoryIdx] = useState(0);
+  const [categoryIdx, setCategoryIdx] = useState(1);
   const { loading, reLoading, productObjs } = useProductObjFetch();
   const { path } = useRouteMatch();
 
@@ -26,7 +26,7 @@ function Products() {
     <Wrapper>
       <CategorysTabs productObjs={productObjs} categoryIdx={categoryIdx} setCategoryIdx={setCategoryIdx} />
       {productObjs?.map((productObj, index) => (
-          index === categoryIdx && 
+          (index + 1) === categoryIdx && 
           <ProductsList
             key={productObj.id}
             reLoading={reLoading}
