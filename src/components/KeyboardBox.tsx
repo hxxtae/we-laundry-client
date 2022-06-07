@@ -1,10 +1,11 @@
+import '@fortawesome/fontawesome-svg-core';
+import styled from 'styled-components';
 import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import '@fortawesome/fontawesome-svg-core';
-import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
 import { FieldValues, UseFormSetValue } from 'react-hook-form';
-import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+
 import { dragging, includes } from '../styles';
 
 interface IKeyboardBox {
