@@ -4,19 +4,19 @@ import HttpClient from './http';
 export interface ICustomerResponse {
   _id: string;
   id: string;
-  addid?: string;
-  addname?: string;
-  addfullname?: string;
+  addid: string;
+  addname: string;
+  addfullname: string;
   name?: string;
-  dong?: string;
-  ho?: string;
+  dong: string;
+  ho: string;
   createdAt: string;
 }
 
 export interface ICustomerRequest {
   id?: string;
   addid?: string;
-  addname?: string;
+  addname: string;
   addfullname?: string;
   name?: string;
   dong?: string;
@@ -24,15 +24,14 @@ export interface ICustomerRequest {
 }
 
 export interface ICustomerSearchRequest {
-  addname?: string;
-  name?: string;
+  addname: string;
   dong?: string;
   ho?: string;
 }
 
 interface ICustomerService {
-  searchFetchCus: ({ name, addname, dong, ho }: ICustomerSearchRequest) => Promise<AxiosResponse>;
-  createCus: ({ addid, addfullname, name, dong, ho }: ICustomerRequest) => Promise<AxiosResponse>;
+  searchFetchCus: ({ addname, dong, ho }: ICustomerSearchRequest) => Promise<AxiosResponse>;
+  createCus: ({ addid, addname, addfullname, name, dong, ho }: ICustomerRequest) => Promise<AxiosResponse>;
   updateCus: ({ id, addid, addname, addfullname, name, dong, ho }: ICustomerRequest) => Promise<AxiosResponse>;
   deleteCus: (id: string) => Promise<AxiosResponse>;
 }
@@ -42,22 +41,22 @@ export default class CustomerService implements ICustomerService {
     this.http = http;
   }
 
-  async searchFetchCus({ name, addname, dong, ho }: ICustomerSearchRequest): Promise<AxiosResponse> {
-    if (!!name) {
-      const data = await this.http.fetch(`/customer/${name}`, {
+  async searchFetchCus({ addname, dong, ho }: ICustomerSearchRequest): Promise<AxiosResponse> {
+    if (!!addname && !dong && !ho) {
+      const data = await this.http.fetch(`/customer/${addname}`, {
         method: 'GET',
       });
       return data;
     }
 
-    if (!!dong && !ho) {
+    if (!!addname && !!dong && !ho) {
       const data = await this.http.fetch(`/customer/${addname}/${dong}`, {
         method: 'GET',
       });
       return data;
     }
 
-    if (!!ho) {
+    if (!!addname && !!dong && !!ho) {
       const data = await this.http.fetch(`/customer/${addname}/${dong}/${ho}`, {
         method: 'GET',
       });
