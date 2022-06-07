@@ -95,3 +95,12 @@ export const dragging = {
   `,
 };
 
+export const appearance = {
+  none: () => `
+    ::-webkit-outer-spin-button,
+    ::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
+  `
+}
+
