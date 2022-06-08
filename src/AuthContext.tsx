@@ -28,10 +28,8 @@ function AuthContext({ children }: IAuthContextProps) {
 
   return (
     <>
-      {isLoading ?
-        <LoginLoading /> :
-        user ?
-          children :
+      {isLoading ? <LoginLoading /> :
+        user ? children :
           <NonUserRouter />
       }
       <ThemeButton />

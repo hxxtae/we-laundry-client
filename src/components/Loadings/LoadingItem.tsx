@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
-import { includes } from '../styles';
+import { includes } from '../../styles';
 
 function LoadingItem() {
   return (
