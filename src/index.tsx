@@ -8,6 +8,9 @@ import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 import App from './App';
+import { Suspense } from 'react';
+import LoginLoading from './pages/Login/LoginLoading';
+
 console.log('Index');
 
 const client = new QueryClient();
@@ -66,7 +69,9 @@ root.render(
       <RecoilRoot>
         <GlobalStyled />
         <ToastContainer />
-        <App/>
+        <Suspense fallback={<LoginLoading />}>
+          <App />
+        </Suspense>
       </RecoilRoot>
     </QueryClientProvider>
   //</React.StrictMode>

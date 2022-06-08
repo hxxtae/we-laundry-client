@@ -30,7 +30,7 @@ function OpenAndClose() {
   return (
     <Group>
       <LogoBox>
-        <Logo src={'./assets/svg/welaundry_medium2.svg'} />
+        <Logo src={'./assets/svg/welaundry_medium_v2_darkblue.svg'} />
       </LogoBox>
       <StartButton state={open.toString()} onClick={onClick} type='button'>{open ? '영업 마감하기' : '영업 시작하기'}</StartButton>
     </Group>
