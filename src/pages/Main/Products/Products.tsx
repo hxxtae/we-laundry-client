@@ -51,6 +51,6 @@ const Wrapper = styled.div`
   height: 100%;
 
   @media ${media.pc_s} {
-    width: auto;
+    width: 860px;
   }
 `;

@@ -82,7 +82,7 @@ const InputBox = styled.div`
   ${includes.flexBox('flex-start', 'center')}
   flex-direction: column;
   width: 160px;
-  flex-grow: 1;
+  flex-grow: 2;
   z-index: 10;
 `;
 

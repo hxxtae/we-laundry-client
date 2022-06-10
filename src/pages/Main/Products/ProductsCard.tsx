@@ -43,7 +43,7 @@ function ProductsCard({ products, product: { productName, price }, index, setCop
   return (
     <Card updActive={updActive} delActive={delActive} onClick={() => onClick(index)}>
       <Name>{productName}</Name>
-      <Price>{Number(price).toLocaleString()}</Price>
+      <Price>{price.toLocaleString()}</Price>
     </Card>
   )
 }
