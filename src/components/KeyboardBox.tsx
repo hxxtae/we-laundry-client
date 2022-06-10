@@ -93,7 +93,7 @@ const itemsVariant = {
 
 const SelectBox = styled(motion.div)`
   position: absolute;
-  top: 85px;
+  top: 40px;
   left: 0;
   width: 100%;
   background-color: ${(props) => props.theme.borderColor};
