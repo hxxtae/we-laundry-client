@@ -1,9 +1,9 @@
-import { useSetRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { useRouteMatch } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { sidebarClickState } from '../../../global';
+import { customerRequestState, sidebarClickState } from '../../../global';
 import { includes, media } from '../../../styles';
 import CustomerForm from './CustomerForm';
 import CustomerList from './CustomerList';
@@ -12,11 +12,13 @@ function Customer() {
   console.log('Customer');
 
   const setSideClick = useSetRecoilState(sidebarClickState);
+  const customerState = useResetRecoilState(customerRequestState);
   const [updateActive, setUpdateActive] = useState(false);
   const { path } = useRouteMatch();
   
   useEffect(() => {
     setSideClick(path);
+    return () => customerState();
   }, []);
 
   return (
