@@ -24,6 +24,7 @@ export const useCustomerFetch = ({addname, dong, ho}: ICustomerRequest): ICustom
   } = useQuery(["/customer", "fetch"], () => customerService.searchFetchCus({ addname, dong, ho }), {
     enabled: !!addname, // 조건에 따른 query 동작(false: fetcing X)
     staleTime: 600000,  // 10분
+    cacheTime: Infinity,
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: 'always',
