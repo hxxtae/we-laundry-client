@@ -1,20 +1,21 @@
 import { faMinus, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useRecoilState } from 'recoil';
 import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { Overlay } from '../../../components';
+
 import { recordLaundryState, recordRepairState, recordRequestState } from '../../../global';
-import { buttonStyle, colors, includes, media } from '../../../styles';
-import RecordsRepairPopup from './RecordPopups/RecordsRepairPopup';
+import { buttonStyle, colors, dragging, includes, media } from '../../../styles';
+import { Overlay } from '../../../components';
 import RecordsOrderList from './RecordsOrderList';
+import RecordsRepairPopup from './RecordPopups/RecordsRepairPopup';
 import RecordsReceiptPopup from './RecordPopups/RecordsReceiptPopup';
 
 function RecordsOrder() {
   console.log("order");
-  const setLaundry = useSetRecoilState(recordLaundryState);
-  const setRepair = useSetRecoilState(recordRepairState);
-  const recordState = useRecoilValue(recordRequestState);
+  const [laundry, setLaundry] = useRecoilState(recordLaundryState);
+  const [repair, setRepair] = useRecoilState(recordRepairState);
+  const [recordState, setRecordState] = useRecoilState(recordRequestState);
   const [clickItems, setClickItems] = useState<string[]>([]);
   const [totalPay, setTotalPay] = useState({ price: 0, count: 0 });
   const [repairAct, setRepairAct] = useState(false);
@@ -156,6 +157,19 @@ function RecordsOrder() {
     });
   };
 
+  const onPayment = () => {
+    setRecordState((prevRecordState) => {
+      return {
+        ...prevRecordState,
+        recordCount: totalPay.count,
+        recordPrice: totalPay.price,
+        laundry,
+        repair,
+      }
+    })
+    setReceiptAct(true);
+  }
+
   return (
     <>
       <Wrapper>
@@ -183,7 +197,7 @@ function RecordsOrder() {
 
         <Bottom>
           <PaymentButton
-            onClick={() => setReceiptAct(true)}
+            onClick={onPayment}
             disabled={!totalPay.count || !recordState.cusid}>
             {`${totalPay.count}건 접수 ${totalPay.price.toLocaleString()}원`}
           </PaymentButton>
@@ -207,6 +221,7 @@ function RecordsOrder() {
 export default RecordsOrder;
 
 const Wrapper = styled.section`
+  ${dragging.stop}
   ${includes.flexBox('center', 'flex-start')}
   flex-direction: column;
   width: 100%;
@@ -308,7 +323,12 @@ const PaymentButton = styled.button`
   height: 60px;
   flex-grow: 1;
   border-radius: 0px;
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 600;
+
+  @media ${media.pc_s} {
+    font-size: 18px;
+  }
 `;
 
 const AddRepair = styled.button`

@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import { recordLaundryState, recordRepairState } from '../../../global';
+
 import { colors, dragging, includes, line, media, scroll } from '../../../styles';
+import { recordLaundryState, recordRepairState } from '../../../global';
 
 interface IRecordsOrderList {
   clickItems: string[];
@@ -101,6 +102,7 @@ const OrderItem = styled.li<{chk: boolean}>`
 
   @media ${media.pc_s} {
     padding: 10px 20px;
+    font-size: 16px;
   }
 `;
 
