@@ -1,7 +1,8 @@
 import { AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useState } from 'react';
 import styled from 'styled-components';
+
 import { ErrorMessage, KeyboardBox } from '../../../../components';
 import { colors, includes, inputStyle } from '../../../../styles';
 import { inputMessage, regexrObj } from '../../../../util';

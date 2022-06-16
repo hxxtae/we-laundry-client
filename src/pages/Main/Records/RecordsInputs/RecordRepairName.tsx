@@ -1,7 +1,8 @@
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
-import { ErrorMessage, InputTitles } from '../../../../components';
+
 import { colors, includes, inputStyle, media } from '../../../../styles';
+import { ErrorMessage, InputTitles } from '../../../../components';
 import { inputMessage, regexrObj } from '../../../../util';
 
 function RecordRepairName() {

@@ -1,11 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { ErrorMessage, InputTitles, LoadingItem } from '../../../../components';
-import { useAddressFetch } from '../../../../hooks';
-import { IAddressResponse } from '../../../../services/address';
+
 import { colors, dragging, includes, inputStyle, media, scroll } from '../../../../styles';
+import { ErrorMessage, InputTitles, LoadingItem } from '../../../../components';
+import { IAddressResponse } from '../../../../services/address';
+import { useAddressFetch } from '../../../../hooks';
 import { inputMessage } from '../../../../util';
 
 function RecordAddname() {
@@ -71,6 +72,8 @@ const selectVariant = {
   },
   end: {
     height: 0,
+    opacity: 0,
+    border: 0,
   }
 }
 
@@ -105,10 +108,11 @@ const SelectBox = styled(motion.ul)`
   flex-direction: column;
   width: 100%;
   max-height: 300px;
-  background-color: ${(props) => props.theme.borderColor};
+  background-color: ${(props) => props.theme.bgColor};
+  border: 1px solid ${(props) => props.theme.borderColor};
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  overflow-y: scroll;
+  overflow-y: auto;
   ${(props) => scroll.custom(8, props.theme.borderColorSub, props.theme.textColor)}
 `;
 
@@ -116,9 +120,9 @@ const SelectItem = styled(motion.li)<{chk: string}>`
   ${dragging.stop}
   width: 100%;
   padding: 10px 16px;
-  background-color: ${(props) => props.chk === 'true' ? props.theme.inputColor : 'transparent' };
+  background-color: ${(props) => props.chk === 'true' ? props.theme.borderColor : 'transparent' };
   &:hover {
-    background-color: ${(props) => props.theme.inputColor};
+    background-color: ${(props) => props.theme.borderColor};
     opacity: .6;
   }
 `;
