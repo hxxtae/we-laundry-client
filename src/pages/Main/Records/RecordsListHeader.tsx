@@ -2,9 +2,10 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { usePaging } from '../../../hooks';
-import { IProductObjResponse } from '../../../services/products';
+
 import { buttonStyle, colors, includes, media } from '../../../styles';
+import { IProductObjResponse } from '../../../services/products';
+import { usePaging } from '../../../hooks';
 
 interface IRecordsListHeader {
   productObjs: IProductObjResponse[];

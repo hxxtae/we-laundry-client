@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
   
-import { colors, includes, zIndexes } from '../styles';
+import { colors, dragging, includes, zIndexes } from '../styles';
 import { themeState } from '../global/atoms';
 import { themeStorage } from '../util';
 
@@ -64,6 +64,7 @@ const textVariants = {
 }
 
 const Box = styled(motion.div)`
+  ${dragging.stop}
   position: fixed;
   right: 20px;
   bottom: 20px;

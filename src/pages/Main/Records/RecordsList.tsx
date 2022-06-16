@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { LoadingItem } from '../../../components';
+
+import { includes, media, scroll } from '../../../styles';
 import { useProductObjFetch } from '../../../hooks';
-import { media, scroll } from '../../../styles';
+import { LoadingItem } from '../../../components';
 import RecordsListHeader from './RecordsListHeader';
 import RecordsListItem from './RecordsListItem';
 
@@ -16,13 +17,15 @@ function RecordsList() {
     <>
       <RecordsListHeader productObjs={productObjs} categoryIdx={categoryIdx} setCategoryIdx={setCategoryIdx} />
       <Wrapper>
-        <List>
-          {
-            productObjs ? productObjs[categoryIdx - 1].products.map((product) => (
+        {!loading ?
+          <List>
+            {productObjs[categoryIdx - 1].products.map((product) => (
               <RecordsListItem key={product.productId} product={product} />
-            )) : <LoadingItem />
-          }
-        </List>
+            ))}
+          </List> :
+          <LoadingBox>
+            <LoadingItem />
+          </LoadingBox>}
       </Wrapper>
     </>
   )
@@ -31,6 +34,7 @@ function RecordsList() {
 export default RecordsList;
 
 const Wrapper = styled.div`
+  position: relative;
   width: 100%;
   height: 370px;
   padding: 15px;
@@ -56,5 +60,14 @@ const List = styled.ul`
   ${(props) => scroll.custom(8, props.theme.borderColorSub, props.theme.textColor)}
   overflow-y: auto;
   overflow-x: hidden;
+`;
+
+const LoadingBox = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  ${includes.flexBox()}
+  width: 100%;
+  height: 100%;
 `;
 

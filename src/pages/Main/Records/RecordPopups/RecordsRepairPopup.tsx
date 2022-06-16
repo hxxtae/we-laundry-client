@@ -1,11 +1,12 @@
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { recordRepairState } from '../../../../global';
+
 import { IRecordsOfRepair } from '../../../../services/records';
 import { buttonStyle, includes } from '../../../../styles';
+import { recordRepairState } from '../../../../global';
 import { RecordRepairName } from './../RecordsInputs';
 import { RecordRepairPrice } from './../RecordsInputs';
 

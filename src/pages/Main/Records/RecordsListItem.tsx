@@ -1,8 +1,9 @@
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+
 import { recordLaundryState } from '../../../global';
+import { dragging, includes } from '../../../styles';
 import { IProducts } from '../../../services/products';
-import { dragging, includes, media } from '../../../styles';
 
 interface IRecordsListItem {
   product: IProducts;

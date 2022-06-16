@@ -68,6 +68,7 @@ const Card = styled.div<{ updActive: boolean, delActive: boolean }>`
 
 const Name = styled.span`
   padding: 10px;
+  text-align: center;
   color: ${(props) => props.theme.textColor};
   font-weight: 600;
 `;
