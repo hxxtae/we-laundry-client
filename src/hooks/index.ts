@@ -5,3 +5,5 @@ export * from './useAddressFetch';
 export * from './useProductObjFetch';
 export * from './useRecordCustomerFetch';
 export * from './useAvailableChk';
+export * from './useHistoryDateFetch';
+export * from './useHistoryCustomerFetch';

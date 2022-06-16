@@ -25,7 +25,7 @@ export const useRecordCustomerFetch = ({addname, dong, ho}: IRecordSearchRequest
     status,
   } = useQuery(["/customer", "record_fetch", `${addname}_${dong}_${ho}`], () => customerService.searchFetchCus({ addname, dong, ho }), {
     enabled: !!addname, // 조건에 따른 query 동작(false: fetcing X)
-    cacheTime: 6000,
+    cacheTime: 0,
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: 'always',
