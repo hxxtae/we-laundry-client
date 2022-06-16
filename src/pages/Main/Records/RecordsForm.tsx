@@ -1,19 +1,18 @@
-import { faArrowRotateRight, faBandage, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRotateRight, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
-
+import { useState } from 'react';
 import styled from 'styled-components';
+
+import { useRecordCustomerFetch, useAvailableChk } from '../../../hooks';
+import { buttonStyle, colors, includes, media } from '../../../styles';
+import { IRecordSearchRequestByAdd } from '../../../services/records';
+import { RecordAddname, RecordDong, RecordHo } from './RecordsInputs';
 import { LoadingComponent, Overlay } from '../../../components';
 
-import { useAvailableChk } from '../../../hooks/useAvailableChk';
-import { useRecordCustomerFetch } from '../../../hooks/useRecordCustomerFetch';
-import { IRecordSearchRequestByAdd } from '../../../services/records';
-import { buttonStyle, colors, includes } from '../../../styles';
-import { RecordAddname, RecordDong, RecordHo } from './RecordsInputs';
-
 function RecordsForm() {
+  console.log('RecordForm');
 
   const [cusRequest, setCusRequest] = useState<IRecordSearchRequestByAdd>({ addname: '', dong: '', ho: '' });
   const method = useForm<IRecordSearchRequestByAdd>();
@@ -39,7 +38,7 @@ function RecordsForm() {
         <InputGroup onSubmit={method.handleSubmit(onSearch)}>
           <Available chk={availableChk}>
             <FontAwesomeIcon icon={faCircleCheck} />
-            {availableChk ? '확인됨' : '확인안됨'}
+            <Text>{availableChk ? '확인됨' : '확인안됨'}</Text>
           </Available>
           <RecordAddname />
           <ReFetch type='button' onClick={onRefetch}>
@@ -67,21 +66,32 @@ const InputGroup = styled.form`
   position: relative;
   ${includes.flexBox('flex-end', 'flex-start')}
   border: 1px solid ${(props) => props.theme.borderColor};
-  padding: 20px;
+  padding: 15px;
   border-radius: 4px;
   background-color: ${(props) => props.theme.bgColor};
   transition: background-color border-color 200ms ease-in-out;
+
+  @media ${media.pc_s} {
+    padding: 20px;
+  }
 `;
 
 const Available = styled.div<{chk: boolean}>`
   position: absolute;
-  top: 20px;
+  top: 15px;
   left: 85px;
   ${includes.flexBox('center', 'space-between')}
-  min-width: 50px;
   font-size: 10px;
   color: ${(props) => props.chk ? colors.green : colors.red};
-  
+
+  @media ${media.pc_s} {
+    top: 20px;
+  }
+`;
+
+const Text = styled.span`
+  margin-left: 3px;
+  line-height: 1px;
 `;
 
 const ReFetch = styled.button`
