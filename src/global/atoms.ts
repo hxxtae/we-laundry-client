@@ -2,6 +2,7 @@ import { atom } from 'recoil';
 
 import { fetchCsrfToken } from '../App';
 import { AuthService, HttpClient, AddressService, CustomerService, ProductsService } from '../services';
+import RecordsService, { IRecordsOflaundry, IRecordsOfRepair } from '../services/records';
 import { mainDescStorage, openStorage, themeStorage } from '../util';
 
 const baseURL = process.env.REACT_APP_BASE_URL!;
@@ -10,6 +11,7 @@ const authService = new AuthService(httpClient);
 const addressService = new AddressService(httpClient);
 const customerService = new CustomerService(httpClient);
 const productsService = new ProductsService(httpClient);
+const recordsService = new RecordsService(httpClient);
 
 const localTheme = themeStorage.get();
 const localDesc = mainDescStorage.get();
@@ -38,6 +40,11 @@ export const customerApi = atom<CustomerService>({
 export const productsApi = atom<ProductsService>({
   key: 'productsApi',
   default: productsService
+});
+
+export const recordsApi = atom<RecordsService>({
+  key: 'recordsApi',
+  default: recordsService
 });
 
 /*
@@ -94,3 +101,24 @@ export const productPopupState = atom<boolean>({
   key: 'productPopup',
   default: false,
 });
+
+/*
+===================
+  Page Records.
+===================
+*/
+export const recordLaundryState = atom<IRecordsOflaundry[]>({
+  key: 'recordLaundry',
+  default: [],
+});
+
+export const recordRepairState = atom<IRecordsOfRepair[]>({
+  key: 'recordRepair',
+  default: [],
+});
+
+export const recordReceiptExeState = atom<boolean>({
+  key: 'recordReceiptExe',
+  default: false,
+});
+

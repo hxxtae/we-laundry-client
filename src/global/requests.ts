@@ -2,6 +2,7 @@ import { atom } from 'recoil';
 import { IAddressRequest } from '../services/address';
 import { ICustomerRequest } from '../services/customer';
 import { IProductRequest } from '../services/products';
+import { IRecordRequest } from '../services/records';
 
 export const customerRequestState = atom<ICustomerRequest>({
   key: 'customerRequest',
@@ -34,3 +35,20 @@ export const productRequestState = atom<IProductRequest>({
     index: -1,
   }
 });
+
+export const recordRequestState = atom<IRecordRequest>({
+  key: 'recordRequest',
+  default: {
+    id: '',
+    recordCount: 0,
+    recordPrice: 0,
+    cusid: '',
+    addid: '',
+    addname: '',
+    dong: '',
+    ho: '',
+    addfullname: '',
+    laundry: [],
+    repair: [],
+  }
+})
