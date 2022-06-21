@@ -12,7 +12,6 @@ export const useAvailableChk = ({ cusDatas }: IAvailableChk) => {
   const [availableChk, setAvailableChk] = useState(false);     // 검색 결과 유효확인 state
   const receiptExeChk = useRecoilValue(recordReceiptExeState); // 접수 완료 확인 state
   const setRecordState = useSetRecoilState(recordRequestState);
-  const resetReceiptExe = useResetRecoilState(recordReceiptExeState);
 
   useLayoutEffect(() => {
     const cusData = cusDatas?.length ?
@@ -38,7 +37,6 @@ export const useAvailableChk = ({ cusDatas }: IAvailableChk) => {
     }));
 
     if (cusDatas?.length) {
-      resetReceiptExe();
       setAvailableChk(true);
     } else {
       setAvailableChk(false);
