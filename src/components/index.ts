@@ -9,3 +9,4 @@ export { default as Overlay } from './Overlay';
 export { default as ThemeButton } from './ThemeButton';
 export { default as DeleteConfirm } from './DeleteConfirm';
 export { default as KeyboardBox } from './KeyboardBox';
+export { default as DateComponent } from './DateComponent';
