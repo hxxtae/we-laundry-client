@@ -2,8 +2,10 @@ import { faArrowRotateRight, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import { IRecordSearchRequestByAdd } from '../../../../services/records';
+
+import { IRecordSearchRequestByAdd, IRecordSearchRequestByDongAndHo } from '../../../../services/records';
 import { buttonStyle, includes } from '../../../../styles';
 import { queryKeys } from '../../../../util';
 import { RecordAddname, RecordDong, RecordHo } from '../../Records/RecordsInputs';
@@ -11,11 +13,11 @@ import { RecordAddname, RecordDong, RecordHo } from '../../Records/RecordsInputs
 interface IHistoryCustomerSearch {
   setCustomerActive: React.Dispatch<React.SetStateAction<boolean>>;
   setNowDate: React.Dispatch<React.SetStateAction<string>>;
-  setCusObj: React.Dispatch<React.SetStateAction<{addname: string, dong: string, ho: string}>>;
+  setCusObj: React.Dispatch<React.SetStateAction<{ addname: string, dong: string, ho: string }>>;
+  prevInput: IRecordSearchRequestByDongAndHo;
 }
 
-function HistoryCustomerSearch({ setCustomerActive, setNowDate, setCusObj }: IHistoryCustomerSearch) {
-  
+function HistoryCustomerSearch({ setCustomerActive, setNowDate, setCusObj, prevInput }: IHistoryCustomerSearch) {
   const method = useForm<IRecordSearchRequestByAdd>();
   const client = useQueryClient();
 
@@ -29,6 +31,12 @@ function HistoryCustomerSearch({ setCustomerActive, setNowDate, setCusObj }: IHi
   const onRefetch = () => {
     client.invalidateQueries(queryKeys.address.all);
   }
+
+  useEffect(() => {
+    method.setValue('addname', prevInput.addname);
+    method.setValue('dong', prevInput.dong);
+    method.setValue('ho', prevInput.ho || '');
+  }, []);
 
   return (
     <FormProvider {...method} >

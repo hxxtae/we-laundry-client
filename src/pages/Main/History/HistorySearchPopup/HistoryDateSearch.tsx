@@ -10,11 +10,13 @@ import { InputTitles } from '../../../../components';
 interface IHistoryDateSearch {
   setDateActive: React.Dispatch<React.SetStateAction<boolean>>;
   setNowDate: React.Dispatch<React.SetStateAction<string>>;
-  setCusObj: React.Dispatch<React.SetStateAction<{addname: string, dong: string, ho: string}>>;
+  setCusObj: React.Dispatch<React.SetStateAction<{ addname: string, dong: string, ho: string }>>;
+  prevInput: string;
 }
 
-function HistoryDateSearch({ setDateActive, setNowDate, setCusObj }: IHistoryDateSearch) {
-  const [searchDate, setSearchDate] = useState(new Date());
+function HistoryDateSearch({ setDateActive, setNowDate, setCusObj, prevInput }: IHistoryDateSearch) {
+  const searchInput = !prevInput ? new Date() : new Date(prevInput);
+  const [searchDate, setSearchDate] = useState(searchInput);
 
   const onSearch = () => {
     setNowDate(dateToString(searchDate));
