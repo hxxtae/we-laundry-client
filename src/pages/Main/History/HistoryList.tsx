@@ -1,58 +1,122 @@
-import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClipboard } from '@fortawesome/free-solid-svg-icons';
+import { useCallback, useEffect, useState } from 'react';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { useHistoryDateFetch } from '../../../hooks';
+
+import { buttonStyle, dragging, includes, media, scroll } from '../../../styles';
+import { useHistoryCustomerFetch, useHistoryDateFetch } from '../../../hooks';
+import { LoadingComponent, Overlay } from '../../../components';
+import { dateToString } from '../../../components/DateComponent';
 import { IRecordObjResponse } from '../../../services/records';
-import { buttonStyle, colors, dragging, includes, media, scroll } from '../../../styles';
+import { recordRequestState } from '../../../global';
+import HistoryListItem from './HistoryListItem';
+import HistoryDateSearch from './HistorySearchPopup/HistoryDateSearch';
+import HistoryCustomerSearch from './HistorySearchPopup/HistoryCustomerSearch';
 
 function HistoryList() {
-  const [nowDate, setNowDate] = useState(new Date().toLocaleDateString('ko-KR'));
-  const { loadingDate, hisDateDatas } = useHistoryDateFetch(nowDate);
+  const [nowDate, setNowDate] = useState(dateToString(new Date()));
+  const [cusObj, setCusObj] = useState({ addname: '', dong: '', ho: '' });
+  const [dateActive, setDateActive] = useState(false);
+  const [customerActive, setCustomerActive] = useState(false);
+  const [clickId, setClickId] = useState('');
+  const setRecordState = useSetRecoilState(recordRequestState);
+  const resetRecordState = useResetRecoilState(recordRequestState);
+  const { loadingDate, reLoadingDate, hisDateDatas } = useHistoryDateFetch(nowDate);
+  const { loadingCus, reLoadingCus, hisDatas } = useHistoryCustomerFetch(cusObj);
+  const searchLoading = loadingDate || reLoadingDate || loadingCus || reLoadingCus;
 
-  const includeIdx = (datas: IRecordObjResponse[], value: string) => {
-    return datas.map(obj => obj.recordDate).indexOf(value);
+  const searchDatas = (dateState: string): IRecordObjResponse[] => {
+    if (!dateState) {
+      return hisDatas;
+    }
+    return hisDateDatas;
   }
 
-  const remainCnt = (count: number) => {
-    return count === 1 ? '' : `외 ${count - 1}건`;
+  const findIdx = (datas: IRecordObjResponse[], value: string) => {
+    return datas.findIndex((obj) => obj.recordDate === value);
   }
+
+  useEffect(() => {
+    if (searchLoading) {
+      return;
+    }
+
+    if (!hisDateDatas?.length && !hisDatas?.length) {
+      resetRecordState();
+      return;
+    }
+
+    const { id, recordDate, recordCount, recordPrice, cusid, addid, addname, addfullname, dong, ho, records } = searchDatas(nowDate)[0];
+    setRecordState((prevObj) => ({
+      ...prevObj,
+      id,
+      recordDate,
+      recordCount,
+      recordPrice,
+      cusid,
+      addid,
+      addname,
+      addfullname,
+      dong,
+      ho,
+      laundry: records.laundry,
+      repair: records.repair,
+    }));
+  }, [hisDateDatas, hisDatas]);
+
+  const onClickItem = useCallback((itemId: string) => {
+    setClickId(itemId);
+  }, [clickId]);
 
   return (
-    <Wrapper>
-      <ButtonGroup>
-        <DateButton>{'날짜로 검색'}</DateButton>
-        <CusButton>{'주소로 검색'}</CusButton>
-      </ButtonGroup>
-      <List>
-        {
-          hisDateDatas?.map((obj, index, arr) => (
-            <>
-              {includeIdx(arr, obj.recordDate) === index && (
-                <ItemBox>
-                  <DateItem>{obj.recordDate}</DateItem>
-                  {arr.map((inObj) => (
-                    <>
-                      {obj.recordDate === inObj.recordDate && (
-                        <AnyItem>
-                          <TopGroup>
-                            <span>{inObj.addname}</span>
-                            <span>{inObj.dong}</span>
-                            <span>{inObj.ho}</span>
-                          </TopGroup>
-                          <BottomGroup>
-                            <span>{`${inObj.recordPrice.toLocaleString()}원`}</span>
-                            <span>{`${inObj.records.laundry[0].productName} ${remainCnt(inObj.recordCount)}`}</span>
-                          </BottomGroup>
-                        </AnyItem>
-                      )}
-                    </>
-                  ))}
-                </ItemBox>
-              )}
-            </>
-          ))
-        }
-      </List>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <ButtonGroup>
+          <DateButton onClick={() => setDateActive(true)}>{'날짜로 검색'}</DateButton>
+          <CusButton onClick={() => setCustomerActive(true)}>{'주소로 검색'}</CusButton>
+        </ButtonGroup>
+        <List>
+          {!!searchDatas(nowDate)?.length ?
+            searchDatas(nowDate)?.map((obj, index, arr) => (
+              findIdx(arr, obj.recordDate) === index && (
+                <HistoryListItem
+                  key={obj.id}
+                  recordObjs={arr}
+                  recordObjRecordDate={obj.recordDate}
+                  recordObjIndex={index}
+                  onClickId={onClickItem}
+                  clickId={clickId} />
+              ))) : 
+            <NotFound>
+              <FontAwesomeIcon icon={faClipboard} />
+              <span>{'(주문 내역 없음)'}</span>
+            </NotFound>
+            }
+        </List>
+      </Wrapper>
+
+      {searchLoading && 
+        <Overlay>
+          <LoadingComponent loadingMessage='잠시만 기다려주세요.' />
+        </Overlay>}
+      {dateActive && 
+        <Overlay>
+          <HistoryDateSearch
+            setDateActive={setDateActive}
+            setNowDate={setNowDate}
+            setCusObj={setCusObj}
+            prevInput={nowDate} />
+        </Overlay>}
+      {customerActive && 
+        <Overlay>
+          <HistoryCustomerSearch
+            setCustomerActive={setCustomerActive}
+            setNowDate={setNowDate}
+            setCusObj={setCusObj}
+            prevInput={cusObj} />
+        </Overlay>}
+    </>
   )
 }
 
@@ -60,6 +124,7 @@ export default HistoryList;
 
 const Wrapper = styled.section`
   width: 320px;
+  flex-shrink: 0;
   ${dragging.stop}
 
   @media ${media.pc_s} {
@@ -83,10 +148,13 @@ const CusButton = styled.button`
 `;
 
 const List = styled.ul`
+  position: relative;
   ${includes.flexBox('center', 'flex-start')}
   flex-direction: column;
   height: 420px;
   border-left: 1px solid ${(props) => props.theme.borderColor};
+  border-right: 1px solid ${(props) => props.theme.borderColor};
+  border-bottom: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 4px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -101,89 +169,26 @@ const List = styled.ul`
   }
 `;
 
-const ItemBox = styled.li`
-  ${includes.flexBox('flex-start', 'center')}
+const NotFound = styled.div`
+  position: absolute;
+  ${includes.flexBox()}
   flex-direction: column;
-  width: 100%;
+  height: 100%;
   color: ${(props) => props.theme.textColor};
-`;
-
-const DateItem = styled.h2`
-  position: sticky;
-  top: 0;
-  padding: 10px;
-  width: 100%;
-  font-size: 14px;
-  font-weight: 600;
-  background-color: ${(props) => props.theme.inputColor};
-
-  @media ${media.pc_s} {
-    font-size: 16px;
-    padding: 12px 10px;
+  opacity: .3;
+  
+  svg {
+    font-size: 30px;
   }
-`;
-
-const AnyItem = styled.div`
-  ${includes.flexBox('flex-start', 'center')}
-  flex-direction: column;
-  width: 100%;
-  padding: 10px;
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
-`;
-
-const TopGroup = styled.div`
-  ${includes.flexBox('center', 'flex-start')}
-  padding-bottom: 6px;
 
   span {
-    margin-right: 20px;
+    padding: 15px 0;
     font-size: 14px;
-    font-weight: 600;
-
-    &:first-child {
-      padding: 7px;
-      border: 1px solid ${(props) => props.theme.borderColor};
-      border-radius: 4px;
-      background-color: ${(props) => props.theme.bgColorSub};
-    }
-
-    &:last-child {
-      margin-right: 0;
-    }
   }
 
   @media ${media.pc_s} {
     span {
-      font-size: 15px;
-    }
-  }
-`;
-
-const BottomGroup = styled.div`
-  ${includes.flexBox('center', 'flex-start')}
-
-  span {
-    font-size: 14px;
-
-    &:first-child {
-      margin-right: 16px;
-      padding: 0 7px;
       font-size: 16px;
-      font-weight: 600;
-      color: ${colors.blue};
-    }
-  }
-
-  @media ${media.pc_s} {
-    span {
-      font-size: 15px;
-
-      &:first-child {
-        font-size: 18px;
-      }
     }
   }
 `;
-
-
-
