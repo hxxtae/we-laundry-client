@@ -2,19 +2,21 @@ import { useEffect } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+
 import { sidebarClickState } from '../../../global/atoms';
-import { colors, includes, media } from '../../../styles';
+import { useResetState } from '../../../hooks';
+import { includes, media } from '../../../styles';
 import HistoryDetails from './HistoryDetails';
 import HistoryList from './HistoryList';
 
 function History() {
-  console.log('History');
-
   const setSideClick = useSetRecoilState(sidebarClickState);
+  const { allStateReset } = useResetState();
   const { path } = useRouteMatch();
   
   useEffect(() => {
     setSideClick(path);
+    return () => allStateReset();
   }, []);
 
   return (
@@ -32,8 +34,6 @@ export default History;
 
 const Wrapper = styled.div`
   position: relative;
-  ${includes.flexBox('flex-start', 'center')}
-  flex-direction: column;
   width: 100%;
   padding: 20px;
   border: 1px solid ${(props) => props.theme.borderColor};
@@ -49,13 +49,13 @@ const Wrapper = styled.div`
 const Title = styled.h1`
   width: 100%;
   height: 30px;
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
   color: ${(props) => props.theme.textColor};
   font-size: 14px;
   font-weight: 600;
 `;
 
 const Group = styled.div`
-  ${includes.flexBox()}
+  ${includes.flexBox('flex-start', 'flex-start')}
+  align-items: stretch;
 `;
 
