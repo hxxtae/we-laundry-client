@@ -5,6 +5,7 @@ import { IRecordSearchRequestByAdd } from '../services/records';
 import { ICustomerResponse } from '../services/customer';
 import { customerApi } from '../global';
 import { toastStyle } from '../styles';
+import { queryKeys } from '../util';
 
 interface ICustomerFetch {
   loading: boolean;
@@ -23,7 +24,7 @@ export const useRecordCustomerFetch = ({addname, dong, ho}: IRecordSearchRequest
     data: cusDatas,
     refetch,
     status,
-  } = useQuery(["/customer", "record_fetch", `${addname}_${dong}_${ho}`], () => customerService.searchFetchCus({ addname, dong, ho }), {
+  } = useQuery(queryKeys.customer.checkDongHo(addname, dong, ho), () => customerService.searchFetchCus({ addname, dong, ho }), {
     enabled: !!addname, // 조건에 따른 query 동작(false: fetcing X)
     cacheTime: 0,
     retry: false,

@@ -1,26 +1,59 @@
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { IRecordObjResponse } from '../../../services/records';
 import { colors, includes, media } from '../../../styles';
+import { recordRequestState } from '../../../global';
 
 interface IHistoryListItem {
-  recordObjs: IRecordObjResponse[]; 
+  recordObjs: IRecordObjResponse[];
   recordObjRecordDate: string;
   recordObjIndex: number;
+  onClickId: (itemId: string) => void;
+  clickId: string;
 }
 
-function HistoryListItem({ recordObjs, recordObjRecordDate, recordObjIndex }: IHistoryListItem) {
+function HistoryListItem({ recordObjs, recordObjRecordDate, recordObjIndex, onClickId, clickId }: IHistoryListItem) {
+  const setRecordState = useSetRecoilState(recordRequestState);
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const itemDay = (strDate: string) => {
+    return days[new Date(strDate).getDay()];    
+  }
 
   const remainCnt = (count: number) => {
     return count === 1 ? '' : `외 ${count - 1}건`;
   }
 
+  const onClickItem = (recordObj: IRecordObjResponse) => {
+    const { id, recordDate, recordCount, recordPrice, cusid, addid, addname, addfullname, dong, ho, records } = recordObj;
+    setRecordState((prevObj) => ({
+      ...prevObj,
+      id,
+      recordDate,
+      recordCount,
+      recordPrice,
+      cusid,
+      addid,
+      addname,
+      addfullname,
+      dong,
+      ho,
+      laundry: records.laundry,
+      repair: records.repair,
+    }));
+    onClickId(id);
+  }
+
   return (
     <ItemBox>
-      <DateItem>{recordObjRecordDate}</DateItem>
+      <DateItem>
+        <span>{recordObjRecordDate}</span>
+        <span>{`(${itemDay(recordObjRecordDate)})`}</span>
+      </DateItem>
       {recordObjs.slice(recordObjIndex).map((obj) => (
         recordObjRecordDate === obj.recordDate && (
-          <AnyItem key={obj.id}>
+          <AnyItem key={obj.id} onClick={() => onClickItem(obj)} select={clickId === obj.id}>
             <TopGroup>
               <span>{obj.addname}</span>
               <span>{obj.dong}</span>
@@ -49,9 +82,10 @@ const ItemBox = styled.li`
   color: ${(props) => props.theme.textColor};
 `;
 
-const DateItem = styled.h2`
+const DateItem = styled.div`
   position: sticky;
   top: 0;
+  ${includes.flexBox('center', 'flex-start')}
   padding: 10px;
   width: 100%;
   font-size: 14px;
@@ -59,19 +93,31 @@ const DateItem = styled.h2`
   background-color: ${(props) => props.theme.inputColor};
   z-index: 1;
 
+  span:last-child {
+    margin-left: 5px;
+  }
+
   @media ${media.pc_s} {
     font-size: 16px;
     padding: 12px 10px;
   }
 `;
 
-const AnyItem = styled.div`
+const AnyItem = styled.div<{select: boolean}>`
   position: relative;
   ${includes.flexBox('flex-start', 'center')}
   flex-direction: column;
   width: 100%;
   padding: 10px;
   border-bottom: 1px solid ${(props) => props.theme.borderColor};
+  background-color: ${(props) => props.select ? props.theme.sameColor : 'none'};
+  cursor: pointer;
+
+  @media ${media.pc_s} {
+    &:hover {
+      background-color: ${(props) => props.theme.borderColor};
+    }
+  }
 `;
 
 const TopGroup = styled.div`

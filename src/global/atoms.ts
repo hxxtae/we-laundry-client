@@ -87,18 +87,23 @@ export const openState = atom<boolean>({
   Page Products.
 ===================
 */
-export const productUpdState = atom<boolean>({
-  key: 'productUpd',
+export const updateState = atom<boolean>({
+  key: 'updateActive',
   default: false,
 });
 
-export const productDelState = atom<boolean>({
-  key: 'productDel',
+export const deleteState = atom<boolean>({
+  key: 'deleteActive',
   default: false,
 });
 
-export const productPopupState = atom<boolean>({
-  key: 'productPopup',
+export const searchState = atom<boolean>({
+  key: 'searchActive',
+  default: false,
+});
+
+export const popupState = atom<boolean>({
+  key: 'popupActive',
   default: false,
 });
 

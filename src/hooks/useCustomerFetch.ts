@@ -1,8 +1,9 @@
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import { customerApi } from '../global';
-import { ICustomerRequest, ICustomerResponse } from '../services/customer';
+import { ICustomerResponse, ICustomerSearchRequest } from '../services/customer';
 import { toastStyle } from '../styles';
+import { queryKeys } from '../util';
 
 interface ICustomerFetch {
   loading: boolean;
@@ -12,7 +13,7 @@ interface ICustomerFetch {
   status: string;
 }
 
-export const useCustomerFetch = ({addname, dong, ho}: ICustomerRequest): ICustomerFetch => {
+export const useCustomerFetch = ({addname, dong, ho}: ICustomerSearchRequest): ICustomerFetch => {
   const customerService = useRecoilValue(customerApi);
 
   const {
@@ -21,10 +22,10 @@ export const useCustomerFetch = ({addname, dong, ho}: ICustomerRequest): ICustom
     data: cusDatas,
     refetch,
     status
-  } = useQuery(["/customer", "fetch"], () => customerService.searchFetchCus({ addname, dong, ho }), {
+  } = useQuery(queryKeys.customer.listDongHo(addname, dong, ho), () => customerService.searchFetchCus({ addname, dong, ho }), {
     enabled: !!addname, // 조건에 따른 query 동작(false: fetcing X)
     staleTime: 600000,  // 10분
-    cacheTime: Infinity,
+    cacheTime: 600000, // 10분
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: 'always',
