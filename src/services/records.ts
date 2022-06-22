@@ -37,6 +37,7 @@ export interface IRecordObjResponse {
 
 export interface IRecordRequest {
   id?: string;
+  recordDate?: string;
   recordCount: number;
   recordPrice: number;
   cusid: string;
@@ -69,6 +70,7 @@ interface IRecordsService {
   createRecord: ({ recordCount, recordPrice, cusid, addid, addname, dong, ho, addfullname, laundry, repair }: IRecordRequest) => Promise<AxiosResponse>;
   searchRecordByDate: (recordDate: string) => Promise<AxiosResponse>;
   searchRecordByCustomer: ({ addname, dong, ho }: IRecordSearchRequestByDongAndHo) => Promise<AxiosResponse>;
+  deleteRecord: (id: string) => Promise<AxiosResponse>;
 }
 
 export default class RecordsService implements IRecordsService {
@@ -112,6 +114,13 @@ export default class RecordsService implements IRecordsService {
 
     const data = this.http.fetch(`/records/${addname}/${dong}`, {
       method: 'GET',
+    });
+    return data;
+  }
+
+  async deleteRecord(id: string) {
+    const data = await this.http.fetch(`/records/${id}`, {
+      method: 'DELETE',
     });
     return data;
   }
