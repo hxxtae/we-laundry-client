@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 
 import { IProductObjResponse, ICategoryRequest } from '../../../services/products';
-import { productDelState, productsApi, productUpdState } from '../../../global';
+import { deleteState, productsApi, updateState } from '../../../global';
 import { buttonStyle, colors, includes, media } from '../../../styles';
 import { LoadingComponent, Overlay } from '../../../components';
 import { usePaging } from '../../../hooks';
@@ -27,8 +27,8 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
   const [menuActive, setMenuActive] = useState(false);
   const [updActive, setUpdActive] = useState(false);
   const [delActive, setDelActive] = useState(false);
-  const updProActive = useRecoilValue(productUpdState);
-  const delProActive = useRecoilValue(productDelState);
+  const updProActive = useRecoilValue(updateState);
+  const delProActive = useRecoilValue(deleteState);
   const productsService = useRecoilValue(productsApi);
 
   const { isLoading: insAndUpdLoading, mutate } = useMutation(
@@ -40,7 +40,7 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
   
   const { fetchDatas, prevPage, nextPage, pageSort: { ASC } } = usePaging(productObjs, productObjs?.length, 5, 1);
 
-  const onPopup = () => {
+  const onAddCategory = () => {
     setPopupActive(true);
     setMenuActive(false);
   }
@@ -64,7 +64,7 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
         <Wrapper>
             <Tab
               type='button'
-              onClick={onPopup}
+              onClick={onAddCategory}
               disabled={updProActive || delProActive}>
             <FontAwesomeIcon icon={faPlus} /> {'추가'}
           </Tab>
@@ -78,7 +78,7 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
           <TabMove onClick={nextPage}>
             <FontAwesomeIcon icon={faChevronRight} />
           </TabMove>
-          <TabSetting onClick={() => setMenuActive((prev) => !prev)}>
+          <TabSetting onClick={() => setMenuActive((prev) => !prev)} disabled={!productObjs?.length}>
             <FontAwesomeIcon icon={faGear} />
           </TabSetting>
         </TabControl>

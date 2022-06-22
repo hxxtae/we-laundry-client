@@ -68,32 +68,32 @@ export const zIndexes = {
   overlayContext: 200,
 }
 
-export const linePosition = {
-  posit_1: {
-    tabletPos: '0px',
-    pcPos: '0px',
+export const linePosition = [
+  {
+    tabletPos: '70px',
+    pcPos: '88px',
   },
-  posit_2: {
-    tabletPos: '54px',
-    pcPos: '64px',
+  {
+    tabletPos: '124px',
+    pcPos: '154px',
   },
-  posit_3: {
-    tabletPos: '152px',
-    pcPos: '174px',
+  {
+    tabletPos: '222px',
+    pcPos: '264px',
   },
-  posit_4: {
-    tabletPos: '204px',
-    pcPos: '242px',
+  {
+    tabletPos: '274px',
+    pcPos: '332px',
   },
-  posit_5: {
-    tabletPos: '264px',
-    pcPos: '310px',
+  {
+    tabletPos: '334px',
+    pcPos: '400px',
   },
-  posit_6: {
-    tabletPos: '358px',
-    pcPos: '418px',
+  {
+    tabletPos: '428px',
+    pcPos: '508px',
   },
-}
+];
 
 export const lineSecLocation = {
   Top: {
@@ -134,8 +134,8 @@ export const lineThiLocation = {
 export const descText = {
   text1: `[고객]을 선택하고 [품목]을 선택하여 새로운 주문을 접수할 수 있습니다.`,
   text2: `[접수된 주문]을 조회할 수 있으며, [원하는 주문]을 찾을 수 있도록 검색이 가능합니다.`,
-  text3: `[고객의 정보]를 고객주소와 함께 확인하여 관리할 수 있습니다. (고객조회 / 고객추가 / 고객수정 / 고객삭제)`,
-  text4: `[카테고리] 와 [품목]을 유연하게 관리할 수 있습니다. (품목조회 / 품목추가 / 품목수정 / 품목삭제 / 카테고리 추가, 수정 및 삭제)`,
-  text5: `[고객의 주소]를 유연하게 관리할 수 있습니다. (주소조회 / 주소추가 / 주소수정 / 주소삭제)`,
+  text3: `[고객의 정보]를 고객주소와 함께 확인하여 관리할 수 있습니다`,
+  text4: `[카테고리] 와 [품목]을 유연하게 관리할 수 있습니다. `,
+  text5: `[고객의 주소]를 유연하게 관리할 수 있습니다. `,
   text6: `[오늘 매출]과 [월별 매출]을 테이블과 차트로 시각화된 데이터를 확인하실 수 있습니다.`
 }

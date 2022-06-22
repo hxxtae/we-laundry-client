@@ -10,6 +10,7 @@ import { buttonStyle, includes, toastStyle } from '../../../styles';
 import { ICategoryRequest } from '../../../services/products';
 import CategoryName from './CategorysInputs.tsx/CategoryName';
 import CategoryConfirmList from './CategoryConfirmList';
+import { queryKeys } from '../../../util';
 
 interface ICategoryPopup {
   setPopupActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,7 +38,7 @@ function CategoryPopup({ setPopupActive, setUpdActive, setDelActive, mutate, del
     const data = { id, categoryName };
     mutate(data, {
       onSuccess: () => {
-        client.invalidateQueries(["/productObj", "fetch"]);
+        client.invalidateQueries(queryKeys.products.all);
 
         if (updActive) {
           toastStyle.info('카테고리가 변경되었습니다.');
@@ -68,7 +69,7 @@ function CategoryPopup({ setPopupActive, setUpdActive, setDelActive, mutate, del
     if (delActive) {
       delMutate(id, {
         onSuccess: () => {
-          client.invalidateQueries(["/productObj", "fetch"]);
+          client.invalidateQueries(queryKeys.products.all);
           toastStyle.info('카테고리가 삭제되었습니다.');
         },
         onError: (error: any) => {

@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useHistory } from 'react-router-dom';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { motion } from 'framer-motion';
 import '@fortawesome/fontawesome-svg-core';
 import styled from 'styled-components';
@@ -14,12 +14,13 @@ import { authApi, openState, sidebarState, userState } from '../../global/atoms'
 function Header() {
   console.log("Header");
   
-  const { toDate, toClock } = useCustomDate();
   const authService = useRecoilValue(authApi);
   const open = useRecoilValue(openState);
   const setSideToggle = useSetRecoilState(sidebarState);
   const setUser = useSetRecoilState(userState);
   const history = useHistory();
+  const { toDate, toClock } = useCustomDate();
+  const client = useQueryClient();
 
   const { mutate } = useMutation(() => authService.logout());
 
@@ -28,6 +29,7 @@ function Header() {
       mutate(undefined, {
         onSuccess: () => {
           setUser(undefined);
+          client.clear();
           history.push('/');
         },
       });

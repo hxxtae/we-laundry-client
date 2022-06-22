@@ -12,6 +12,7 @@ import { addressApi } from '../../../global/atoms';
 import { usePaging } from '../../../hooks';
 import { useAddressFetch } from '../../../hooks/useAddressFetch';
 import { addressRequestState } from '../../../global';
+import { queryKeys } from '../../../util';
 
 interface IAddressList {
   setUpdateActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -57,8 +58,9 @@ function AddressList({ setUpdateActive }: IAddressList) {
   const onDelete = (id: string) => {
     mutate(id, {
       onSuccess: () => {
-        client.invalidateQueries(["/address", "fetch"]);
-        client.invalidateQueries(["/customer", "fetch"]);
+        client.invalidateQueries(queryKeys.address.all);
+        client.invalidateQueries(queryKeys.customer.all);
+        client.invalidateQueries(queryKeys.records.list());
         toastStyle.info('삭제되었습니다.');
       },
       onError: (error: any) => {

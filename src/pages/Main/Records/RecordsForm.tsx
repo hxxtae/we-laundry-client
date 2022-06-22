@@ -2,7 +2,7 @@ import { faArrowRotateRight, faCircleCheck } from '@fortawesome/free-solid-svg-i
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useRecordCustomerFetch, useAvailableChk } from '../../../hooks';
@@ -10,14 +10,17 @@ import { buttonStyle, colors, includes, media } from '../../../styles';
 import { IRecordSearchRequestByAdd } from '../../../services/records';
 import { RecordAddname, RecordDong, RecordHo } from './RecordsInputs';
 import { LoadingComponent, Overlay } from '../../../components';
+import { queryKeys } from '../../../util';
+import { useRecoilValue } from 'recoil';
+import { recordReceiptExeState } from '../../../global';
 
 function RecordsForm() {
   console.log('RecordForm');
 
   const [cusRequest, setCusRequest] = useState<IRecordSearchRequestByAdd>({ addname: '', dong: '', ho: '' });
+  const receiptExeChk = useRecoilValue(recordReceiptExeState); // 접수 완료 확인 state
   const method = useForm<IRecordSearchRequestByAdd>();
   const client = useQueryClient();
-
   const { loading, cusDatas } = useRecordCustomerFetch(cusRequest);
   const availableChk = useAvailableChk({ cusDatas });
 
@@ -29,8 +32,12 @@ function RecordsForm() {
   }
 
   const onRefetch = () => {
-    client.invalidateQueries(["/address", "fetch"]);
+    client.invalidateQueries(queryKeys.address.all);
   }
+
+  useEffect(() => {
+    method.reset();
+  }, [receiptExeChk]);
 
   return (
     <>

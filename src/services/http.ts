@@ -34,6 +34,7 @@ export default class HttpClient implements IHttpClient {
       headers: {
         ...headers,
         'weLaundry-csrf-token': this.csrfToken(),
+        'Authorization': `Bearer ${localStorage.getItem('tabletToken')}`, // (추후 삭제 예정)
       },
       data: body,
     };

@@ -5,13 +5,14 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { IProductCreateRequest, IProductObjResponse, IProducts, IProductsUpdateRequest } from '../../../services/products';
-import { productDelState, productPopupState, productsApi, productUpdState } from '../../../global';
+import { deleteState, popupState, updateState, productsApi } from '../../../global';
 import { buttonStyle, includes, media, scroll, toastStyle } from '../../../styles';
 import { LoadingComponent, Overlay } from '../../../components';
 import ProductsBoard from './ProductsBoard';
 import ProductsPopup from './ProductsPopup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { queryKeys } from '../../../util';
 
 interface IProductsList {
   reLoading: boolean;
@@ -23,9 +24,9 @@ function ProductsList({ reLoading, productObj }: IProductsList) {
 
   const productsService = useRecoilValue(productsApi);
   const [copyProducts, setCopyProducts] = useState<IProducts[]>(productObj.products!);
-  const [updActive, setUpdActive] = useRecoilState(productUpdState);
-  const [delActive, setDelActive] = useRecoilState(productDelState);
-  const [popupActive, setPopupActive] = useRecoilState(productPopupState);
+  const [updActive, setUpdActive] = useRecoilState(updateState);
+  const [delActive, setDelActive] = useRecoilState(deleteState);
+  const [popupActive, setPopupActive] = useRecoilState(popupState);
   const client = useQueryClient();
 
   const { isLoading: updLoading, mutate: updMutate } = useMutation(({ id, products }: IProductsUpdateRequest) => productsService.updateProduct({ id, products }));
@@ -35,14 +36,6 @@ function ProductsList({ reLoading, productObj }: IProductsList) {
   useEffect(() => {
     setCopyProducts(productObj.products!);
   }, [reLoading]);
-
-  useEffect(() => {
-    return () => {
-      setUpdActive(false);
-      setDelActive(false);
-      setPopupActive(false);
-    }
-  }, []);
   
   const onSave = () => {
     const data = { id: productObj.id, products: copyProducts };
@@ -50,7 +43,7 @@ function ProductsList({ reLoading, productObj }: IProductsList) {
       onSuccess: () => {
         setUpdActive(false);
         setDelActive(false);
-        client.invalidateQueries(["/productObj", "fetch"]);
+        client.invalidateQueries(queryKeys.products.all);
         toastStyle.info('저장되었습니다.');
       },
       onError: (error: any) => {
@@ -61,7 +54,7 @@ function ProductsList({ reLoading, productObj }: IProductsList) {
   };
 
   const onRollup = () => {
-    client.invalidateQueries(["/productObj", "fetch"]);
+    client.invalidateQueries(queryKeys.products.all);
   }
 
   const onChange = (sourceId: string, sourceIndex: number, targetIndex: number, targetId?: string) => {

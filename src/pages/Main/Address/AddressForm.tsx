@@ -11,6 +11,7 @@ import { LoadingComponent, Overlay } from '../../../components';
 import Postcode from './Postcode';
 import { AddressName, AddressFullName } from './AddressInputs';
 import { addressRequestState } from '../../../global';
+import { queryKeys } from '../../../util';
 
 
 interface IAddressInput {
@@ -48,8 +49,9 @@ function AddressInput({ updateActive, setUpdateActive }: IAddressInput) {
         method.reset();
         updateActive ? toastStyle.info('변경되었습니다.') : toastStyle.success('추가되었습니다.');
         setUpdateActive(false);
-        client.invalidateQueries(["/address", "fetch"]);
-        client.invalidateQueries(["/customer", "fetch"]);
+        client.invalidateQueries(queryKeys.address.all);
+        client.invalidateQueries(queryKeys.customer.all);
+        client.invalidateQueries(queryKeys.records.list());
       },
       onError: (error: any) => {
         toastStyle.error(error.message);

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useResetRecoilState } from 'recoil';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
@@ -18,14 +18,14 @@ function ReceiptSuccess({ sumLaundry, sumRepair, setReceiptAct, setReceiptOkAct 
   const resetLaundry = useResetRecoilState(recordLaundryState);
   const resetRepair = useResetRecoilState(recordRepairState);
   const resetRecord = useResetRecoilState(recordRequestState);
-  const setReceiptExeChk = useSetRecoilState(recordReceiptExeState);
+  const resetReceiptExe = useResetRecoilState(recordReceiptExeState);
   const sumTotal = (sumLaundry.price + sumRepair.price).toLocaleString();
 
   const onExit = () => {
     setReceiptAct(false);
     setReceiptOkAct(false);
-    setReceiptExeChk(true);
-
+    resetReceiptExe();
+    
     // request state 초기화
     resetLaundry();
     resetRepair();
