@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { openState, sidebarClickState } from '../../../global/atoms';
-import { buttonStyle, includes, media } from '../../../styles';
+import { buttonStyle, dragging, includes, media } from '../../../styles';
 import { openStorage } from '../../../util';
 
 function OpenAndClose() {
@@ -40,6 +40,7 @@ function OpenAndClose() {
 export default OpenAndClose;
 
 const Group = styled.div`
+  ${dragging.stop}
   ${includes.flexBox()}
   flex-direction: column;
   width: 100%;
