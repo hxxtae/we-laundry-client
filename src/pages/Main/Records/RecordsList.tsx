@@ -1,32 +1,41 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { includes, media, scroll } from '../../../styles';
+import { dragging, includes, media, scroll } from '../../../styles';
 import { useProductObjFetch } from '../../../hooks';
 import { LoadingItem } from '../../../components';
 import RecordsListHeader from './RecordsListHeader';
 import RecordsListItem from './RecordsListItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 
 function RecordsList() {
 
   const [categoryIdx, setCategoryIdx] = useState(1);
   const { loading, productObjs } = useProductObjFetch();
-  
 
   return (
     <>
-      <RecordsListHeader productObjs={productObjs} categoryIdx={categoryIdx} setCategoryIdx={setCategoryIdx} />
-      <Wrapper>
-        {!loading ?
-          <List>
-            {productObjs[categoryIdx - 1].products.map((product) => (
-              <RecordsListItem key={product.productId} product={product} />
-            ))}
-          </List> :
-          <LoadingBox>
-            <LoadingItem />
-          </LoadingBox>}
-      </Wrapper>
+      {!!productObjs?.length ?
+      <>
+        <RecordsListHeader productObjs={productObjs} categoryIdx={categoryIdx} setCategoryIdx={setCategoryIdx} />
+        <Wrapper>
+          {!loading ?
+            <List>
+              {productObjs[categoryIdx - 1].products.map((product) => (
+                <RecordsListItem key={product.productId} product={product} />
+              ))}
+            </List> :
+            <LoadingBox>
+              <LoadingItem />
+            </LoadingBox>}
+        </Wrapper>
+        </> :
+        <NotFound>
+          <FontAwesomeIcon icon={faBoxOpen} />
+          <span>{'카테고리와 품목을 추가해 주세요.'}</span>
+        </NotFound>
+      }
     </>
   )
 }
@@ -71,3 +80,34 @@ const LoadingBox = styled.div`
   height: 100%;
 `;
 
+const NotFound = styled.div`
+  ${dragging.stop}
+  ${includes.flexBox()}
+  flex-direction: column;
+  width: 100%;
+  height: 375px;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  border-radius: 4px;
+  margin-top: 40px;
+  color: ${({ theme }) => theme.textColor};
+
+  svg {
+    font-size: 30px;
+    opacity: .3;
+  }
+
+  span {
+    padding: 15px 0;
+    font-size: 14px;
+    opacity: .3;
+  }
+
+  @media ${media.pc_s} {
+    height: 510px;
+
+    span {
+      font-size: 15px;
+    }
+  }
+  
+`;

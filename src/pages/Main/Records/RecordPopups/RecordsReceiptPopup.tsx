@@ -1,29 +1,35 @@
 import { faArrowLeft, faCashRegister, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { useMutation } from 'react-query';
-import { useRecoilValue } from 'recoil';
+import { useMutation, useQueryClient } from 'react-query';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-import { recordLaundryState, recordRepairState, recordRequestState, recordsApi } from '../../../../global';
+import { recordLaundryState, recordReceiptExeState, recordRepairState, recordRequestState, recordsApi } from '../../../../global';
 import { buttonStyle, colors, dragging, includes, media, scroll, toastStyle } from '../../../../styles';
 import { LoadingComponent, Overlay } from '../../../../components';
 import { IRecordRequest } from '../../../../services/records';
 import ReceiptSuccess from './RecordReceiptComponent/ReceiptSuccess';
+import { dateToString } from '../../../../components/DateComponent';
+import { queryKeys } from '../../../../util';
 
 interface IRecordReceiptPopup {
   totalPay: { price: number, count: number };
-  setReceiptAct: React.Dispatch<React.SetStateAction<boolean>>
+  setReceiptAct: React.Dispatch<React.SetStateAction<boolean>>;
+  setClickItems: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-function RecordsReceiptPopup({ totalPay, setReceiptAct }: IRecordReceiptPopup) {
+function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecordReceiptPopup) {
   const laundry = useRecoilValue(recordLaundryState);
   const repair = useRecoilValue(recordRepairState);
   const recordState = useRecoilValue(recordRequestState);
   const recordsService = useRecoilValue(recordsApi);
+  const setReceiptExeChk = useSetRecoilState(recordReceiptExeState);
   const [sumLaundry, setSumLaundry] = useState({price: 0, count: 0});
   const [sumRepair, setSumRepair] = useState({ price: 0, count: 0 });
   const [receiptOkAct, setReceiptOkAct] = useState(false);
+  const client = useQueryClient();
+  const nowDate = dateToString(new Date());
   
   const { isLoading, mutate } = useMutation((_recordState: IRecordRequest) => recordsService.createRecord(_recordState));
 
@@ -44,7 +50,11 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct }: IRecordReceiptPopup) {
   const onReceipt = () => {
     mutate(recordState, {
       onSuccess: () => {
-        setReceiptOkAct(true);
+        setClickItems([]);
+        setReceiptOkAct(true);  // 접수 완료 확인 창
+        setReceiptExeChk(true); // 접수 완료 확인
+        client.invalidateQueries(queryKeys.records.listDate(nowDate));
+        client.invalidateQueries(queryKeys.records.listDong(recordState.addname, recordState.dong));
       },
       onError: (error: any) => {
         console.log('--Record Create Error--');

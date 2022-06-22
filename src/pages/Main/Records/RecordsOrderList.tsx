@@ -80,6 +80,7 @@ const OrderList = styled.ul`
   ${dragging.stop}
   width: 100%;
   height: 356px;
+  margin-top: auto;
   overflow-y: auto;
   overflow-x: hidden;
 

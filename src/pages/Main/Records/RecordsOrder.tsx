@@ -213,7 +213,10 @@ function RecordsOrder() {
           <RecordsRepairPopup setPopupActive={setRepairAct} />
         </Overlay>}
       {receiptAct && 
-        <RecordsReceiptPopup totalPay={totalPay} setReceiptAct={setReceiptAct} />}
+        <RecordsReceiptPopup
+          totalPay={totalPay}
+          setReceiptAct={setReceiptAct}
+          setClickItems={setClickItems} />}
     </>
   )
 }
@@ -291,11 +294,9 @@ const RemoveCount = styled.p`
 const ControlGroup = styled.div`
   ${includes.flexBox('center', 'space-between')}
   width: 100%;
-  margin-bottom: 14px;
   padding: 0 15px;
 
   @media ${media.pc_s} {
-    margin-bottom: 20px;
     padding: 0 20px;
   }
 `;
