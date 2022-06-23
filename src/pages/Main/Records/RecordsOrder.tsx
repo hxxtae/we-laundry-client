@@ -163,7 +163,7 @@ const AllRemove = styled.button`
 const RemoveCount = styled.p`
   position: absolute;
   bottom: -2px;
-  left: 14px;
+  left: 20px;
   ${includes.flexBox()}
   min-width: 15px;
   min-height: 15px;
@@ -171,8 +171,13 @@ const RemoveCount = styled.p`
   background-color: ${colors.red};
   color: ${colors.white};
   border-radius: 4px;
-  font-size: 8px;
+  font-size: 12px;
   font-weight: 600;
+
+  @media ${media.pc_s} {
+    left: 14px;
+    font-size: 8px;
+  }
 `;
 
 const ControlGroup = styled.div`
@@ -208,6 +213,8 @@ const PaymentButton = styled.button`
   height: 60px;
   flex-grow: 1;
   border-radius: 0px;
+  margin-left: 0; // (tablet style) 이 미세하게 틀어짐 막음
+  margin-right: 0; // (tablet style) 이 미세하게 틀어짐 막음
   font-size: 16px;
   font-weight: 600;
 
@@ -218,11 +225,11 @@ const PaymentButton = styled.button`
 
 const AddRepair = styled.button`
   ${buttonStyle.outline}
+  width: 70px;
   height: 60px;
   border-radius: 0px;
   border-bottom-right-radius: 4px;
   line-height: 1px;
-  width: 70px;
 
   @media ${media.pc_s} {
     width: 100px;

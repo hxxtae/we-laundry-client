@@ -61,12 +61,13 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
               <TabLine layoutId='tabline' />}
           </Wrapper>
         ))}
-        <Wrapper>
+          <Wrapper>
             <Tab
               type='button'
               onClick={onAddCategory}
               disabled={updProActive || delProActive}>
-            <FontAwesomeIcon icon={faPlus} /> {'추가'}
+              <FontAwesomeIcon icon={faPlus} />
+              <span>{'추가'}</span>
           </Tab>
           </Wrapper>
         </TabList>
@@ -133,10 +134,15 @@ const Wrapper = styled.div`
 `;
 
 const Tab = styled.button`
+  flex-shrink: 0;
   ${buttonStyle.base}
   padding: 15px;
   color: ${(props) => props.theme.textColor};
   font-size: 12px;
+
+  span {
+    flex-shrink: 0;
+  }
 
   @media ${media.pc_s} {
     font-size: 14px;

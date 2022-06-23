@@ -46,6 +46,9 @@ function Login() {
   return (
     <LoginContext>
       <InputBox>
+        <Logo>
+          <LogoImg src={'./assets/svg/welaundry_medium_v2_darkblue.svg'} />
+        </Logo>
         <Title>{"로그인"}</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Input
@@ -108,6 +111,25 @@ const InputBox = styled.div`
     width: 25%;
     padding: 0 50px;
   }
+`;
+
+const Logo = styled.div`
+  position: absolute;
+  top: 40px;
+  width: 150px;
+  height: 60px;
+
+  @media ${media.pc_s} {
+    top: 85px;
+    width: 200px;
+    height: 80px;
+  }
+`;
+
+const LogoImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const Title = styled.span`

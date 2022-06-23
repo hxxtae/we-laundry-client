@@ -47,10 +47,12 @@ function RecordsForm() {
             <FontAwesomeIcon icon={faCircleCheck} />
             <Text>{availableChk ? '확인됨' : '확인안됨'}</Text>
           </Available>
+          
           <RecordAddname />
           <ReFetch type='button' onClick={onRefetch}>
             <FontAwesomeIcon icon={faArrowRotateRight} />
           </ReFetch>
+          
           <RecordDong searchActive={false} />
           <RecordHo searchActive={false} />
           <ButtonBox>
@@ -86,13 +88,14 @@ const InputGroup = styled.form`
 const Available = styled.div<{chk: boolean}>`
   position: absolute;
   top: 15px;
-  left: 85px;
+  left: 75px;
   ${includes.flexBox('center', 'space-between')}
   font-size: 10px;
   color: ${(props) => props.chk ? colors.green : colors.red};
 
   @media ${media.pc_s} {
     top: 20px;
+    left: 85px;
   }
 `;
 
@@ -107,9 +110,11 @@ const ReFetch = styled.button`
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 4px;
   margin-right: 10px;
+  margin-bottom: 0; // (tablet style) 이 미세하게 틀어짐 막음
   min-width: 40px;
   min-height: 40px;
   color: ${(props) => props.theme.textColor};
+
   &:active {
     opacity: .6;
   }

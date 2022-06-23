@@ -36,7 +36,7 @@ const GlobalStyled = createGlobalStyle`
   body {
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 12px;
-    
+    overflow: hidden;
   }
 
   a {

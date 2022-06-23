@@ -77,6 +77,7 @@ const ReFetch = styled.button`
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 4px;
   margin-right: 10px;
+  margin-bottom: 0;
   min-width: 40px;
   min-height: 40px;
   color: ${(props) => props.theme.textColor};

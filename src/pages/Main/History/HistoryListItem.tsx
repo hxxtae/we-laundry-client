@@ -15,9 +15,9 @@ interface IHistoryListItem {
 
 function HistoryListItem({ recordObjs, recordObjRecordDate, recordObjIndex, onClickId, clickId }: IHistoryListItem) {
   const setRecordState = useSetRecoilState(recordRequestState);
-  const days = ['일', '월', '화', '수', '목', '금', '토'];
 
   const itemDay = (strDate: string) => {
+    const days = ['일', '월', '화', '수', '목', '금', '토'];
     return days[new Date(strDate).getDay()];    
   }
 
