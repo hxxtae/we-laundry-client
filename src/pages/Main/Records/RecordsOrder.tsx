@@ -10,6 +10,7 @@ import { Overlay } from '../../../components';
 import RecordsOrderList from './RecordsOrderList';
 import RecordsRepairPopup from './RecordPopups/RecordsRepairPopup';
 import RecordsReceiptPopup from './RecordPopups/RecordsReceiptPopup';
+import { useAddNDelOfRecord, useAllDelOfRecord } from '../../../hooks';
 
 function RecordsOrder() {
   console.log("order");
@@ -20,142 +21,25 @@ function RecordsOrder() {
   const [totalPay, setTotalPay] = useState({ price: 0, count: 0 });
   const [repairAct, setRepairAct] = useState(false);
   const [receiptAct, setReceiptAct] = useState(false);
+  const onAddNDelLaundry = useAddNDelOfRecord(setLaundry, clickItems, setClickItems);
+  const onAddNDelRepair = useAddNDelOfRecord(setRepair, clickItems, setClickItems);
+  const onAllRemoveLaundry = useAllDelOfRecord(setLaundry, clickItems, setClickItems);
+  const onAllRemoveRepair = useAllDelOfRecord(setRepair, clickItems, setClickItems);
 
-  const onAddnDel = (divide: string) => {
-    setLaundry((prevLaundrys) => {
-      let copyLaundrys = prevLaundrys.map((obj) => {
-        if (clickItems.includes(obj.productId)) {
-          let count = 0;
-          let price = 0;
-          if (divide === 'add') count = obj.count + 1;
-          else if (divide === 'del') count = obj.count - 1;
-          price = (obj.price / obj.count) * count;
+  const onAddItemClick = () => {
+    onAddNDelLaundry('add');
+    onAddNDelRepair('add');
+  }
 
-          if (count === 0) {
-            setClickItems((prevItems) => {
-              const copyClickItems = [...prevItems];
-              const index = copyClickItems.indexOf(obj.productId);
-              if (index === -1) {
-                return prevItems;
-              }
-              copyClickItems.splice(index, 1);
-              return copyClickItems;
-            });
-          }
+  const onDelItemClick = () => {
+    onAddNDelLaundry('del');
+    onAddNDelRepair('del');
+  }
 
-          return {
-            ...obj,
-            count,
-            price,
-          }
-        }
-        return obj;
-      });
-
-      copyLaundrys = copyLaundrys.filter((obj) => obj.count !== 0);
-      return copyLaundrys;
-    });
-
-    setRepair((prevLaundrys) => {
-      let copyLaundrys = prevLaundrys.map((obj) => {
-        if (clickItems.includes(obj.repairId)) {
-          let count = 0;
-          let price = 0;
-          if (divide === 'add') count = obj.count + 1;
-          else if (divide === 'del') count = obj.count - 1;
-          price = (obj.price / obj.count) * count;
-
-          if (count === 0) {
-            setClickItems((prevItems) => {
-              const copyClickItems = [...prevItems];
-              const index = copyClickItems.indexOf(obj.repairId);
-              if (index === -1) {
-                return prevItems;
-              }
-              copyClickItems.splice(index, 1);
-              return copyClickItems;
-            });
-          }
-
-          return {
-            ...obj,
-            count,
-            price,
-          }
-        }
-        return obj;
-      });
-
-      copyLaundrys = copyLaundrys.filter((obj) => obj.count !== 0);
-      return copyLaundrys;
-    });
-  };
-
-  const onAllRemove = () => {
-    setLaundry((prevLaundrys) => {
-      const copyLaundrys = prevLaundrys
-        .map((obj) => {
-          if (clickItems.includes(obj.productId)) {
-            setClickItems((prevItems) => {
-              const copyClickItems = [...prevItems];
-              const index = copyClickItems.indexOf(obj.productId);
-              if (index === -1) {
-                return prevItems;
-              }
-              copyClickItems.splice(index, 1);
-              return copyClickItems;
-            });
-
-            return {
-              productId: '',
-              productName: '',
-              price: 0,
-              count: 0,
-            };
-          }
-          return obj;
-        })
-        .filter((obj) => obj.productId);
-      
-      if (!clickItems.length) {
-        return [];
-      }
-      
-      return copyLaundrys;
-    });
-
-    setRepair((prevLaundrys) => {
-      const copyLaundrys = prevLaundrys
-        .map((obj) => {
-          if (clickItems.includes(obj.repairId)) {
-            setClickItems((prevItems) => {
-              const copyClickItems = [...prevItems];
-              const index = copyClickItems.indexOf(obj.repairId);
-              if (index === -1) {
-                return prevItems;
-              }
-              copyClickItems.splice(index, 1);
-              return copyClickItems;
-            });
-
-            return {
-              repairId: '',
-              repairName: '',
-              price: 0,
-              count: 0,
-            };
-          }
-          return obj;
-        })
-        .filter((obj) => obj.repairId);
-      
-      if (!clickItems.length) {
-        return [];
-      }
-
-      return copyLaundrys;
-    });
-  };
+  const onAllRemoveItemClick = () => {
+    onAllRemoveLaundry();
+    onAllRemoveRepair();
+  }
 
   const onPayment = () => {
     setRecordState((prevRecordState) => {
@@ -175,17 +59,17 @@ function RecordsOrder() {
       <Wrapper>
         <Top>
           <Title>{'목록'}</Title>
-          <AllRemove onClick={onAllRemove}>
+          <AllRemove onClick={onAllRemoveItemClick}>
             <FontAwesomeIcon icon={faTrashCan} />
             {!!clickItems.length && 
               <RemoveCount>{clickItems.length}</RemoveCount>}
           </AllRemove>
         </Top>
         <ControlGroup>
-          <Del onClick={() => onAddnDel('del')}>
+          <Del onClick={onDelItemClick}>
             <FontAwesomeIcon icon={faMinus} />
           </Del>
-          <Add onClick={() => onAddnDel('add')}>
+          <Add onClick={onAddItemClick}>
             <FontAwesomeIcon icon={faPlus} />
           </Add>
         </ControlGroup>

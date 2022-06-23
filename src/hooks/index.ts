@@ -8,3 +8,5 @@ export * from './useAvailableChk';
 export * from './useHistoryDateFetch';
 export * from './useHistoryCustomerFetch';
 export * from './useResetState';
+export * from './useAddNDelOfRecord';
+export * from './useAllDelOfRecord';
