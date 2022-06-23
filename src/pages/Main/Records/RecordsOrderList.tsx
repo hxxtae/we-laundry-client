@@ -92,7 +92,7 @@ const OrderList = styled.ul`
 const OrderItem = styled.li<{chk: boolean}>`
   ${includes.flexBox('center', 'space-between')}
   width: 100%;
-  height: 40px;
+  height: 45px;
   padding: 10px 17px;
   color: ${(props) => props.theme.textColor};
   background-color: ${(props => props.chk ? props.theme.borderColor : 'none')};
