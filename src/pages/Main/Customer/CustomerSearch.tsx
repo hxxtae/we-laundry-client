@@ -2,33 +2,31 @@ import { faArrowRotateRight, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
+import { customerSearchState, searchState } from '../../../global';
 import { CustomerAddname, CustomerDong, CustomerHo } from './CustomerInputs';
 import { ICustomerRequest } from '../../../services/customer';
 import { buttonStyle, includes } from '../../../styles';
-import { customerRequestState } from '../../../global';
+import { queryKeys } from '../../../util';
 
-interface ICustomerSearch {
-  searchPop: boolean;
-  setSearchPop: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-function CustomerSearch({ searchPop, setSearchPop }: ICustomerSearch) {
+function CustomerSearch() {
   console.log("CustomerSearch");
 
-  const setData = useSetRecoilState(customerRequestState);
+  const setData = useSetRecoilState(customerSearchState);
+  const [searchPop, setSearchPop] = useRecoilState(searchState);
   const client = useQueryClient();
   const method = useForm<ICustomerRequest>();
 
   const onRefetch = () => {
-    client.invalidateQueries(["/address", "fetch"]);
+    client.invalidateQueries(queryKeys.address.all);
   }
 
   const onSearch = ({addname, dong, ho}: ICustomerRequest) => {
     setData({ addname, dong, ho });
+    setSearchPop(false);
   }
 
   return (

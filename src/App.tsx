@@ -7,6 +7,7 @@ import { darkTheme, lightTheme } from './styles';
 import { authApi, themeState } from './global/atoms';
 import UserRouter from './routers/UserRouter';
 import AuthContext from './AuthContext';
+import { queryKeys } from './util';
 
 const csrfRef = createRef();
 
@@ -18,7 +19,7 @@ function App() {
   const thisTheme = theme ? darkTheme : lightTheme;
   
   // NOTE: (비동기 처리, react query 때문에 최초 랜더링 이후 렌더링이 발생한다?)
-  const { data: csrfData } = useQuery(["/auth/csrf-token"], () => authService.csrfToken(), {
+  const { data: csrfData } = useQuery(queryKeys.auth.csrf(), () => authService.csrfToken(), {
     refetchOnWindowFocus: false,
     refetchOnMount: 'always',
   });

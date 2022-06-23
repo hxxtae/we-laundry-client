@@ -1,7 +1,7 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-import { productDelState, productPopupState, productRequestState, productUpdState } from '../../../global';
+import { deleteState, popupState, productRequestState, updateState } from '../../../global';
 import { colors, dragging, includes } from '../../../styles';
 import { IProducts } from '../../../services/products';
 
@@ -16,9 +16,9 @@ function ProductsCard({ products, product: { productName, price }, index, setCop
   console.log('ProductCard');
 
   const setProductState = useSetRecoilState(productRequestState);
-  const setPopupActive = useSetRecoilState(productPopupState);
-  const updActive = useRecoilValue(productUpdState);
-  const delActive = useRecoilValue(productDelState);
+  const setPopupActive = useSetRecoilState(popupState);
+  const updActive = useRecoilValue(updateState);
+  const delActive = useRecoilValue(deleteState);
 
   const onClick = (index: number) => {
     /* update */
@@ -43,7 +43,7 @@ function ProductsCard({ products, product: { productName, price }, index, setCop
   return (
     <Card updActive={updActive} delActive={delActive} onClick={() => onClick(index)}>
       <Name>{productName}</Name>
-      <Price>{Number(price).toLocaleString()}</Price>
+      <Price>{price.toLocaleString()}</Price>
     </Card>
   )
 }
@@ -68,6 +68,7 @@ const Card = styled.div<{ updActive: boolean, delActive: boolean }>`
 
 const Name = styled.span`
   padding: 10px;
+  text-align: center;
   color: ${(props) => props.theme.textColor};
   font-weight: 600;
 `;

@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { addressApi } from '../global';
 import { IAddressResponse } from '../services/address';
 import { toastStyle } from '../styles';
+import { queryKeys } from '../util';
 
 interface IAddressFetch {
   loading: boolean;
@@ -16,7 +17,7 @@ export const useAddressFetch = (): IAddressFetch => {
     isLoading: loading,
     isFetching: reLoading,
     data: addDatas
-  } = useQuery(["/address", "fetch"], () => addressService.fetchAdd(), {
+  } = useQuery(queryKeys.address.all, () => addressService.fetchAdd(), {
     staleTime: 1200000, // 20분
     cacheTime: Infinity,
     retry: false,

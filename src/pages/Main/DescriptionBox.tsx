@@ -1,11 +1,7 @@
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 import { buttonStyle, colors, includes, media } from '../../styles';
-
-interface IPos {
-  tabletPos: string;
-  pcPos: string;
-}
 
 interface ILineSec {
   tabletDeg: string;
@@ -20,7 +16,6 @@ interface ILineThi {
 }
 
 interface IDescriptionBox {
-  posit: IPos;
   lineSec: ILineSec;
   lineThi: ILineThi;
   prev: () => void;
@@ -28,11 +23,11 @@ interface IDescriptionBox {
   text: string;
 }
 
-function DescriptionBox({ posit, lineSec, lineThi, prev, next, text }: IDescriptionBox) {
+function DescriptionBox({ lineSec, lineThi, prev, next, text }: IDescriptionBox) {
   console.log('DescBox');
 
   return (
-    <Wrapper { ...posit }>
+    <Wrapper layoutId='desc' >
       <Point />
       <Line />
       <LineSec { ...lineSec } />
@@ -53,14 +48,9 @@ function DescriptionBox({ posit, lineSec, lineThi, prev, next, text }: IDescript
 
 export default DescriptionBox;
 
-const Wrapper = styled.div<IPos>`
+const Wrapper = styled(motion.div)`
   position: absolute;
-  top: ${(props) => props.tabletPos};
   ${includes.flexBox('center', 'flex-start')}
-
-  @media ${media.pc_s} {
-    top: ${(props) => props.pcPos};
-  }
 `;
 
 const Point = styled.div`

@@ -1,43 +1,33 @@
 import { faChevronLeft, faChevronRight, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useState } from 'react';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
 import { ICustomerRequest } from '../../../services/customer';
 import { buttonStyle, colors, includes, media, scroll, toastStyle } from '../../../styles';
 import { DeleteConfirm, LoadingComponent, Overlay } from '../../../components';
-import { customerApi, customerRequestState } from '../../../global';
+import { customerSearchState, customerApi, customerRequestState, deleteState, searchState, updateState } from '../../../global';
 import { useCustomerFetch, usePaging } from '../../../hooks';
 import { useMutation, useQueryClient } from 'react-query';
 import CustomerSearch from './CustomerSearch';
+import { queryKeys } from '../../../util';
 
-interface ICustomerList {
-  setUpdateActive: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-function CustomerList({ setUpdateActive }: ICustomerList) {
+function CustomerList() {
   console.log("CustomerList");
 
   const customerService = useRecoilValue(customerApi);
-  const [data, setData] = useRecoilState(customerRequestState);
-  const [searchPop, setSearchPop] = useState(false);
-  const [deletePop, setDeletePop] = useState(false);
+  const data = useRecoilValue(customerSearchState);
+  const setUpdateData = useSetRecoilState(customerRequestState);
+  const [updateActive, setUpdateActive] = useRecoilState(updateState);
+  const [searchPop, setSearchPop] = useRecoilState(searchState);
+  const [deletePop, setDeletePop] = useRecoilState(deleteState);
   const [deleteId, setDeleteId] = useState('');
   const client = useQueryClient();
-
-  const { loading, reLoading, cusDatas, refetch } = useCustomerFetch(data);
+  const { loading, reLoading, cusDatas } = useCustomerFetch(data);
   const { mutate, isLoading: deleteLoading } = useMutation((id: string) => customerService.deleteCus(id));
   const cusLoading = loading || reLoading;
-
-  useEffect(() => {
-    if (!searchPop) {
-      return;
-    }
-    setSearchPop(false);
-    refetch();
-  }, [data]);
 
   const {
     fetchDatas,
@@ -50,7 +40,7 @@ function CustomerList({ setUpdateActive }: ICustomerList) {
   } = usePaging(cusDatas, cusDatas?.length, 10, 5);
 
   const onUpdateActive = ({id, addid, addname, addfullname, name, dong, ho}: ICustomerRequest) => {
-    setData({id, addid, addname, addfullname, name, dong, ho});
+    setUpdateData({id, addid, addname, addfullname, name, dong, ho});
     setUpdateActive(true);
   };
 
@@ -63,7 +53,8 @@ function CustomerList({ setUpdateActive }: ICustomerList) {
   const onDelete = (id: string) => {
     mutate(id, {
       onSuccess: () => {
-        client.invalidateQueries(["/customer", "fetch"]);
+        client.invalidateQueries(queryKeys.customer.list());
+        client.invalidateQueries(queryKeys.records.list());
         toastStyle.info('삭제되었습니다.');
       },
       onError: (error: any) => {
@@ -76,7 +67,10 @@ function CustomerList({ setUpdateActive }: ICustomerList) {
     <Wrapper>
       <ControlGroup>
         <Count>총 {cusDatas?.length || 0} 개</Count>
-        <SearchButton typeof='button' onClick={() => setSearchPop(true)}>
+        <SearchButton
+          typeof='button'
+          onClick={() => setSearchPop(true)}
+          disabled={updateActive}>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
           {'검색'}
         </SearchButton>
@@ -131,7 +125,7 @@ function CustomerList({ setUpdateActive }: ICustomerList) {
         </PageMove>
       </PageNation>
 
-      {searchPop && <CustomerSearch searchPop={searchPop} setSearchPop={setSearchPop} />}
+      {searchPop && <CustomerSearch />}
       {deletePop &&
         <Overlay>
           <DeleteConfirm deleteId={deleteId} onDelete={onDelete} setDeletePop={setDeletePop} loading={deleteLoading} />

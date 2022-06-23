@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { sidebarClickState } from '../../../global';
 import { includes, media } from '../../../styles';
+import { useResetState } from '../../../hooks';
 import CustomerForm from './CustomerForm';
 import CustomerList from './CustomerList';
 
@@ -12,20 +13,18 @@ function Customer() {
   console.log('Customer');
 
   const setSideClick = useSetRecoilState(sidebarClickState);
-  const [updateActive, setUpdateActive] = useState(false);
+  const { allStateReset } = useResetState();
   const { path } = useRouteMatch();
   
   useEffect(() => {
     setSideClick(path);
+    return () => allStateReset();
   }, []);
 
   return (
     <Wrapper>
-      <CustomerForm
-        updateActive={updateActive}
-        setUpdateActive={setUpdateActive}/>
-      <CustomerList
-        setUpdateActive={setUpdateActive}/>
+      <CustomerForm/>
+      <CustomerList/>
     </Wrapper>
   )
 }

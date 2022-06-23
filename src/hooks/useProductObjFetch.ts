@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { productsApi } from '../global';
 import { IProductObjResponse } from '../services/products';
 import { toastStyle } from '../styles';
+import { queryKeys } from '../util';
 
 export interface ICategoryObj {
   id: string;
@@ -23,8 +24,7 @@ export const useProductObjFetch = (): IProductObjFetch => {
     isLoading: loading,
     isFetching: reLoading,
     data,
-    refetch,
-  } = useQuery(["/productObj", "fetch"], () => productsService.fetchProductObjs(), {
+  } = useQuery(queryKeys.products.all, () => productsService.fetchProductObjs(), {
       staleTime: 1200000,  // 20분
       cacheTime: Infinity,
       retry: false,

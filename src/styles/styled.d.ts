@@ -8,6 +8,7 @@ declare module 'styled-components' {
     bgColorSub: string;
     bgColorThi: string;
     bgColorFur: string;
+    bgColorBlur: string;
     textColor: string;
     borderColor: string;
     borderColorSub: string;

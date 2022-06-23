@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 
-import { Background, LoadingComponent } from '../../components';
+import { Background } from '../../components';
+import LoadingLogo from '../../components/Loadings/LoadingLogo';
 import { includes } from '../../styles';
 
 function LoginLoading() {
   return (
     <Background>
       <Wrapper>
-        <LoadingComponent loadingMessage='잠시만 기다려주세요.' />
+        <LoadingLogo />
       </Wrapper>
     </Background>
   );

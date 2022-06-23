@@ -2,24 +2,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useHistory } from 'react-router-dom';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { motion } from 'framer-motion';
 import '@fortawesome/fontawesome-svg-core';
 import styled from 'styled-components';
 
-import { colors, includes, media } from '../../styles';
+import { colors, dragging, includes, media } from '../../styles';
 import { useCustomDate } from '../../hooks';
 import { authApi, openState, sidebarState, userState } from '../../global/atoms';
 
 function Header() {
   console.log("Header");
   
-  const { toDate, toClock } = useCustomDate();
   const authService = useRecoilValue(authApi);
   const open = useRecoilValue(openState);
   const setSideToggle = useSetRecoilState(sidebarState);
   const setUser = useSetRecoilState(userState);
   const history = useHistory();
+  const { toDate, toClock } = useCustomDate();
+  const client = useQueryClient();
 
   const { mutate } = useMutation(() => authService.logout());
 
@@ -28,6 +29,7 @@ function Header() {
       mutate(undefined, {
         onSuccess: () => {
           setUser(undefined);
+          client.clear();
           history.push('/');
         },
       });
@@ -49,6 +51,7 @@ function Header() {
           <StateText>{open ? '영업중' : '영업마감'}</StateText>
         </OpenAndClose>
       </LeftControl>
+      
       <RightControl>
         <Logout type='button' onClick={onLogout}>
           {'로그아웃'}
@@ -67,6 +70,7 @@ function Header() {
 export default Header;
 
 const HeaderSection = styled(motion.header)`
+  ${dragging.stop}
   ${includes.flexBox('center', 'space-between')}
   background-color: ${colors.darkSlateSub};
   transition: background-color 200ms ease-in-out;
@@ -80,7 +84,6 @@ const HeaderSection = styled(motion.header)`
 
 const LeftControl = styled(motion.div)`
   ${includes.flexBox()}
-
 `;
 
 const RightControl = styled(motion.div)`
@@ -93,7 +96,7 @@ const MenuIcon = styled(motion.div)`
   font-size: 12px;
   cursor: pointer;
 
-  &:hover {
+  &:active {
     opacity: .5;
   }
 

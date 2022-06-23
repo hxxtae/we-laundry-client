@@ -1,9 +1,10 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import styled from 'styled-components';
-import '@fortawesome/fontawesome-svg-core';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { includes } from '../styles';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { AnimatePresence, motion } from 'framer-motion';
+import '@fortawesome/fontawesome-svg-core';
+import styled from 'styled-components';
+
+import { includes } from '../../styles';
 
 interface ILoadingComponent {
   loadingMessage: string;

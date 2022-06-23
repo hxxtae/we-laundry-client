@@ -6,6 +6,7 @@ export const darkTheme: DefaultTheme = {
   bgColorSub: `${colors.darkSlateSub}`,
   bgColorThi: `${colors.darkSlate}`,
   bgColorFur: `${colors.darkSlateSub}`,
+  bgColorBlur: `${colors.darkSlateSub}`,
   textColor: `${colors.white}`, 
   borderColor: `${colors.borderDark}`,
   borderColorSub: `${colors.borderDark}`,
@@ -19,6 +20,7 @@ export const lightTheme: DefaultTheme = {
   bgColorSub: `${colors.light}`,
   bgColorThi: `${colors.light}`,
   bgColorFur: `${colors.white}`,
+  bgColorBlur: `${colors.blur}`,
   textColor: `${colors.primary}`, // chk
   borderColor: `${colors.borderLight}`, // chk
   borderColorSub: `${colors.borderGray}`,

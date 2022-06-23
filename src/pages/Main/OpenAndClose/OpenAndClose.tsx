@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { openState, sidebarClickState } from '../../../global/atoms';
-import { buttonStyle, includes, media } from '../../../styles';
+import { buttonStyle, dragging, includes, media } from '../../../styles';
 import { openStorage } from '../../../util';
 
 function OpenAndClose() {
@@ -30,7 +30,7 @@ function OpenAndClose() {
   return (
     <Group>
       <LogoBox>
-        <Logo src={'./assets/svg/welaundry_medium2.svg'} />
+        <Logo src={'./assets/svg/welaundry_medium_v2_darkblue.svg'} />
       </LogoBox>
       <StartButton state={open.toString()} onClick={onClick} type='button'>{open ? '영업 마감하기' : '영업 시작하기'}</StartButton>
     </Group>
@@ -40,6 +40,7 @@ function OpenAndClose() {
 export default OpenAndClose;
 
 const Group = styled.div`
+  ${dragging.stop}
   ${includes.flexBox()}
   flex-direction: column;
   width: 100%;

@@ -51,6 +51,7 @@ export default class AuthService implements IAuthService {
         password,
       }),
     });
+    localStorage.setItem('tabletToken', data?.data.token); // (추후 삭제 예정)
     return data;
   }
 
@@ -58,6 +59,7 @@ export default class AuthService implements IAuthService {
     const data = this.http.fetch('/auth/logout', {
       method: 'POST',
     });
+    localStorage.removeItem('tabletToken'); // (추후 삭제 예정)
     return data;
   }
 

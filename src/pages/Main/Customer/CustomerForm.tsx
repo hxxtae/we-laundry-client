@@ -2,7 +2,7 @@ import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMutation, useQueryClient } from 'react-query';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
@@ -11,18 +11,15 @@ import { CustomerAddname, CustomerDong, CustomerHo } from './CustomerInputs';
 import { buttonStyle, includes, toastStyle } from '../../../styles';
 import { LoadingComponent, Overlay } from '../../../components';
 import { ICustomerRequest } from '../../../services/customer';
-import { customerApi, customerRequestState } from '../../../global';
+import { customerApi, customerRequestState, updateState } from '../../../global';
+import { queryKeys } from '../../../util';
 
-interface ICustomerInput {
-  updateActive: boolean;
-  setUpdateActive: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-function CustomerForm({ updateActive, setUpdateActive }: ICustomerInput) {
+function CustomerForm() {
   console.log('CustomerForm');
 
   const customerService = useRecoilValue(customerApi);
-  const data = useRecoilValue(customerRequestState);
+  const updateData = useRecoilValue(customerRequestState)
+  const [updateActive, setUpdateActive] = useRecoilState(updateState);
   const client = useQueryClient();
   const method = useForm<ICustomerRequest>();
 
@@ -36,23 +33,24 @@ function CustomerForm({ updateActive, setUpdateActive }: ICustomerInput) {
       return;
     }
     method.reset();
-    method.setValue('id', data.id);
-    method.setValue('addid', data.addid);
-    method.setValue('addname', data.addname);
-    method.setValue('addfullname', data.addfullname);
-    method.setValue('name', data.name);
-    method.setValue('dong', data.dong);
-    method.setValue('ho', data.ho);
-  }, [data]);
+    method.setValue('id', updateData.id);
+    method.setValue('addid', updateData.addid);
+    method.setValue('addname', updateData.addname);
+    method.setValue('addfullname', updateData.addfullname);
+    method.setValue('name', updateData.name);
+    method.setValue('dong', updateData.dong);
+    method.setValue('ho', updateData.ho);
+  }, [updateData]);
 
   const onSubmit = ({ id, addid, addname, addfullname, name, dong, ho }: ICustomerRequest) => {
-    const data = { id, addid, addname, addfullname, name, dong, ho };
-    mutate(data, {
+    const requestData = { id, addid, addname, addfullname, name, dong, ho };
+    mutate(requestData, {
       onSuccess: () => {
         method.reset();
         updateActive ? toastStyle.info('변경되었습니다.') : toastStyle.success('추가되었습니다.');
         setUpdateActive(false);
-        client.invalidateQueries(["/customer", "fetch"]);
+        client.invalidateQueries(queryKeys.customer.list());
+        client.invalidateQueries(queryKeys.records.list());
       },
       onError: (error: any) => {
         toastStyle.error(error.message);
@@ -66,7 +64,7 @@ function CustomerForm({ updateActive, setUpdateActive }: ICustomerInput) {
   };
 
   const onRefetch = () => {
-    client.invalidateQueries(["/address", "fetch"]);
+    client.invalidateQueries(queryKeys.address.all);
   }
 
   return (

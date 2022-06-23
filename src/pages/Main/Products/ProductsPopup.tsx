@@ -8,11 +8,12 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
-import { productPopupState, productRequestState, productUpdState } from '../../../global';
+import { popupState, updateState, productRequestState } from '../../../global';
 import { IProductCreateRequest, IProducts } from '../../../services/products';
 import { buttonStyle, includes, toastStyle } from '../../../styles';
 import ProductName from './PorductsInputs/ProductName';
 import ProductPrice from './PorductsInputs/ProductPrice';
+import { queryKeys } from '../../../util';
 
 interface IProductsPopup {
   categoryId: string;
@@ -24,18 +25,18 @@ interface IProductsPopup {
 function ProductsPopup({ categoryId, copyProducts, mutate, setCopyProducts }: IProductsPopup) {
   console.log('ProductPopup');
 
-  const setPopupActive = useSetRecoilState(productPopupState);
-  const updActive = useRecoilValue(productUpdState);
+  const setPopupActive = useSetRecoilState(popupState);
+  const updActive = useRecoilValue(updateState);
   const productState = useRecoilValue(productRequestState);
   const method = useForm<IProductCreateRequest>();
   const client = useQueryClient();
-  method.setValue('id', categoryId);
 
   useEffect(() => {
     if (!updActive) {
+      method.setValue('id', categoryId);
       return;
     }
-    const { productName, price} = productState;
+    const { productName, price } = productState;
     method.setValue('productName', productName);
     method.setValue('price', price);
   }, []);
@@ -68,7 +69,7 @@ function ProductsPopup({ categoryId, copyProducts, mutate, setCopyProducts }: IP
     mutate(data, {
       onSuccess: () => {
         setPopupActive(false);
-        client.invalidateQueries(["/productObj", "fetch"]);
+        client.invalidateQueries(queryKeys.products.all);
         toastStyle.success('품목이 추가되었습니다.');
       },
       onError: (error: any) => {

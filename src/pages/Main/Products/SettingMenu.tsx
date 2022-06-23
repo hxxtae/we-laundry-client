@@ -4,7 +4,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-import { productDelState, productPopupState, productUpdState } from '../../../global';
+import { deleteState, popupState, updateState } from '../../../global';
 import { buttonStyle, includes, media, toastStyle } from '../../../styles';
 
 interface IProductsMenu {
@@ -17,9 +17,9 @@ interface IProductsMenu {
 function SettingMenu({ setMenuActive, setUpdCateAct, setDelCateAct, setPopupActive }: IProductsMenu) {
   console.log("SettingMenu");
 
-  const setPopupProAct = useSetRecoilState(productPopupState);
-  const [updProAct, setUpdProAct] = useRecoilState(productUpdState);
-  const [delProAct, setDelProAct] = useRecoilState(productDelState);
+  const setPopupProAct = useSetRecoilState(popupState);
+  const [updProAct, setUpdProAct] = useRecoilState(updateState);
+  const [delProAct, setDelProAct] = useRecoilState(deleteState);
 
   const onClick = (btnIdx: number) => {
     if (btnIdx === 0) {

@@ -2,6 +2,7 @@ import { atom } from 'recoil';
 
 import { fetchCsrfToken } from '../App';
 import { AuthService, HttpClient, AddressService, CustomerService, ProductsService } from '../services';
+import RecordsService, { IRecordsOflaundry, IRecordsOfRepair } from '../services/records';
 import { mainDescStorage, openStorage, themeStorage } from '../util';
 
 const baseURL = process.env.REACT_APP_BASE_URL!;
@@ -10,6 +11,7 @@ const authService = new AuthService(httpClient);
 const addressService = new AddressService(httpClient);
 const customerService = new CustomerService(httpClient);
 const productsService = new ProductsService(httpClient);
+const recordsService = new RecordsService(httpClient);
 
 const localTheme = themeStorage.get();
 const localDesc = mainDescStorage.get();
@@ -38,6 +40,11 @@ export const customerApi = atom<CustomerService>({
 export const productsApi = atom<ProductsService>({
   key: 'productsApi',
   default: productsService
+});
+
+export const recordsApi = atom<RecordsService>({
+  key: 'recordsApi',
+  default: recordsService
 });
 
 /*
@@ -80,17 +87,43 @@ export const openState = atom<boolean>({
   Page Products.
 ===================
 */
-export const productUpdState = atom<boolean>({
-  key: 'productUpd',
+export const updateState = atom<boolean>({
+  key: 'updateActive',
   default: false,
 });
 
-export const productDelState = atom<boolean>({
-  key: 'productDel',
+export const deleteState = atom<boolean>({
+  key: 'deleteActive',
   default: false,
 });
 
-export const productPopupState = atom<boolean>({
-  key: 'productPopup',
+export const searchState = atom<boolean>({
+  key: 'searchActive',
   default: false,
 });
+
+export const popupState = atom<boolean>({
+  key: 'popupActive',
+  default: false,
+});
+
+/*
+===================
+  Page Records.
+===================
+*/
+export const recordLaundryState = atom<IRecordsOflaundry[]>({
+  key: 'recordLaundry',
+  default: [],
+});
+
+export const recordRepairState = atom<IRecordsOfRepair[]>({
+  key: 'recordRepair',
+  default: [],
+});
+
+export const recordReceiptExeState = atom<boolean>({
+  key: 'recordReceiptExe',
+  default: false,
+});
+

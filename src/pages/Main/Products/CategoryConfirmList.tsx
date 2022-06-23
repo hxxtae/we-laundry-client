@@ -63,7 +63,7 @@ const List = styled.ul`
   height: 300px;
   padding: 0 20px;
   margin-right: 20px;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   ${(props) => scroll.custom(8, props.theme.borderColorSub, props.theme.textColor)}
 `;
