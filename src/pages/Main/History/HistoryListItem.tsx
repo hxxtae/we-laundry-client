@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { IRecordObjResponse } from '../../../services/records';
 import { colors, includes, media } from '../../../styles';
 import { recordRequestState } from '../../../global';
+import { dateToString } from '../../../components/DateComponent';
 
 interface IHistoryListItem {
   recordObjs: IRecordObjResponse[];
@@ -18,7 +19,7 @@ function HistoryListItem({ recordObjs, recordObjRecordDate, recordObjIndex, onCl
 
   const itemDay = (strDate: string) => {
     // NOTE: IOS에서는 날짜를 렌더링 하는 방식이 다르다. -> "/" 로 날짜를 구분해 주면 된다.
-    const dateFormat = strDate.replace(/[\s\.]/g, ".").split('..').join('/');
+    const dateFormat = dateToString(new Date(strDate)).replace(/-/g, "/");
     const days = ['일', '월', '화', '수', '목', '금', '토'];
     const day = new Date(dateFormat).getDay();
     return days[day];
