@@ -18,8 +18,8 @@ function HistoryListItem({ recordObjs, recordObjRecordDate, recordObjIndex, onCl
   const setRecordState = useSetRecoilState(recordRequestState);
 
   const itemDay = (strDate: string) => {
-    // NOTE: IOS에서는 날짜를 렌더링 하는 방식이 다르다. -> "/" 로 날짜를 구분해 주면 된다.
-    const dateFormat = dateToString(new Date(strDate)).replace(/-/g, "/");
+    // NOTE: IOS에서는 날짜를 렌더링 하는 방식이 다르다. -> "/" 로 날짜를 구분해 주면 된다. ex) 2022/5/5
+    const dateFormat = strDate.trim().replace(/[\.\s]+/g, '/').slice(0, -1);
     const days = ['일', '월', '화', '수', '목', '금', '토'];
     const day = new Date(dateFormat).getDay();
     return days[day];
