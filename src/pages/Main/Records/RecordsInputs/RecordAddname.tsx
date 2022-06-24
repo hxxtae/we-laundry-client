@@ -35,7 +35,6 @@ function RecordAddname() {
           {...register('addname', {
           required: inputMessage.required,
         })} />
-        <ErrorMessage absolute={true} message={errors.addname?.message} />
       
         <AnimatePresence>
           {selectAct &&

@@ -9,6 +9,7 @@ import { buttonStyle, includes } from '../../../../styles';
 import { recordRepairState } from '../../../../global';
 import { RecordRepairName } from './../RecordsInputs';
 import { RecordRepairPrice } from './../RecordsInputs';
+import { useEffect } from 'react';
 
 interface IRecordRepairPopup {
   setPopupActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,6 +32,10 @@ function RecordsRepairPopup({ setPopupActive }: IRecordRepairPopup) {
     });
     setPopupActive(false);
   }
+
+  useEffect(() => {
+    method.setFocus('repairName');
+  }, []);
 
   return (
     <FormProvider {...method}>

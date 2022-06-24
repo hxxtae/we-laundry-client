@@ -29,7 +29,6 @@ function RecordDong({ searchActive }: IRecordDong) {
           minLength: { value: 1, message: inputMessage.minLen(1) },
           pattern: { value: regexrObj.notSpaceAndSpecial, message: "숫자만 입력가능합니다." },
       })}/>
-      <ErrorMessage absolute={true} message={errors.dong?.message} />
 
       <AnimatePresence>
         {selectAct && <KeyboardBox name={'dong'} setValue={setValue} value={getValues('dong')}/>}

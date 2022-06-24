@@ -146,6 +146,7 @@ const Title = styled.span`
 
 const AllRemove = styled.button`
   position: relative;
+  ${includes.flexBox()}
   width: 30px;
   height: 30px;
   border-radius: 4px;
@@ -162,8 +163,8 @@ const AllRemove = styled.button`
 
 const RemoveCount = styled.p`
   position: absolute;
+  left: 14px;
   bottom: -2px;
-  left: 20px;
   ${includes.flexBox()}
   min-width: 15px;
   min-height: 15px;
@@ -175,7 +176,6 @@ const RemoveCount = styled.p`
   font-weight: 600;
 
   @media ${media.pc_s} {
-    left: 14px;
     font-size: 8px;
   }
 `;
