@@ -15,6 +15,7 @@ function LoginContext({ children }: ILoginContext) {
   const [imgPaths] = useState([
     './assets/img/img_login.jpg',
     './assets/img/img_login3.jpg',
+    './assets/img/img_login4.jpg',
   ]);
 
   const [next, setNext] = useState(0);

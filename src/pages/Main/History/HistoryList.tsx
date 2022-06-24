@@ -77,7 +77,7 @@ function HistoryList() {
           <CusButton onClick={() => setCustomerActive(true)}>{'주소로 검색'}</CusButton>
         </ButtonGroup>
         <List>
-          {!!searchDatas(nowDate)?.length ?
+          {!!(searchDatas(nowDate)?.length) ?
             searchDatas(nowDate)?.map((obj, index, arr) => (
               findIdx(arr, obj.recordDate) === index && (
                 <HistoryListItem
@@ -159,6 +159,7 @@ const List = styled.ul`
   overflow-y: auto;
   overflow-x: hidden;
   ${(props) => scroll.custom(8, props.theme.borderColorSub, props.theme.textColor)}
+  z-index: 1;
 
   @media ${media.pc_s} {
     height: 540px;

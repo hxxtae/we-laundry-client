@@ -6,6 +6,8 @@ import styled from 'styled-components';
 
 import { recordLaundryState, recordReceiptExeState, recordRepairState, recordRequestState } from '../../../../../global';
 import { buttonStyle, colors, dragging, includes, media } from '../../../../../styles';
+import { useEffect } from 'react';
+import { useAudio } from '../../../../../components/useAudio';
 
 interface IReceiptSuccess {
   sumLaundry: { price: number, count: number };
@@ -19,6 +21,7 @@ function ReceiptSuccess({ sumLaundry, sumRepair, setReceiptAct, setReceiptOkAct 
   const resetRepair = useResetRecoilState(recordRepairState);
   const resetRecord = useResetRecoilState(recordRequestState);
   const resetReceiptExe = useResetRecoilState(recordReceiptExeState);
+  const { toggle } = useAudio('./assets/sound/note.mp3');
   const sumTotal = (sumLaundry.price + sumRepair.price).toLocaleString();
 
   const onExit = () => {
@@ -31,6 +34,10 @@ function ReceiptSuccess({ sumLaundry, sumRepair, setReceiptAct, setReceiptOkAct 
     resetRepair();
     resetRecord();
   }
+
+  useEffect(() => {
+    toggle();
+  }, []);
 
   return (
     <Wrapper variants={SuccessVariant} initial="init" animate="start">
