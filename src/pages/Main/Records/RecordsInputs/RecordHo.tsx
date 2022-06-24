@@ -29,7 +29,6 @@ function RecordHo({ searchActive }: IRecordHo) {
           minLength: { value: 1, message: inputMessage.minLen(1) },
           pattern: { value: regexrObj.notSpaceAndSpecial, message: "숫자만 입력가능합니다." },
       })}/>
-      <ErrorMessage absolute={true} message={errors.ho?.message} />
 
       <AnimatePresence>
         {selectAct && <KeyboardBox name={'ho'} setValue={setValue} value={getValues('ho')}/>}
