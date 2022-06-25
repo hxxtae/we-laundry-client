@@ -1,6 +1,5 @@
-# 우리동네 세탁소 포스 프로그램
-
-## We Laundry Application (Client)
+# Project Title
+우리동네 세탁소 포스 프로그램 / We Laundry Application (Client) 
 
 <p align="center">
   <br>
@@ -8,26 +7,38 @@
   <br>
 </p>
 
-- 프로젝트 소개
-- 기술스택
-- 구현 페이지
-- 라이센스
+## Index
+
+- [Project Description](#projcet-description)
+- [Stack](#stack)
+- [Page](#page)
+- [License](#license)
 
 <br>
 
-## 프로젝트 소개
+## Projcet Description
 
-<p align="justify">
-프로젝트 개요/동기
-</p>
+### 프로젝트 개요/동기
 
-<p align="center">
-Text.
-</p>
+**1. 무엇을 위한 프로그램?**   
+- 대중적인 포스 시스템은 일반 음식점이나, 카페, 의류매장에서 많이 사용하지만, 세탁소 업종에서는   
+포스 시스템이 많지 않거나, 수기로 장부를 사용하기 때문에 이를 개선하고자 프로젝트를 기획하게 되었습니다.
 
 <br>
 
-## 기술 스택
+**2. 어떤 문제를 해결할 수 있나요?**   
+- 우리동네 세탁소에서는 하루, 일주일에 수백가지 옷 개수와 종류가 세탁소에 맡겨집니다.   
+하나하나 장부 책자를 넘겨가면서 찾을 필요 없이 전자 장부처럼 활용 할 수 있으며, 더 나아가 날짜별, 고객별 등    
+데이터를 손쉽게 조회하고, 나의 매출, 손님 리스트, 품목 관리 등을 활용하여 매출 상승의 효과를 가져올 수 있습니다.
+
+<br>
+
+**3. 어떤 사람들이 이 프로그램을 사용하면 좋은가요?**   
+- 큰 기업의 세탁소가 아닌 일반 세탁소(소상공인)를 대상으로 합니다.
+
+<br>
+
+## Stack
 
 | TypeScript | React    | Recoil    | React-Query    |
 | :--------: | :------: | :-------: | :------------: |
@@ -35,44 +46,44 @@ Text.
 
 <br>
 
-## 구현 페이지
+## Page
 
-### 페이지1 (로그인 & 회원가입)
+### page_1 (로그인 & 회원가입)
 ![login](https://user-images.githubusercontent.com/79623316/175766234-eadafa94-ad69-4780-a052-c2dea289ba21.PNG)
 ![signup](https://user-images.githubusercontent.com/79623316/175767125-584dcdb1-2359-487f-a947-53ba72270830.PNG)
 
-### 페이지2 (메인화면)
+### page_2 (메인화면)
 ![main](https://user-images.githubusercontent.com/79623316/175766846-8e868b5c-db6a-43a5-ae9c-bab8339c3b8e.PNG)
 
-### 페이지3 (주소관리)
+### page_3 (주소관리)
 ![address](https://user-images.githubusercontent.com/79623316/175766955-51daf465-d0b5-40ee-8acc-388e9afa55a6.PNG)
 ![address_addfullname](https://user-images.githubusercontent.com/79623316/175766961-93c4b8a5-9719-43c4-8f1c-0cb4763988f6.PNG)
 
 
-### 페이지4 (고객관리)
+### page_4 (고객관리)
 ![customer](https://user-images.githubusercontent.com/79623316/175766940-bd6e2760-0d35-415f-960a-efb7a0e9d81b.PNG)
 
 
-### 페이지5 (품목관리)
+### page_5 (품목관리)
 ![products](https://user-images.githubusercontent.com/79623316/175766950-f16f9e95-6370-4df9-b63f-4aab44f0937f.PNG)
 
 
-### 페이지6 (주문접수)
+### page_6 (주문접수)
 ![record](https://user-images.githubusercontent.com/79623316/175766868-c6217ba4-f049-468e-8e4b-6b3cdf0a8b5f.PNG)
 ![record_receipt](https://user-images.githubusercontent.com/79623316/175766892-0caa73bf-5ae0-46ab-a9b5-aac05f8a09dd.PNG)
 ![record_success](https://user-images.githubusercontent.com/79623316/175766907-d400950f-09a7-46cd-9228-d5854c56f1e9.PNG)
 
-### 페이지7 (주문조회)
+### page_7 (주문조회)
 ![history](https://user-images.githubusercontent.com/79623316/175766922-260c2047-8eeb-4056-87a2-dfacf2cfa6c0.PNG)
 
 
-### 페이지8 (매출관리 - 진행중)
+### page_8 (매출관리 - 진행중)
 
 <br>
 
-## 라이센스
+## License
 
-MIT &copy; [NoHack](mailto:fkdlxmfkdl1@gmail.com)
+MIT &copy; [hxxtae](mailto:fkdlxmfkdl1@gmail.com)
 
 <!-- Stack Icon Refernces -->
 
