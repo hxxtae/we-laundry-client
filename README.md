@@ -3,7 +3,7 @@
 
 <p align="center">
   <br>
-  <img src="/">
+  <img src="https://user-images.githubusercontent.com/79623316/175818637-4a2080fc-454c-4c37-97b0-81cba5cfa3ab.svg">
   <br>
 </p>
 
@@ -40,9 +40,9 @@
 
 ## Stack
 
-| TypeScript | React    | Recoil    | React-Query    |
-| :--------: | :------: | :-------: | :------------: |
-|   ![ts]    | ![react] | ![recoil] | ![react-query] |
+| TypeScript | React    | Recoil    | React-Query    | styled-components    | framer-motion    |
+| :--------: | :------: | :-------: | :------------: | :------------------: | :--------------: |
+|   ![ts]    | ![react] | ![recoil] | ![react-query] | ![styled-components] | ![framer-motion] |
 
 <br>
 
@@ -91,7 +91,8 @@ MIT &copy; [hxxtae](mailto:fkdlxmfkdl1@gmail.com)
 [react]: https://user-images.githubusercontent.com/79623316/175767657-f4926c0c-0c8e-4f4d-957e-c4c4877ffe16.svg
 [recoil]: https://user-images.githubusercontent.com/79623316/175767881-e60e3519-242d-49f6-80c7-ac8b40470e2f.svg
 [react-query]: https://user-images.githubusercontent.com/79623316/175767768-3740450e-cb18-4b23-b2f9-174edcdb87a5.svg
-
+[styled-components]: https://user-images.githubusercontent.com/79623316/175817624-3a749264-9f78-4e14-a385-cf4561a80dcb.svg
+[framer-motion]: https://user-images.githubusercontent.com/79623316/175818241-8c03852c-3335-4fcf-80d8-e12045dae3c0.png
 
 
 
