@@ -2,12 +2,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useResetRecoilState } from 'recoil';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { recordLaundryState, recordReceiptExeState, recordRepairState, recordRequestState } from '../../../../../global';
 import { buttonStyle, colors, dragging, includes, media } from '../../../../../styles';
-import { useEffect } from 'react';
-import { useAudio } from '../../../../../components/useAudio';
+import { useAudio } from '../../../../../hooks';
 
 interface IReceiptSuccess {
   sumLaundry: { price: number, count: number };
