@@ -12,7 +12,6 @@ interface IRecordsOrderList {
 }
 
 function RecordsOrderList({ clickItems, setClickItems, setTotalPay }: IRecordsOrderList) {
-  console.log('OrderList');
   const laundry = useRecoilValue(recordLaundryState);
   const repair = useRecoilValue(recordRepairState);
 

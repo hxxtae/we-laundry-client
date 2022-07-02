@@ -8,9 +8,9 @@ import { useState } from 'react';
 
 import { buttonStyle, includes, toastStyle } from '../../../styles';
 import { ICategoryRequest } from '../../../services/products';
+import { queryKeys } from '../../../util';
 import CategoryName from './CategorysInputs.tsx/CategoryName';
 import CategoryConfirmList from './CategoryConfirmList';
-import { queryKeys } from '../../../util';
 
 interface ICategoryPopup {
   setPopupActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,8 +23,6 @@ interface ICategoryPopup {
 }
 
 function CategoryPopup({ setPopupActive, setUpdActive, setDelActive, mutate, delMutate, updActive, delActive }: ICategoryPopup) {
-  console.log("CategoryPopup");
-
   const [deletePopup, setDeletePopup] = useState(false);
   const client = useQueryClient();
   const method = useForm<ICategoryRequest>();

@@ -22,8 +22,6 @@ interface IPos {
 }
 
 function MainDescription() {
-  console.log('Description');
-
   const [descStep, setDescStep] = useState(0);
   const setDescState = useSetRecoilState(descState);
 

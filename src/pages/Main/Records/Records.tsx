@@ -13,20 +13,15 @@ import RecordsOrder from './RecordsOrder';
 import { useResetState } from '../../../hooks';
 
 function Records() {
-  console.log('Records');
-  
   const open = useRecoilValue(openState);
   const setSideClick = useSetRecoilState(sidebarClickState);
   const { allStateReset } = useResetState();
   const { path } = useRouteMatch();
-  const record = useRecoilValue(recordRequestState);
   
   useEffect(() => {
     setSideClick(path);
     return () => allStateReset();
   }, []);
-
-  console.log(record)
   
   return (
     <>

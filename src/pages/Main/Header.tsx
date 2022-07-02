@@ -13,7 +13,7 @@ import { authApi, openState, sidebarState, userState } from '../../global/atoms'
 
 function Header() {
   console.log("Header");
-  
+
   const authService = useRecoilValue(authApi);
   const open = useRecoilValue(openState);
   const setSideToggle = useSetRecoilState(sidebarState);

@@ -21,8 +21,6 @@ interface ICategorysTabs {
 }
 
 function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysTabs) {
-  console.log("CategoryTabs");
-  
   const [popupActive, setPopupActive] = useState(false);
   const [menuActive, setMenuActive] = useState(false);
   const [updActive, setUpdActive] = useState(false);

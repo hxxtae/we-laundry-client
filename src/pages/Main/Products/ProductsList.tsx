@@ -1,3 +1,5 @@
+import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { GridContextProvider, swap } from "react-grid-dnd";
 import { useMutation, useQueryClient } from 'react-query';
@@ -8,11 +10,9 @@ import { IProductCreateRequest, IProductObjResponse, IProducts, IProductsUpdateR
 import { deleteState, popupState, updateState, productsApi } from '../../../global';
 import { buttonStyle, includes, media, scroll, toastStyle } from '../../../styles';
 import { LoadingComponent, Overlay } from '../../../components';
+import { queryKeys } from '../../../util';
 import ProductsBoard from './ProductsBoard';
 import ProductsPopup from './ProductsPopup';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
-import { queryKeys } from '../../../util';
 
 interface IProductsList {
   reLoading: boolean;
@@ -20,8 +20,6 @@ interface IProductsList {
 }
 
 function ProductsList({ reLoading, productObj }: IProductsList) {
-  console.log('ProductList');
-
   const productsService = useRecoilValue(productsApi);
   const [copyProducts, setCopyProducts] = useState<IProducts[]>(productObj.products!);
   const [updActive, setUpdActive] = useRecoilState(updateState);

@@ -13,7 +13,6 @@ import RecordsReceiptPopup from './RecordPopups/RecordsReceiptPopup';
 import { useAddNDelOfRecord, useAllDelOfRecord } from '../../../hooks';
 
 function RecordsOrder() {
-  console.log("order");
   const [laundry, setLaundry] = useRecoilState(recordLaundryState);
   const [repair, setRepair] = useRecoilState(recordRepairState);
   const [recordState, setRecordState] = useRecoilState(recordRequestState);

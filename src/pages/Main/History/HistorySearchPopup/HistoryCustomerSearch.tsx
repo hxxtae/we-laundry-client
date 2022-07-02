@@ -6,9 +6,9 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { IRecordSearchRequestByAdd, IRecordSearchRequestByDongAndHo } from '../../../../services/records';
+import { RecordAddname, RecordDong, RecordHo } from '../../Records/RecordsInputs';
 import { buttonStyle, includes } from '../../../../styles';
 import { queryKeys } from '../../../../util';
-import { RecordAddname, RecordDong, RecordHo } from '../../Records/RecordsInputs';
 
 interface IHistoryCustomerSearch {
   setCustomerActive: React.Dispatch<React.SetStateAction<boolean>>;

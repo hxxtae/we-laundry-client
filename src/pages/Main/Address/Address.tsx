@@ -9,8 +9,6 @@ import AddressForm from './AddressForm';
 import AddressList from './AddressList';
 
 function Address() {
-  console.log('Address');
-  
   const setSideClick = useSetRecoilState(sidebarClickState);
   const [updateActive, setUpdateActive] = useState(false);
   const { path } = useRouteMatch();

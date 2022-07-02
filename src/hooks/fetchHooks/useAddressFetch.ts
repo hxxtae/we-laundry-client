@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { addressApi } from '../global';
-import { IAddressResponse } from '../services/address';
-import { toastStyle } from '../styles';
-import { queryKeys } from '../util';
+import { addressApi } from '../../global';
+import { IAddressResponse } from '../../services/address';
+import { toastStyle } from '../../styles';
+import { queryKeys } from '../../util';
 
 interface IAddressFetch {
   loading: boolean;

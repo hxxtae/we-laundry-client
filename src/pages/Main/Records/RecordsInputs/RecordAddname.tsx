@@ -12,7 +12,6 @@ import { useAddressFetch } from '../../../../hooks';
 import { inputMessage } from '../../../../util';
 
 function RecordAddname() {
-
   const [selectAct, setSelectAct] = useState(false);
   const [selectChk, setSelectChk] = useState('');
   const receiptExeChk = useRecoilValue(recordReceiptExeState); // 접수 완료 확인 state

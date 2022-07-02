@@ -9,8 +9,7 @@ interface IProductsBoard {
 }
 
 function ProductsBoard({ products, setCopyProducts }: IProductsBoard) {
-  console.log('ProductBoard');
-
+  
   return (
     <GridDropZone
       className='list'
