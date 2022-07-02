@@ -1,10 +1,10 @@
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 
-import { productsApi } from '../global';
-import { IProductObjResponse } from '../services/products';
-import { toastStyle } from '../styles';
-import { queryKeys } from '../util';
+import { productsApi } from '../../global';
+import { IProductObjResponse } from '../../services/products';
+import { toastStyle } from '../../styles';
+import { queryKeys } from '../../util';
 
 export interface ICategoryObj {
   id: string;

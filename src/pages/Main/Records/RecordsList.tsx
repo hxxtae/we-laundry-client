@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 
 function RecordsList() {
-
   const [categoryIdx, setCategoryIdx] = useState(1);
   const { loading, productObjs } = useProductObjFetch();
 

@@ -5,18 +5,16 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
-import { ICustomerRequest } from '../../../services/customer';
+import { customerSearchState, customerApi, customerRequestState, deleteState, searchState, updateState } from '../../../global';
 import { buttonStyle, colors, includes, media, scroll, toastStyle } from '../../../styles';
 import { DeleteConfirm, LoadingComponent, Overlay } from '../../../components';
-import { customerSearchState, customerApi, customerRequestState, deleteState, searchState, updateState } from '../../../global';
+import { ICustomerRequest } from '../../../services/customer';
 import { useCustomerFetch, usePaging } from '../../../hooks';
 import { useMutation, useQueryClient } from 'react-query';
-import CustomerSearch from './CustomerSearch';
 import { queryKeys } from '../../../util';
+import CustomerSearch from './CustomerSearch';
 
 function CustomerList() {
-  console.log("CustomerList");
-
   const customerService = useRecoilValue(customerApi);
   const data = useRecoilValue(customerSearchState);
   const setUpdateData = useSetRecoilState(customerRequestState);

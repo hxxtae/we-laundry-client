@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { customerApi } from '../global';
-import { ICustomerResponse, ICustomerSearchRequest } from '../services/customer';
-import { toastStyle } from '../styles';
-import { queryKeys } from '../util';
+import { customerApi } from '../../global';
+import { ICustomerResponse, ICustomerSearchRequest } from '../../services/customer';
+import { toastStyle } from '../../styles';
+import { queryKeys } from '../../util';
 
 interface ICustomerFetch {
   loading: boolean;

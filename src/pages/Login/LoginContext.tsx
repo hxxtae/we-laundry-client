@@ -10,8 +10,6 @@ interface ILoginContext {
 }
 
 function LoginContext({ children }: ILoginContext) {
-  console.log('LoginImg');
-
   const [imgPaths] = useState([
     './assets/img/img_login.jpg',
     './assets/img/img_login3.jpg',

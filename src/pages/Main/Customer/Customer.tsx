@@ -10,8 +10,6 @@ import CustomerForm from './CustomerForm';
 import CustomerList from './CustomerList';
 
 function Customer() {
-  console.log('Customer');
-
   const setSideClick = useSetRecoilState(sidebarClickState);
   const { allStateReset } = useResetState();
   const { path } = useRouteMatch();

@@ -14,8 +14,6 @@ interface IMainContext {
 }
 
 function MainContext({ children }: IMainContext) {
-  console.log("MainContext");
-
   const desc = useRecoilValue(descState);
 
   return (

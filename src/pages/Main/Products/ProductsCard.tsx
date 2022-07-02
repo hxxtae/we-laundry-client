@@ -13,8 +13,6 @@ interface IProductsCard {
 }
 
 function ProductsCard({ products, product: { productName, price }, index, setCopyProducts }: IProductsCard) {
-  console.log('ProductCard');
-
   const setProductState = useSetRecoilState(productRequestState);
   const setPopupActive = useSetRecoilState(popupState);
   const updActive = useRecoilValue(updateState);

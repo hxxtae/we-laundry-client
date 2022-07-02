@@ -8,10 +8,9 @@ import styled from 'styled-components';
 
 import { buttonStyle, colors, includes, media, scroll, toastStyle } from '../../../styles';
 import { DeleteConfirm, LoadingComponent, Overlay } from '../../../components';
-import { addressApi } from '../../../global/atoms';
-import { usePaging } from '../../../hooks';
-import { useAddressFetch } from '../../../hooks/useAddressFetch';
+import { usePaging, useAddressFetch } from '../../../hooks';
 import { addressRequestState } from '../../../global';
+import { addressApi } from '../../../global/atoms';
 import { queryKeys } from '../../../util';
 
 interface IAddressList {
@@ -19,8 +18,6 @@ interface IAddressList {
 }
 
 function AddressList({ setUpdateActive }: IAddressList) {
-  console.log('AddressList');
-  
   const setData = useSetRecoilState(addressRequestState);
   const [deletePop, setDeletePop] = useState(false);
   const [deleteId, setDeleteId] = useState('');
