@@ -42,7 +42,25 @@ export const colors = {
   red: '#F86D7D',
   redDark: '#dd616f',
   green: '#22C58B',
-  greenDark: '#1dac7a'
+  greenDark: '#1dac7a',
+
+  chartColor: (opacity = 1) => ({
+    red: `rgba(255, 99, 132, ${opacity})`,
+    orange: `rgba(255, 159, 64, ${opacity})`,
+    yellow: `rgba(255, 206, 86, ${opacity})`,
+    green: `rgba(75, 192, 192, ${opacity})`,
+    blue: `rgba(54, 162, 235, ${opacity})`,
+    pupple: `rgba(153, 102, 255, ${opacity})`,
+  }),
+
+  chartBlue: (opacity = 1) => ({
+    blue1: `rgba(61, 165, 245, ${opacity})`,
+    blue2: `rgba(49, 134, 196, ${opacity})`,
+    blue3: `rgba(107, 174, 214, ${opacity})`,
+    blue4: `rgba(158, 202, 225, ${opacity})`,
+    blue5: `rgba(198, 219, 239, ${opacity})`,
+    blue6: `rgba(222, 235, 247, ${opacity})`,
+  })
 };
 /*
 =============================
