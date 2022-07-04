@@ -11,8 +11,6 @@ import SidebarItem from './SidebarItem';
 import { SidePaths } from '../../util';
 
 function Sidebar() {
-  console.log("Sidebar");
-
   const sideToggle = useRecoilValue(sidebarState);
   const sideClick = useRecoilValue(sidebarClickState);
 

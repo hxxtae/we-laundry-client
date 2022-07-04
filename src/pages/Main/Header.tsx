@@ -7,9 +7,9 @@ import { motion } from 'framer-motion';
 import '@fortawesome/fontawesome-svg-core';
 import styled from 'styled-components';
 
+import { authApi, openState, sidebarState, userState } from '../../global/atoms';
 import { colors, dragging, includes, media } from '../../styles';
 import { useCustomDate } from '../../hooks';
-import { authApi, openState, sidebarState, userState } from '../../global/atoms';
 
 function Header() {
   console.log("Header");
