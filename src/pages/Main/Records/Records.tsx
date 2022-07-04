@@ -4,13 +4,12 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { openState, sidebarClickState } from '../../../global/atoms';
-import { recordRequestState } from '../../../global';
 import { includes, media } from '../../../styles';
+import { useResetState } from '../../../hooks';
 import OpenAndClose from '../OpenAndClose/OpenAndClose';
 import RecordsForm from './RecordsForm';
 import RecordsList from './RecordsList';
 import RecordsOrder from './RecordsOrder';
-import { useResetState } from '../../../hooks';
 
 function Records() {
   const open = useRecoilValue(openState);

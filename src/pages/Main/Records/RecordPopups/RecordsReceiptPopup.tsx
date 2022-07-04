@@ -55,6 +55,7 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
         setReceiptExeChk(true); // 접수 완료 확인
         client.invalidateQueries(queryKeys.records.listDate(nowDate));
         client.invalidateQueries(queryKeys.records.listDong(recordState.addname, recordState.dong));
+        client.invalidateQueries(queryKeys.sale.statsOfProduct());
       },
       onError: (error: any) => {
         console.log('--Record Create Error--');

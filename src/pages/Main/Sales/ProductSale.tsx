@@ -7,8 +7,6 @@ import { sortKinds, useProductSaleFetch } from '../../../hooks';
 import { LoadingComponent, Overlay } from '../../../components';
 import ProductSaleChart from './ProductSaleChart';
 
-
-
 function ProductSale() {
 
   const { loading, dataSort, sortKind, setSortKind } = useProductSaleFetch();
