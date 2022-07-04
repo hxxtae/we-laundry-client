@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { recordsApi } from '../global';
-import { IRecordObjResponse, IRecordSearchRequestByDongAndHo } from '../services/records';
-import { toastStyle } from '../styles';
-import { queryKeys } from '../util';
+import { recordsApi } from '../../global';
+import { IRecordObjResponse, IRecordSearchRequestByDongAndHo } from '../../services/records';
+import { toastStyle } from '../../styles';
+import { queryKeys } from '../../util';
 
 interface IHistoryCustomerFetch {
   loadingCus: boolean;

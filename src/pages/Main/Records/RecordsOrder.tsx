@@ -6,14 +6,13 @@ import styled from 'styled-components';
 
 import { recordLaundryState, recordRepairState, recordRequestState } from '../../../global';
 import { buttonStyle, colors, dragging, includes, media } from '../../../styles';
+import { useAddNDelOfRecord, useAllDelOfRecord } from '../../../hooks';
 import { Overlay } from '../../../components';
 import RecordsOrderList from './RecordsOrderList';
 import RecordsRepairPopup from './RecordPopups/RecordsRepairPopup';
 import RecordsReceiptPopup from './RecordPopups/RecordsReceiptPopup';
-import { useAddNDelOfRecord, useAllDelOfRecord } from '../../../hooks';
 
 function RecordsOrder() {
-  console.log("order");
   const [laundry, setLaundry] = useRecoilState(recordLaundryState);
   const [repair, setRepair] = useRecoilState(recordRepairState);
   const [recordState, setRecordState] = useRecoilState(recordRequestState);

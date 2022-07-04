@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { IRecordObjResponse } from '../../../services/records';
 import { colors, includes, media } from '../../../styles';
 import { recordRequestState } from '../../../global';
-import { dateToString } from '../../../components/DateComponent';
 
 interface IHistoryListItem {
   recordObjs: IRecordObjResponse[];

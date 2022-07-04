@@ -1,20 +1,18 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import { useRouteMatch } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { LoadingComponent, Overlay } from '../../../components';
 import { useProductObjFetch, useResetState } from '../../../hooks';
-import { sidebarClickState } from '../../../global';
+import { LoadingComponent, Overlay } from '../../../components';
 import { dragging, includes, media } from '../../../styles';
+import { sidebarClickState } from '../../../global';
 import ProductsList from './ProductsList';
 import CategorysTabs from './CategorysTabs';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 
 function Products() {
-  console.log('Products');
-
   const setSideClick = useSetRecoilState(sidebarClickState);
   const { allStateReset } = useResetState();
   const [categoryIdx, setCategoryIdx] = useState(1);

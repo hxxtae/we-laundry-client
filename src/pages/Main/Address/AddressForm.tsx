@@ -20,8 +20,6 @@ interface IAddressInput {
 }
 
 function AddressInput({ updateActive, setUpdateActive }: IAddressInput) { 
-  console.log('AddressInput');
-
   const addressService = useRecoilValue(addressApi);
   const data = useRecoilValue(addressRequestState);
   const [addClose, setAddClose] = useState(false);

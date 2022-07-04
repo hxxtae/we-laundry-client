@@ -1,18 +1,20 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
-import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { colors, dragging, includes, inputStyle, media, scroll } from '../../../../styles';
-import { ErrorMessage, InputTitles, LoadingItem } from '../../../../components';
+import { InputTitles, LoadingItem } from '../../../../components';
 import { IAddressResponse } from '../../../../services/address';
+import { recordReceiptExeState } from '../../../../global';
 import { useAddressFetch } from '../../../../hooks';
 import { inputMessage } from '../../../../util';
 
 function RecordAddname() {
-
   const [selectAct, setSelectAct] = useState(false);
   const [selectChk, setSelectChk] = useState('');
+  const receiptExeChk = useRecoilValue(recordReceiptExeState); // 접수 완료 확인 state
   const { register, formState: { errors }, setValue } = useFormContext();
   const { loading, addDatas } = useAddressFetch();
 
@@ -21,6 +23,11 @@ function RecordAddname() {
     setSelectAct(false);
     setSelectChk(addid);
   }
+
+  useEffect(() => {
+    setSelectAct(false);
+    setSelectChk('');
+  }, [receiptExeChk]);
 
   return (
     <InputBox>

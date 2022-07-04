@@ -14,8 +14,6 @@ interface ICategoryConfirmList {
 };
 
 function CategoryConfirmList({ onItemClick, onDelete, deletePopup, setDeletePopup, children }: ICategoryConfirmList) {
-  console.log("CategoryConfirmList");
-
   const { productObjs } = useProductObjFetch();
   const [deleteId, setDeleteId] = useState('');
 

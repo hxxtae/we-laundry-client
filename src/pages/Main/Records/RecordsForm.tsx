@@ -15,8 +15,6 @@ import { useRecoilValue } from 'recoil';
 import { recordReceiptExeState } from '../../../global';
 
 function RecordsForm() {
-  console.log('RecordForm');
-
   const [cusRequest, setCusRequest] = useState<IRecordSearchRequestByAdd>({ addname: '', dong: '', ho: '' });
   const receiptExeChk = useRecoilValue(recordReceiptExeState); // 접수 완료 확인 state
   const method = useForm<IRecordSearchRequestByAdd>();

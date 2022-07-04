@@ -16,8 +16,6 @@ interface ILoginForm {
 }
 
 function Login() {
-  console.log('Login');
-  
   const history = useHistory();
   const authService = useRecoilValue(authApi);
   const setUser = useSetRecoilState(userState);

@@ -1,11 +1,13 @@
 import { AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
-import { ErrorMessage, KeyboardBox } from '../../../../components';
 import { colors, includes, inputStyle } from '../../../../styles';
 import { inputMessage, regexrObj } from '../../../../util';
+import { recordReceiptExeState } from '../../../../global';
+import { KeyboardBox } from '../../../../components';
 
 interface IRecordHo {
   searchActive: boolean;
@@ -13,7 +15,12 @@ interface IRecordHo {
 
 function RecordHo({ searchActive }: IRecordHo) {
   const [selectAct, setSelectAct] = useState(false);
+  const receiptExeChk = useRecoilValue(recordReceiptExeState); // 접수 완료 확인 state
   const { register, formState: { errors }, setValue, getValues } = useFormContext();
+
+  useEffect(() => {
+    setSelectAct(false);
+  }, [receiptExeChk]);
 
   return (
     <InputBox>

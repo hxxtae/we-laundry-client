@@ -44,6 +44,7 @@ function HistoryDetails() {
         const formatDate = dateToString(new Date(recordDate));
         client.invalidateQueries(queryKeys.records.listDate(formatDate));
         client.invalidateQueries(queryKeys.records.listDong(addname, dong));
+        client.invalidateQueries(queryKeys.sale.statsOfProduct());
       },
       onError: (error: any) => {
         toastStyle.error(error.message);

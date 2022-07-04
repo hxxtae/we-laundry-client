@@ -19,7 +19,7 @@ function ProductName() {
           required: inputMessage.required,
           maxLength: { value: 10, message: inputMessage.maxLen(10) },
           minLength: { value: 1, message: inputMessage.minLen(1) },
-          pattern: { value: regexrObj.notOnlySpecial, message: "특수문자는 입력할 수 없습니다." },
+          pattern: { value: regexrObj.includeKorAndEng, message: "한글 및 영문만 입력 가능" },
           setValueAs: value => value.trim(),
         })} />
       <ErrorMessage absolute={true} message={errors.productName?.message} />

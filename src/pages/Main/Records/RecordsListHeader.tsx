@@ -14,7 +14,6 @@ interface IRecordsListHeader {
 }
 
 function RecordsListHeader({ productObjs, categoryIdx, setCategoryIdx }: IRecordsListHeader) {
-  
   const { fetchDatas, prevPage, nextPage, pageSort: { ASC } } = usePaging(productObjs, productObjs?.length, 5, 1);
 
   return (

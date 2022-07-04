@@ -26,5 +26,9 @@ export const queryKeys = {
   },
   sale: {
     all: ['/sales'] as const,
+    stats: () => [...queryKeys.sale.all, 'stats'] as const,
+    statsOfMonth: (year: string, month: string) => [...queryKeys.sale.stats(), `${year}-${month}`] as const,
+    statsOfYear: (year: string) => [...queryKeys.sale.stats(), `${year}`] as const,
+    statsOfProduct: () => [...queryKeys.sale.stats(), 'product'] as const,
   },
 };

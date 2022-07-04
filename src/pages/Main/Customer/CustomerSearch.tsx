@@ -6,15 +6,13 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
-import { customerSearchState, searchState } from '../../../global';
 import { CustomerAddname, CustomerDong, CustomerHo } from './CustomerInputs';
+import { customerSearchState, searchState } from '../../../global';
 import { ICustomerRequest } from '../../../services/customer';
 import { buttonStyle, includes } from '../../../styles';
 import { queryKeys } from '../../../util';
 
 function CustomerSearch() {
-  console.log("CustomerSearch");
-
   const setData = useSetRecoilState(customerSearchState);
   const [searchPop, setSearchPop] = useRecoilState(searchState);
   const client = useQueryClient();

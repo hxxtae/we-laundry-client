@@ -1,11 +1,11 @@
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 
-import { IRecordSearchRequestByAdd } from '../services/records';
-import { ICustomerResponse } from '../services/customer';
-import { customerApi } from '../global';
-import { toastStyle } from '../styles';
-import { queryKeys } from '../util';
+import { IRecordSearchRequestByAdd } from '../../services/records';
+import { ICustomerResponse } from '../../services/customer';
+import { customerApi } from '../../global';
+import { toastStyle } from '../../styles';
+import { queryKeys } from '../../util';
 
 interface ICustomerFetch {
   loading: boolean;

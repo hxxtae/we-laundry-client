@@ -15,8 +15,6 @@ interface IProductsMenu {
 }
 
 function SettingMenu({ setMenuActive, setUpdCateAct, setDelCateAct, setPopupActive }: IProductsMenu) {
-  console.log("SettingMenu");
-
   const setPopupProAct = useSetRecoilState(popupState);
   const [updProAct, setUpdProAct] = useRecoilState(updateState);
   const [delProAct, setDelProAct] = useRecoilState(deleteState);

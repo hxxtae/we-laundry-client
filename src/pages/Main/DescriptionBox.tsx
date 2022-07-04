@@ -24,7 +24,6 @@ interface IDescriptionBox {
 }
 
 function DescriptionBox({ lineSec, lineThi, prev, next, text }: IDescriptionBox) {
-  console.log('DescBox');
 
   return (
     <Wrapper layoutId='desc' >

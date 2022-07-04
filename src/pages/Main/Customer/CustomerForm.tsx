@@ -7,16 +7,14 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
+import { customerApi, customerRequestState, updateState } from '../../../global';
 import { CustomerAddname, CustomerDong, CustomerHo } from './CustomerInputs';
 import { buttonStyle, includes, toastStyle } from '../../../styles';
 import { LoadingComponent, Overlay } from '../../../components';
 import { ICustomerRequest } from '../../../services/customer';
-import { customerApi, customerRequestState, updateState } from '../../../global';
 import { queryKeys } from '../../../util';
 
 function CustomerForm() {
-  console.log('CustomerForm');
-
   const customerService = useRecoilValue(customerApi);
   const updateData = useRecoilValue(customerRequestState)
   const [updateActive, setUpdateActive] = useRecoilState(updateState);

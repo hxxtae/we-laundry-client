@@ -4,29 +4,23 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { openState, sidebarClickState } from '../../../global/atoms';
-import { recordRequestState } from '../../../global';
 import { includes, media } from '../../../styles';
+import { useResetState } from '../../../hooks';
 import OpenAndClose from '../OpenAndClose/OpenAndClose';
 import RecordsForm from './RecordsForm';
 import RecordsList from './RecordsList';
 import RecordsOrder from './RecordsOrder';
-import { useResetState } from '../../../hooks';
 
 function Records() {
-  console.log('Records');
-  
   const open = useRecoilValue(openState);
   const setSideClick = useSetRecoilState(sidebarClickState);
   const { allStateReset } = useResetState();
   const { path } = useRouteMatch();
-  const record = useRecoilValue(recordRequestState);
   
   useEffect(() => {
     setSideClick(path);
     return () => allStateReset();
   }, []);
-
-  console.log(record)
   
   return (
     <>

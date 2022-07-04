@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
 import { fetchCsrfToken } from '../App';
-import { AuthService, HttpClient, AddressService, CustomerService, ProductsService } from '../services';
+import { AuthService, HttpClient, AddressService, CustomerService, ProductsService, SalesService } from '../services';
 import RecordsService, { IRecordsOflaundry, IRecordsOfRepair } from '../services/records';
 import { mainDescStorage, openStorage, themeStorage } from '../util';
 
@@ -12,6 +12,7 @@ const addressService = new AddressService(httpClient);
 const customerService = new CustomerService(httpClient);
 const productsService = new ProductsService(httpClient);
 const recordsService = new RecordsService(httpClient);
+const salesService = new SalesService(httpClient);
 
 const localTheme = themeStorage.get();
 const localDesc = mainDescStorage.get();
@@ -47,6 +48,11 @@ export const recordsApi = atom<RecordsService>({
   default: recordsService
 });
 
+export const salesApi = atom<SalesService>({
+  key: 'salesApi',
+  default: salesService,
+});
+
 /*
 ===================
   Main.
@@ -70,7 +76,7 @@ export const sidebarState = atom<boolean>({
 export const sidebarClickState = atom({
   key: 'sidebarClick',
   default: '',
-})
+});
 
 export const descState = atom<boolean>({
   key: 'mainDesc',

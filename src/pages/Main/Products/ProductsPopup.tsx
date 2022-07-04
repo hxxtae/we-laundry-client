@@ -23,8 +23,6 @@ interface IProductsPopup {
 }
 
 function ProductsPopup({ categoryId, copyProducts, mutate, setCopyProducts }: IProductsPopup) {
-  console.log('ProductPopup');
-
   const setPopupActive = useSetRecoilState(popupState);
   const updActive = useRecoilValue(updateState);
   const productState = useRecoilValue(productRequestState);

@@ -8,8 +8,6 @@ import { buttonStyle, dragging, includes, media } from '../../../styles';
 import { openStorage } from '../../../util';
 
 function OpenAndClose() {
-  console.log('Introduce');
-
   const [open, setOpen] = useRecoilState(openState);
   const setSideClick = useSetRecoilState(sidebarClickState);
   const { path } = useRouteMatch();
