@@ -5,6 +5,7 @@ export * from './fetchHooks/useRecordCustomerFetch';
 export * from './fetchHooks/useHistoryDateFetch';
 export * from './fetchHooks/useHistoryCustomerFetch';
 export * from './fetchHooks/useProductSaleFetch';
+export * from './fetchHooks/useAuthFetch';
 export * from './useCustomDate';
 export * from './usePaging';
 export * from './useAvailableChk';
