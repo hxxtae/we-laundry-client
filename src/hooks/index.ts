@@ -6,6 +6,7 @@ export * from './fetchHooks/useHistoryDateFetch';
 export * from './fetchHooks/useHistoryCustomerFetch';
 export * from './fetchHooks/useProductSaleFetch';
 export * from './fetchHooks/useAuthFetch';
+export * from './fetchHooks/useCsrfFetch';
 export * from './useCustomDate';
 export * from './usePaging';
 export * from './useAvailableChk';
