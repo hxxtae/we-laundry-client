@@ -1,5 +1,4 @@
-# Project Title
-우리동네 세탁소 포스 프로그램 / We Laundry Application (Client) 
+# We Laundry Application (Client) - 우리동네 세탁소 포스 프로그램 
 
 <p align="center">
   <br>
@@ -9,14 +8,22 @@
 
 ## Index
 
-- [Project Description](#projcet-description)
+- [Description](#projcet-description)
 - [Stack](#stack)
 - [Page](#page)
+  - [1. 로그인 & 회원가입](#page1-로그인--회원가입)
+  - [2. 영업관리](#page2-영업관리)
+  - [3. 주소관리](#page3-주소관리)
+  - [4. 고객관리](#page4-고객관리)
+  - [5. 품목관리](#page5-품목관리)
+  - [6. 주문접수](#page6-주문접수)
+  - [7. 주문조회](#page7-주문조회)
+  - [8. 매출관리-(진행중)](#page8-매출관리---진행중)
 - [License](#license)
 
 <br>
 
-## Projcet Description
+## Description
 
 ### 프로젝트 개요/동기
 
@@ -52,7 +59,7 @@
 ![login](https://user-images.githubusercontent.com/79623316/175766234-eadafa94-ad69-4780-a052-c2dea289ba21.PNG)
 ![signup](https://user-images.githubusercontent.com/79623316/175767125-584dcdb1-2359-487f-a947-53ba72270830.PNG)
 
-### page_2 (메인화면)
+### page_2 (영업관리)
 ![main](https://user-images.githubusercontent.com/79623316/175766846-8e868b5c-db6a-43a5-ae9c-bab8339c3b8e.PNG)
 
 ### page_3 (주소관리)
@@ -86,7 +93,6 @@
 MIT &copy; [hxxtae](mailto:fkdlxmfkdl1@gmail.com)
 
 <!-- Stack Icon Refernces -->
-
 [ts]: https://user-images.githubusercontent.com/79623316/175767679-b759c752-d9f9-49d2-a503-276e30292442.svg
 [react]: https://user-images.githubusercontent.com/79623316/175767657-f4926c0c-0c8e-4f4d-957e-c4c4877ffe16.svg
 [recoil]: https://user-images.githubusercontent.com/79623316/175767881-e60e3519-242d-49f6-80c7-ac8b40470e2f.svg
