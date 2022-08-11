@@ -1,4 +1,4 @@
-# Welaundry Application (Client) - 우리동네 세탁소 포스 프로그램 
+# Welaundry (Client) - 우리동네 세탁소 포스
 
 ![Header](https://capsule-render.vercel.app/api?type=waving&color=216ba5&height=150&section=header)
 
@@ -47,9 +47,9 @@
 ## Index
 
 - [Stack](#stack)
-- [API](#api)
-- [Auth](#auth)
+- [RESTful Api](#restful-api)
 - [State Management](#state-management)
+- [Auth Confirm](#auth-confirm)
 - [Theme](#theme)
 - [Page](#page)
   1. [로그인 & 회원가입](#page-1-login-signup)
@@ -66,17 +66,80 @@
 
 ## Stack
 
+### Client
+
 | TypeScript | React    | Recoil    | React-Query    | styled-components    | framer-motion    |
 | :--------: | :------: | :-------: | :------------: | :------------------: | :--------------: |
 |   ![ts]    | ![react] | ![recoil] | ![react-query] | ![styled-components] | ![framer-motion] |
 
 <br>
 
-## Api
+### Server
+
+| JavaScript | Express    | MongoDB    | Jwt    |
+| :--------: | :--------: | :--------: | :----: |
+|   ![js]    | ![express] | ![MongoDB] | ![Jwt] |
 
 <br>
 
-## Auth
+## RESTful Api
+
+### **auth**
+```
+GET /auth/me         - Authentication check
+GET /auth/csrf-token - Csrf attack security
+POST /auth/signup    - User sign up
+POST /auth/login     - User login
+POST /auth/logout    - User logout
+```
+
+### **customer**
+```
+GET /customer                    - Get list of customers
+GET /customer/:addname           - Find a customers by its address name of address
+GET /customer/:addname/:dong     - Find a customers by its name, dong of address
+GET /customer/:addname/:dong/:ho - Find a customers by its name, dong, ho of address
+POST /customer                   - Create a new customer
+PUT /customer/:id                - Update an existing customer by its ID
+DELETE /customer/:id             - Delete an existing customer by its ID
+```
+
+### **address**
+```
+GET /address        - Get list of address
+GET /address/:id    - Find a address by its ID
+POST /address       - Create a new address
+PUT /address/:id    - Update an existing address by its ID
+DELETE /address/:id - Delete an existing address by its ID
+```
+
+### **products**
+```
+GET /products            - Get list of products
+POST /products           - Create a new product (category)
+PUT /products/create/:id - Create a new product (list)
+PUT /products/update/:id - Update an existing product list by its ID
+DELETE /products/:id     - Delete an existing product by its ID
+```
+
+### **records**
+```
+GET /records/:recordDate        - Find a records by its Date
+GET /records/:addname/:dong     - Find a records by its name, dong of address
+GET /records/:addname/:dong/:ho - Find a records by its name, dong, ho of address
+POST /records                   - Create a new record
+DELETE /records/:id             - Delete an existing record by its ID
+```
+
+### **sale**
+```
+GET /sale  - Get list of sales
+POST /sale - Create a new sale
+```
+
+<br>
+
+## Auth Confirm
 
 <br>
 
@@ -136,11 +199,15 @@
 
 ## License
 
-MIT &copy; [hxxtae](mailto:fkdlxmfkdl1@gmail.com)
+![license](https://img.shields.io/github/license/hxxtae/we-laundry-client?color=%23097aba&logo=github&style=for-the-badge)
+
+
+<br>
 
 ![footer](https://capsule-render.vercel.app/api?type=waving&color=216ba5&height=150&section=footer)
 
 <!-- Stack Icon Refernces -->
+<!-- client -->
 [ts]: https://user-images.githubusercontent.com/79623316/175767679-b759c752-d9f9-49d2-a503-276e30292442.svg
 [react]: https://user-images.githubusercontent.com/79623316/175767657-f4926c0c-0c8e-4f4d-957e-c4c4877ffe16.svg
 [recoil]: https://user-images.githubusercontent.com/79623316/175767881-e60e3519-242d-49f6-80c7-ac8b40470e2f.svg
@@ -148,7 +215,11 @@ MIT &copy; [hxxtae](mailto:fkdlxmfkdl1@gmail.com)
 [styled-components]: https://user-images.githubusercontent.com/79623316/175817624-3a749264-9f78-4e14-a385-cf4561a80dcb.svg
 [framer-motion]: https://user-images.githubusercontent.com/79623316/175818241-8c03852c-3335-4fcf-80d8-e12045dae3c0.png
 
-
+<!-- server -->
+[js]: https://user-images.githubusercontent.com/79623316/175768623-70eebdf4-b364-4169-887a-897e9b7e79ff.svg
+[express]: https://user-images.githubusercontent.com/79623316/175768610-87b88173-79d2-4eb9-a6ff-c2f861fecca5.svg
+[mongodb]: https://user-images.githubusercontent.com/79623316/175768561-f3886ba4-d0d2-4bb1-b1a1-ba64422415b8.svg
+[jwt]: https://user-images.githubusercontent.com/79623316/175768540-b71c1cce-2f8d-4406-a8b9-de70d756a5be.svg
 
 
 
