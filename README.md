@@ -141,13 +141,149 @@ POST /sale - Create a new sale
 
 ## Auth Confirm
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/79623316/184595947-9717c689-8d63-4397-8200-984bfa8f0545.PNG" style="width: 800px" >
+</p>
+
+```js
+import jwt from 'jsonwebtoken';
+
+import * as AuthRepository from '../data/auth.js';
+import { config } from '../config.js'
+
+const AUTH_ERROR = { message: '로그인이 필요한 서비스입니다.' }; // Authorization Error
+
+export const isAuth = async (req, res, next) => {
+  let token;
+  
+  if (!token) {
+    token = req.cookies['token'];
+  }
+  if (!token) {
+    return res.status(401).json(AUTH_ERROR);
+  }
+
+  // JWT(Json Web Token)
+  jwt.verify(
+    token,
+    config.jwt.secretKey,
+    async (error, decoded) => {
+      if (error) {
+        return res.status(401).json(AUTH_ERROR);
+      }
+      const user = await AuthRepository.findById(decoded.id);
+      if (!user) {
+        return res.status(401).json(AUTH_ERROR);
+      }
+      
+      req.userId = user.id;
+      req.token = token;
+      req.userName = user.username;
+      next();
+    }
+  )
+}
+```
+
 <br>
 
 ## State Management
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/79623316/184597533-a16a7ec1-5181-42d6-9bce-f9c822ee4810.svg" style="width: 500px">
+</p>
+
+
+```ts
+export const userState = atom<string | undefined>({
+  key: 'user',
+  default: undefined,
+});
+
+export const useAuthFetch = (): IAuthFetch => {
+  const [user, setUser] = useRecoilState(userState);
+  const authService = useRecoilValue(authApi);
+
+  const { isLoading } = useQuery(queryKeys.auth.me(), () => authService.me(), {
+    retry: false,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      setUser(data?.data.username);
+    },
+  }); 
+
+  return { user, isLoading }
+}
+```
+```tsx
+const AuthContext = ({ children }: IAuthContextProps) => {  
+  const { user, isLoading } = useAuthFetch();
+
+  return (
+    <>
+      {
+        isLoading ? <LoginLoading /> :
+        user ? children : <NonUserRouter />
+      }
+    </>
+  )
+}
+```
+
 <br>
 
 ## Theme
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/79623316/184602416-63477d3f-a7a9-467d-86ed-498f8cad1aca.png">
+</p>
+
+```ts
+const localTheme = themeStorage.get();
+
+export const themeState = atom<boolean>({
+  key: 'theme',
+  default: !!localTheme,
+});
+```
+
+```tsx
+import { ThemeProvider } from 'styled-components';
+
+const App = () => {
+  const theme = useRecoilValue(themeState);
+  const thisTheme = theme ? darkTheme : lightTheme;
+  
+  return (
+    <ThemeProvider theme={{ ...thisTheme }}>
+      ...
+      <ThemeButton />
+    </ThemeProvider>
+  );
+}
+```
+
+```tsx
+const ThemeButton = () => {
+  const [theme, setTheme] = useRecoilState(themeState);
+  const onClick = () => {
+    setTheme((prev) => {
+      if (prev) {
+        themeStorage.remove();
+        return !prev;
+      }
+      themeStorage.set();
+      return !prev;
+    });
+  }
+
+  return (  
+    <ToggleButton type='button' onClick={onClick}>
+      ...
+    </ToggleButton>
+  )
+}
+```
 
 <br>
 
