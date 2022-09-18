@@ -22,6 +22,13 @@
 
 <br>
 
+<p align="center">
+  Homepage : <a href="https://hxxtae.github.io/we-laundry-desc/" target="_blank">https://hxxtae.github.io/we-laundry-desc/</a><br>
+  Application : <a href="https://welaundry.netlify.app/" target="_blank">https://welaundry.netlify.app/</a>
+</p>
+
+<br>
+
 ## Description
 
 ### 프로젝트 개요/동기
@@ -51,6 +58,7 @@
 - [State Management](#state-management)
 - [Auth Confirm](#auth-confirm)
 - [Theme](#theme)
+- [Router](#router)
 - [Page](#page)
   1. [로그인 & 회원가입](#page-1-login-signup)
   2. [메인화면](#page-2-메인화면)
@@ -228,6 +236,7 @@ const AuthContext = ({ children }: IAuthContextProps) => {
     </>
   )
 }
+export default AuthContext;
 ```
 
 <br>
@@ -261,6 +270,7 @@ const App = () => {
     </ThemeProvider>
   );
 }
+export default App;
 ```
 
 ```tsx
@@ -283,7 +293,16 @@ const ThemeButton = () => {
     </ToggleButton>
   )
 }
+export default ThemeButton;
 ```
+
+| Dark Theme   | Light Theme   |
+| :----------: | :-----------: |
+| ![darkTheme] | ![lightTheme] |
+
+<br>
+
+## Router
 
 <br>
 
@@ -335,6 +354,8 @@ const ThemeButton = () => {
 
 ## License
 
+This project is licensed under the MIT License.
+
 ![license](https://img.shields.io/github/license/hxxtae/we-laundry-client?color=%23097aba&logo=github&style=for-the-badge)
 
 
@@ -342,7 +363,7 @@ const ThemeButton = () => {
 
 ![footer](https://capsule-render.vercel.app/api?type=waving&color=216ba5&height=150&section=footer)
 
-<!-- Stack Icon Refernces -->
+<!-- Stack Icon References -->
 <!-- client -->
 [ts]: https://user-images.githubusercontent.com/79623316/175767679-b759c752-d9f9-49d2-a503-276e30292442.svg
 [react]: https://user-images.githubusercontent.com/79623316/175767657-f4926c0c-0c8e-4f4d-957e-c4c4877ffe16.svg
@@ -356,6 +377,10 @@ const ThemeButton = () => {
 [express]: https://user-images.githubusercontent.com/79623316/175768610-87b88173-79d2-4eb9-a6ff-c2f861fecca5.svg
 [mongodb]: https://user-images.githubusercontent.com/79623316/175768561-f3886ba4-d0d2-4bb1-b1a1-ba64422415b8.svg
 [jwt]: https://user-images.githubusercontent.com/79623316/175768540-b71c1cce-2f8d-4406-a8b9-de70d756a5be.svg
+
+<!-- Theme Icon References -->
+[darkTheme]: https://user-images.githubusercontent.com/79623316/184606050-84cbe6c3-5be8-4e55-8064-980ad0839733.PNG
+[lightTheme]: https://user-images.githubusercontent.com/79623316/184606246-3deadf0d-57b1-422b-ac41-25bc88d4010e.PNG
 
 
 
