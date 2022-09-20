@@ -1,7 +1,8 @@
 import { AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useImperativeHandle, forwardRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
+
 import { ErrorMessage, InputTitles, KeyboardBox } from '../../../../components';
 import { colors, includes, inputStyle } from '../../../../styles';
 import { inputMessage, regexrObj } from '../../../../util';
@@ -10,9 +11,16 @@ interface ICustomerHo {
   searchActive: boolean;
 }
 
-function CustomerHo({ searchActive }: ICustomerHo) {
+function CustomerHo({ searchActive }: ICustomerHo, ref: any) {
+  console.log('CustomerHo');
   const [selectAct, setSelectAct] = useState(false);
   const { register, formState: { errors }, setValue, getValues } = useFormContext();
+
+  useImperativeHandle(ref, () => ({
+    selectClose: () => {
+      setSelectAct(false);
+    }
+  }), []);
 
   return (
     <InputBox>
@@ -40,7 +48,7 @@ function CustomerHo({ searchActive }: ICustomerHo) {
   )
 }
 
-export default CustomerHo;
+export default forwardRef(CustomerHo);
 
 const InputBox = styled.div`
   position: relative;
