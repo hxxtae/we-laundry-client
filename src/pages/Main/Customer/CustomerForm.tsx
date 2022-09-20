@@ -2,8 +2,8 @@ import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMutation, useQueryClient } from 'react-query';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { useEffect } from 'react';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
@@ -15,17 +15,50 @@ import { ICustomerRequest } from '../../../services/customer';
 import { queryKeys } from '../../../util';
 
 function CustomerForm() {
+  console.log('CustomerForm');
+
   const customerService = useRecoilValue(customerApi);
-  const updateData = useRecoilValue(customerRequestState)
+  const updateData = useRecoilValue(customerRequestState);
+  const resetUpdateData = useResetRecoilState(customerRequestState);
   const [updateActive, setUpdateActive] = useRecoilState(updateState);
   const client = useQueryClient();
   const method = useForm<ICustomerRequest>();
+  const childDongRef = useRef<{ selectClose: () => void }>();
+  const childHoRef = useRef<{ selectClose: () => void }>();
 
   const { isLoading, mutate } = useMutation(({ id, addid, addname, addfullname, name, dong, ho }: ICustomerRequest) =>
     !updateActive ?
       customerService.createCus({ addid, addname, addfullname, name, dong, ho }) : 
       customerService.updateCus({ id, addid, addname, addfullname, name, dong, ho }));
-  
+
+  const onSubmit = ({ id, addid, addname, addfullname, name, dong, ho }: ICustomerRequest) => {
+    const requestData = { id, addid, addname, addfullname, name, dong, ho };
+    mutate(requestData, {
+      onSuccess: () => {
+        method.reset();
+        updateActive ? toastStyle.info('변경되었습니다.') : toastStyle.success('추가되었습니다.');
+        setUpdateActive(false);
+        childDongRef.current?.selectClose();
+        childHoRef.current?.selectClose();
+        client.invalidateQueries(queryKeys.customer.list());
+        client.invalidateQueries(queryKeys.records.list());
+      },
+      onError: (error: any) => {
+        toastStyle.error(error.message);
+      }
+    });
+  };
+
+  const onUpdateCancel = () => {
+    method.reset();
+    resetUpdateData();
+    setUpdateActive(false);    
+  };
+
+  const onRefetch = () => {
+    client.invalidateQueries(queryKeys.address.all);
+  }
+
   useEffect(() => {
     if (!updateActive) {
       return;
@@ -40,31 +73,6 @@ function CustomerForm() {
     method.setValue('ho', updateData.ho);
   }, [updateData]);
 
-  const onSubmit = ({ id, addid, addname, addfullname, name, dong, ho }: ICustomerRequest) => {
-    const requestData = { id, addid, addname, addfullname, name, dong, ho };
-    mutate(requestData, {
-      onSuccess: () => {
-        method.reset();
-        updateActive ? toastStyle.info('변경되었습니다.') : toastStyle.success('추가되었습니다.');
-        setUpdateActive(false);
-        client.invalidateQueries(queryKeys.customer.list());
-        client.invalidateQueries(queryKeys.records.list());
-      },
-      onError: (error: any) => {
-        toastStyle.error(error.message);
-      }
-    });
-  };
-
-  const onUpdateCancel = () => {
-    method.reset();
-    setUpdateActive(false);
-  };
-
-  const onRefetch = () => {
-    client.invalidateQueries(queryKeys.address.all);
-  }
-
   return (
     <>
       <FormProvider {...method} >
@@ -76,8 +84,8 @@ function CustomerForm() {
           <ReFetch type='button' onClick={onRefetch}>
             <FontAwesomeIcon icon={faArrowRotateRight} />
           </ReFetch>
-          <CustomerDong searchActive={false} />
-          <CustomerHo searchActive={false} />
+          <CustomerDong ref={childDongRef} searchActive={false} />
+          <CustomerHo ref={childHoRef} searchActive={false} />
           <ButtonBox>
             {updateActive &&
               <ResetButton type='button' onClick={onUpdateCancel} >
@@ -99,6 +107,7 @@ function CustomerForm() {
 }
 
 export default CustomerForm;
+
 
 const InputGroup = styled.form`
   ${includes.flexBox('flex-end', 'flex-start')}

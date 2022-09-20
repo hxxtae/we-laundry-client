@@ -1,7 +1,8 @@
 import { AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useImperativeHandle, forwardRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
+
 import { ErrorMessage, InputTitles, KeyboardBox } from '../../../../components';
 import { colors, includes, inputStyle } from '../../../../styles';
 import { inputMessage, regexrObj } from '../../../../util';
@@ -10,9 +11,16 @@ interface ICustomerDong {
   searchActive: boolean;
 }
 
-function CustomerDong({ searchActive }: ICustomerDong) {
+function CustomerDong({ searchActive }: ICustomerDong, ref: any) {
+  console.log('CustomerDong');
   const [selectAct, setSelectAct] = useState(false);
   const { register, formState: { errors }, setValue, getValues } = useFormContext();
+  
+  useImperativeHandle(ref, () => ({
+    selectClose: () => {
+      setSelectAct(false);
+    },
+  }), []);
 
   return (
     <InputBox>
@@ -39,7 +47,7 @@ function CustomerDong({ searchActive }: ICustomerDong) {
   )
 }
 
-export default CustomerDong;
+export default forwardRef(CustomerDong);
 
 const InputBox = styled.div`
   ${includes.flexBox('flex-start', 'center')}
