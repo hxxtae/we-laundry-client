@@ -11,19 +11,19 @@ import { customerRequestState } from '../../../global';
 import { CustomerAddname, CustomerDong, CustomerHo } from './CustomerInputs';
 import { buttonStyle, includes } from '../../../styles';
 import { LoadingComponent, Overlay } from '../../../components';
-import { ICustomerRequest } from '../../../services/customer';
+import { CustomerDTO } from './application/interface';
 import { queryKeys } from '../../../util';
 
 function CustomerForm() {
   const updateData = useRecoilValue(customerRequestState);
   const resetUpdateData = useResetRecoilState(customerRequestState);
   const { isLoading, mutate, client, state: { updateActive, setUpdateActive }} = useCustomerMutate();
-  const method = useForm<ICustomerRequest>();
+  const method = useForm<CustomerDTO.ICustomerRequest>();
   // NOTE: input of 'dong' and 'ho' reference object.
   const childDongRef = useRef<{ selectClose: () => void }>();
   const childHoRef = useRef<{ selectClose: () => void }>();
 
-  const onSubmit = ({ id, addid, addname, addfullname, name, dong, ho }: ICustomerRequest) => {
+  const onSubmit = ({ id, addid, addname, addfullname, name, dong, ho }: CustomerDTO.ICustomerRequest) => {
     const data = { id, addid, addname, addfullname, name, dong, ho };
     mutate(data, {
       onSuccess: () => {

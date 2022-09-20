@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { customerApi, customerRequestState, updateState } from '../../../../../global';
-import { ICustomerRequest } from '../../../../../services/customer';
+import { customerApi, updateState } from '../../../../../global';
+import { CustomerDTO } from '../interface';
 import { toastStyle } from '../../../../../styles';
 import { queryKeys } from '../../../../../util';
 
@@ -11,7 +11,7 @@ export const useCustomerMutate = () => {
   const [ updateActive, setUpdateActive ] = useRecoilState(updateState);
   const client = useQueryClient();
 
-  const { isLoading, mutate } = useMutation(({ id, addid, addname, addfullname, name, dong, ho }: ICustomerRequest) =>
+  const { isLoading, mutate } = useMutation(({ id, addid, addname, addfullname, name, dong, ho }: CustomerDTO.ICustomerRequest) =>
     !updateActive ?
       customerService.createCus({ addid, addname, addfullname, name, dong, ho }) : 
       customerService.updateCus({ id, addid, addname, addfullname, name, dong, ho }), {
