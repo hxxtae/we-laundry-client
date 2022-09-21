@@ -1,19 +1,19 @@
 import { useState } from 'react';
 
-interface IPageing {
-  fetchDatas: any[];
+interface IPageing<T> {
+  fetchDatas: T[];
   pageList: number[];
-  clickPage: number;
+  clickPageIdx: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   nextPage: () => void;
   prevPage: () => void;
   pageSort: {
     ASC: (num: number) => number;
-    DESC: (num: number) => number | undefined;
+    DESC: (num: number) => number;
   };
 }
 
-export function usePaging(datas: any[] | undefined, dataLen: number | undefined, pagePost: number, pagelistPost: number): IPageing {
+export function usePaging<T>(datas: T[] | undefined, dataLen: number | undefined, pagePost: number, pagelistPost: number): IPageing<T> {
   const [currentPage, setCurrentPage] = useState(1); // 1, 2, 3, ... (선택)
   // pagePost : 10 (고정)
 
@@ -23,7 +23,7 @@ export function usePaging(datas: any[] | undefined, dataLen: number | undefined,
   const ASC = (num: number) => (((currentPage - 1) * pagePost) + num) + 1;
   const DESC = (num: number) => dataLen ? dataLen - (((currentPage - 1) * pagePost) + num) : 0;
 
-  const { pageList, pageLen } = pageListFnc(currentPage, dataLen, pagePost, pagelistPost);
+  const { pageList, pageLen } = pageListFnc(currentPage, dataLen!, pagePost, pagelistPost);
 
   const next = (page: number) => {
     if (page >= pageLen) return page;
@@ -34,16 +34,18 @@ export function usePaging(datas: any[] | undefined, dataLen: number | undefined,
     return page - 1;
   };
 
-  const fetchDatas = datas ? datas.slice(indexOfFirst, indexOfLast) : [];
-  const clickPage = ((pagelistPost + currentPage) % pagelistPost) || pagelistPost;
-  const setPage = setCurrentPage;
-  const nextPage = () => setCurrentPage(next);
-  const prevPage = () => setCurrentPage(prev);
-  const pageSort = { ASC, DESC };
-  return { fetchDatas, pageList, clickPage, setPage, nextPage, prevPage, pageSort };
+  return {
+    fetchDatas: datas ? datas.slice(indexOfFirst, indexOfLast) : [],
+    pageList,
+    clickPageIdx: ((pagelistPost + currentPage) % pagelistPost) || pagelistPost,
+    setPage: setCurrentPage,
+    nextPage: () => setCurrentPage(next),
+    prevPage: () => setCurrentPage(prev),
+    pageSort: { ASC, DESC }
+  };
 }
 
-export function pageListFnc(nowPage: number, dataLen: number | undefined, pagePost: number, pagelistPost: number) {
+export function pageListFnc(nowPage: number, dataLen: number, pagePost: number, pagelistPost: number) {
   let pageList = [];
   const pageLen = dataLen ? Math.ceil(dataLen / pagePost) : 1;
 

@@ -1,52 +1,38 @@
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useMutation, useQueryClient } from 'react-query';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
-import { customerApi, customerRequestState, updateState } from '../../../global';
+import { useCustomerMutate } from './application/hooks';
+import { customerRequestState } from '../../../global';
 import { CustomerAddname, CustomerDong, CustomerHo } from './CustomerInputs';
-import { buttonStyle, includes, toastStyle } from '../../../styles';
+import { buttonStyle, includes } from '../../../styles';
 import { LoadingComponent, Overlay } from '../../../components';
-import { ICustomerRequest } from '../../../services/customer';
+import { CustomerDTO } from './application/interface';
 import { queryKeys } from '../../../util';
 
 function CustomerForm() {
-  console.log('CustomerForm');
-
-  const customerService = useRecoilValue(customerApi);
   const updateData = useRecoilValue(customerRequestState);
   const resetUpdateData = useResetRecoilState(customerRequestState);
-  const [updateActive, setUpdateActive] = useRecoilState(updateState);
-  const client = useQueryClient();
-  const method = useForm<ICustomerRequest>();
+  const { isLoading, mutate, client, state: { updateActive, setUpdateActive }} = useCustomerMutate();
+  const method = useForm<CustomerDTO.ICustomerRequest>();
+  // NOTE: input of 'dong' and 'ho' reference object.
   const childDongRef = useRef<{ selectClose: () => void }>();
   const childHoRef = useRef<{ selectClose: () => void }>();
 
-  const { isLoading, mutate } = useMutation(({ id, addid, addname, addfullname, name, dong, ho }: ICustomerRequest) =>
-    !updateActive ?
-      customerService.createCus({ addid, addname, addfullname, name, dong, ho }) : 
-      customerService.updateCus({ id, addid, addname, addfullname, name, dong, ho }));
-
-  const onSubmit = ({ id, addid, addname, addfullname, name, dong, ho }: ICustomerRequest) => {
-    const requestData = { id, addid, addname, addfullname, name, dong, ho };
-    mutate(requestData, {
+  const onSubmit = ({ id, addid, addname, addfullname, name, dong, ho }: CustomerDTO.ICustomerRequest) => {
+    const data = { id, addid, addname, addfullname, name, dong, ho };
+    mutate(data, {
       onSuccess: () => {
         method.reset();
-        updateActive ? toastStyle.info('변경되었습니다.') : toastStyle.success('추가되었습니다.');
-        setUpdateActive(false);
-        childDongRef.current?.selectClose();
-        childHoRef.current?.selectClose();
-        client.invalidateQueries(queryKeys.customer.list());
-        client.invalidateQueries(queryKeys.records.list());
       },
-      onError: (error: any) => {
-        toastStyle.error(error.message);
-      }
     });
+    // NOTE: input of 'dong' and 'ho' keyboardBox close function.
+    childDongRef.current?.selectClose();
+    childHoRef.current?.selectClose();
   };
 
   const onUpdateCancel = () => {
@@ -60,10 +46,7 @@ function CustomerForm() {
   }
 
   useEffect(() => {
-    if (!updateActive) {
-      return;
-    }
-    method.reset();
+    if (!updateActive) return;
     method.setValue('id', updateData.id);
     method.setValue('addid', updateData.addid);
     method.setValue('addname', updateData.addname);

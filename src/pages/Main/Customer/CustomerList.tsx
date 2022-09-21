@@ -1,80 +1,69 @@
 import { faChevronLeft, faChevronRight, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useState } from 'react';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
-import { customerSearchState, customerApi, customerRequestState, deleteState, searchState, updateState } from '../../../global';
-import { buttonStyle, colors, includes, media, scroll, toastStyle } from '../../../styles';
+import { customerRequestState, deleteState, searchState, updateState } from '../../../global';
+import { buttonStyle, includes, media, scroll } from '../../../styles';
 import { DeleteConfirm, LoadingComponent, Overlay } from '../../../components';
-import { ICustomerRequest } from '../../../services/customer';
-import { useCustomerFetch, usePaging } from '../../../hooks';
-import { useMutation, useQueryClient } from 'react-query';
-import { queryKeys } from '../../../util';
+import { usePaging } from '../../../hooks';
+import { useCustomerFetch, useCustomerDel } from './application/hooks';
+import { CustomerDTO } from './application/interface';
 import CustomerSearch from './CustomerSearch';
+import CustomerItem from './CustomerItem';
 
 function CustomerList() {
-  const customerService = useRecoilValue(customerApi);
-  const data = useRecoilValue(customerSearchState);
   const setUpdateData = useSetRecoilState(customerRequestState);
   const [updateActive, setUpdateActive] = useRecoilState(updateState);
   const [searchPop, setSearchPop] = useRecoilState(searchState);
   const [deletePop, setDeletePop] = useRecoilState(deleteState);
-  const [deleteId, setDeleteId] = useState('');
-  const client = useQueryClient();
-  const { loading, reLoading, cusDatas } = useCustomerFetch(data);
-  const { mutate, isLoading: deleteLoading } = useMutation((id: string) => customerService.deleteCus(id));
-  const cusLoading = loading || reLoading;
+  const [deleteId, setDeleteId] = useState('');  
+  const { isLoading, isFetching, customerDatas } = useCustomerFetch();
+  const { isMutating, mutate } = useCustomerDel();
+  const cusLoading = isLoading || isFetching;
 
   const {
     fetchDatas,
     pageList,
-    clickPage,
+    clickPageIdx,
     setPage,
     nextPage,
     prevPage,
     pageSort: { DESC }
-  } = usePaging(cusDatas, cusDatas?.length, 10, 5);
+  } = usePaging<CustomerDTO.ICustomerResponse>(customerDatas, customerDatas?.length, 10, 5);
 
-  const onUpdateActive = ({id, addid, addname, addfullname, name, dong, ho}: ICustomerRequest) => {
+  const onUpdateActive = ({id, addid, addname, addfullname, name, dong, ho}: CustomerDTO.ICustomerRequest) => {
     setUpdateData({id, addid, addname, addfullname, name, dong, ho});
     setUpdateActive(true);
   };
 
   const onDeleteActive = (id: string) => {
+    if (updateActive) return;
     setDeletePop(true);
     setDeleteId(id);
     setUpdateActive(false);
-  }
+  };
 
   const onDelete = (id: string) => {
-    mutate(id, {
-      onSuccess: () => {
-        client.invalidateQueries(queryKeys.customer.list());
-        client.invalidateQueries(queryKeys.records.list());
-        toastStyle.info('삭제되었습니다.');
-      },
-      onError: (error: any) => {
-        toastStyle.error(error.message);
-      }
-    });
+    isMutating || mutate(id);
   };
 
   return (
     <Wrapper>
       <ControlGroup>
-        <Count>총 {cusDatas?.length || 0} 개</Count>
+        <Count>총 {customerDatas?.length || 0} 개</Count>
         <SearchButton
           typeof='button'
           onClick={() => setSearchPop(true)}
           disabled={updateActive}>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
-          {'검색'}
+          <span>검색</span>
         </SearchButton>
       </ControlGroup>
       <List>
-        <Items>
+        <Head>
           <Title>No.</Title>
           <Title>고객이름</Title>
           <Title>주소이름</Title>
@@ -82,28 +71,8 @@ function CustomerList() {
           <Title>호</Title>
           <Title>생성날짜</Title>
           <Title>설정</Title>
-        </Items>
-        {fetchDatas.map((item, idx) => (
-        <Items key={item.id}>
-          <Item>{DESC(idx)}</Item>
-          <Item>{item.name || '-'}</Item>
-          <Item>{item.addname || '-'}</Item>
-          <Item>{item.dong || '-'}</Item>
-          <Item>{item.ho || '-'}</Item>
-          <Item>{item.createdAt}</Item>
-          <Item>
-              <Update type='button' onClick={() => onUpdateActive({
-                id: item.id,
-                addid: item.addid,
-                addname: item.addname,
-                addfullname: item.addfullname,
-                name: item.name,
-                dong: item.dong,
-                ho: item.ho,
-              })}>{'변경'}</Update>
-            <Delete type='button' onClick={() => onDeleteActive(item.id)}>{'삭제'}</Delete>
-          </Item>
-        </Items>))}
+        </Head>
+        <CustomerItem fetchDatas={fetchDatas} sort={DESC} onUpdateActive={onUpdateActive} onDeleteActive={onDeleteActive} />
       </List>
       
       <PageNation>
@@ -113,7 +82,7 @@ function CustomerList() {
         {pageList.map((page) => (
           <Page
             key={page}
-            chk={clickPage}
+            chk={clickPageIdx}
             onClick={() => setPage(page)}>
             {page}
           </Page>
@@ -126,9 +95,9 @@ function CustomerList() {
       {searchPop && <CustomerSearch />}
       {deletePop &&
         <Overlay>
-          <DeleteConfirm deleteId={deleteId} onDelete={onDelete} setDeletePop={setDeletePop} loading={deleteLoading} />
+          <DeleteConfirm deleteId={deleteId} onDelete={onDelete} setDeletePop={setDeletePop} loading={isMutating} />
         </Overlay>}
-      {(cusLoading || deleteLoading) && 
+      {(cusLoading || isMutating) && 
       <Overlay>
         <LoadingComponent loadingMessage='잠시만 기다려주세요.' />
       </Overlay>}
@@ -163,6 +132,10 @@ const SearchButton = styled.button`
   ${includes.flexBox()}
   width: 100px;
   height: 30px;
+  
+  span {
+    margin-left: 5px;
+  }
 `;
 
 const List = styled.ul`
@@ -179,28 +152,16 @@ const List = styled.ul`
   }
 `;
 
-const Items = styled.li`
+const Head = styled.span`
   ${includes.flexBox()}
   flex-shrink: 0;
   width: 100%;
   height: 40px;
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
-
-  &:not(:first-child):hover {
-    background-color: ${(props) => props.theme.borderColor};
-  }
-
-  &:first-child {
-    position: sticky;
-    top: 0;
-    border-bottom: none;
-    background-color: ${(props) => props.theme.bgColor};
-    z-index: 1;
-  }
-
-  &:nth-of-type(2) {
-    border-top: 1px solid ${(props) => props.theme.borderColor};
-  }
+  border-bottom: none;
+  position: sticky;
+  top: 0;
+  background-color: ${(props) => props.theme.bgColor};
+  z-index: 1;
 `;
 
 const Title = styled.h2`
@@ -223,43 +184,6 @@ const Title = styled.h2`
     width: 160px;
   }
 
-`;
-
-const Item = styled.span`
-  ${includes.flexBox()}
-  flex-shrink: 0;
-  color: ${(props) => props.theme.textColor};
-  width: 100px;
-
-  &:first-child {
-    font-weight: 600;
-    opacity: .6;
-  }
-
-  &:nth-of-type(1) {
-    width: 50px;
-  }
-
-  &:nth-of-type(2) {
-    width: 160px;
-  }
-
-  &:nth-of-type(3) {
-    width: 160px;
-  }
-
-  &:last-child {
-    button {
-      ${buttonStyle.base}
-      ${includes.flexBox()}
-      height: 30px;
-      font-size: 12px;
-
-      &:active {
-        opacity: .6;
-      }
-    }
-  }
 `;
 
 const PageNation = styled.div`
@@ -307,16 +231,4 @@ const PageMove = styled.button`
     opacity: .6;
     background-color: ${(props) => props.theme.borderColor};
   }
-`;
-
-const Update = styled.button`
-  border: 1px solid ${(props) => props.theme.borderColor};
-  color: ${(props) => props.theme.textColor};
-  margin-right: 5px;
-`;
-
-const Delete = styled.button`
-  border: 1px solid ${(props) => props.theme.borderColor};
-  color: ${colors.red};
-  
 `;

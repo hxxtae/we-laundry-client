@@ -12,6 +12,7 @@ import { usePaging, useAddressFetch } from '../../../hooks';
 import { addressRequestState } from '../../../global';
 import { addressApi } from '../../../global/atoms';
 import { queryKeys } from '../../../util';
+import { IAddressResponse } from '../../../services/address';
 
 interface IAddressList {
   setUpdateActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,12 +31,12 @@ function AddressList({ setUpdateActive }: IAddressList) {
   const {
     fetchDatas,
     pageList,
-    clickPage,
+    clickPageIdx,
     setPage,
     nextPage,
     prevPage,
     pageSort: { DESC }
-  } = usePaging(addDatas, addDatas?.length, 10, 5);
+  } = usePaging<IAddressResponse>(addDatas, addDatas?.length, 10, 5);
 
   const onUpdateActive = (id: string, addname: string, addfullname: string) => {
     setData({
@@ -97,7 +98,7 @@ function AddressList({ setUpdateActive }: IAddressList) {
         {pageList.map((page) => (
           <Page
             key={page}
-            chk={clickPage}
+            chk={clickPageIdx}
             onClick={() => setPage(page)}>
             {page}
           </Page>
