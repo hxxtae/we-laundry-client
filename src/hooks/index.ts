@@ -1,4 +1,3 @@
-export * from './fetchHooks/useCustomerFetch';
 export * from './fetchHooks/useAddressFetch';
 export * from './fetchHooks/useProductObjFetch';
 export * from './fetchHooks/useRecordCustomerFetch';

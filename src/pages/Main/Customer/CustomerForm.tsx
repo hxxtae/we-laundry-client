@@ -47,7 +47,6 @@ function CustomerForm() {
 
   useEffect(() => {
     if (!updateActive) return;
-    method.reset();
     method.setValue('id', updateData.id);
     method.setValue('addid', updateData.addid);
     method.setValue('addname', updateData.addname);
