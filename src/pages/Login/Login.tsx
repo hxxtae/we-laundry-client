@@ -45,7 +45,7 @@ function Login() {
     <LoginContext>
       <InputBox>
         <Logo>
-          <LogoImg src={'./assets/svg/welaundry_medium_v2_darkblue.svg'} />
+          <LogoImg src={process.env.PUBLIC_URL + '/assets/svg/welaundry_medium_v2_darkblue.svg'} />
         </Logo>
         <Title>{"로그인"}</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>

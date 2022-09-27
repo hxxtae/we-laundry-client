@@ -28,7 +28,7 @@ function OpenAndClose() {
   return (
     <Group>
       <LogoBox>
-        <Logo src={'./assets/svg/welaundry_medium_v2_darkblue.svg'} />
+        <Logo src={process.env.PUBLIC_URL + '/assets/svg/welaundry_medium_v2_darkblue.svg'} />
       </LogoBox>
       <StartButton state={open.toString()} onClick={onClick} type='button'>{open ? '영업 마감하기' : '영업 시작하기'}</StartButton>
     </Group>
@@ -44,7 +44,7 @@ const Group = styled.div`
   width: 100%;
   height: 100%;
   padding: 20px;
-  background-image: linear-gradient(rgba(200, 200, 200, 0), rgba(200, 200, 200, .8)), url(./assets/img/introduce_1.jpg);
+  background-image: linear-gradient(rgba(200, 200, 200, 0), rgba(200, 200, 200, .8)), url(${process.env.PUBLIC_URL + '/assets/img/introduce_1.jpg'});
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
