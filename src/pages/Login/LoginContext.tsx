@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { includes, media } from '../../styles';
+import { loginImg } from '../../util';
 import { Background, Containers } from '../../components';
 
 interface ILoginContext {
@@ -10,19 +11,15 @@ interface ILoginContext {
 }
 
 function LoginContext({ children }: ILoginContext) {
-  const [imgPaths] = useState([
-    './assets/img/img_login.jpg',
-    './assets/img/img_login3.jpg',
-    './assets/img/img_login4.jpg',
-  ]);
+  const [imgPaths] = useState([...loginImg]);
 
-  const [next, setNext] = useState(0);
+  const [next, setNext] = useState(1);
   let opcityStart: React.MutableRefObject<any> = useRef(null);
 
   useEffect(() => {
     opcityStart.current = setInterval(() => setNext((prev) => {
-      if (prev === imgPaths.length - 1) {
-        return 0;
+      if (prev === imgPaths.length) {
+        return 1;
       }
       return prev + 1;
     }), 10000);
@@ -38,10 +35,10 @@ function LoginContext({ children }: ILoginContext) {
               <ImgBox>
                 {
                   imgPaths
-                    .map((path, index) => (next === index) &&
+                    .map((imgPath) => (next === imgPath.id) &&
                       (<Img
-                        key={index}
-                        src={path}
+                        key={imgPath.id}
+                        src={imgPath.path}
                         variants={opacityVariants}
                         initial="init"
                         animate="begin"

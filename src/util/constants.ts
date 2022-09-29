@@ -30,3 +30,29 @@ export enum SidePaths {
   "address",
   "sales",
 }
+
+/*
+=============================
+  public
+=============================
+*/
+interface loginKey {
+  id: number;
+  path: string;
+}
+
+export const loginImg: loginKey[] = [
+  {
+    id: 1,
+    path: `${process.env.PUBLIC_URL}/assets/img/img_login.jpg`,
+  },
+  {
+    id: 2,
+    path: `${process.env.PUBLIC_URL}/assets/img/img_login3.jpg`,
+  },
+  {
+    id: 3,
+    path: `${process.env.PUBLIC_URL}/assets/img/img_login4.jpg`,
+  },
+];
+

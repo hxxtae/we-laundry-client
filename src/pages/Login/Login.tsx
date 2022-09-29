@@ -4,7 +4,7 @@ import { useMutation } from 'react-query';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-import { inputStyle, buttonStyle, includes, media, colors } from '../../styles';
+import { inputStyle, buttonStyle, includes, media, colors, dragging } from '../../styles';
 import { inputMessage } from '../../util';
 import { authApi, userState } from '../../global/atoms';
 import { ErrorMessage } from '../../components';
@@ -45,7 +45,7 @@ function Login() {
     <LoginContext>
       <InputBox>
         <Logo>
-          <LogoImg src={'./assets/svg/welaundry_medium_v2_darkblue.svg'} />
+          <LogoImg src={process.env.PUBLIC_URL + '/assets/svg/welaundry_medium_v2_darkblue.svg'} draggable='false' />
         </Logo>
         <Title>{"로그인"}</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -122,6 +122,8 @@ const Logo = styled.div`
     width: 200px;
     height: 80px;
   }
+
+  ${dragging.stop()}
 `;
 
 const LogoImg = styled.img`
