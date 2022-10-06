@@ -10,19 +10,20 @@ import '@fortawesome/fontawesome-svg-core';
 
 import { popupState, updateState, productRequestState } from '../../../global';
 import { IProductCreateRequest, IProducts } from '../../../services/products';
-import { buttonStyle, includes, toastStyle } from '../../../styles';
+import { buttonStyle, colors, includes, toastStyle } from '../../../styles';
 import ProductName from './PorductsInputs/ProductName';
 import ProductPrice from './PorductsInputs/ProductPrice';
 import { queryKeys } from '../../../util';
 
 interface IProductsPopup {
   categoryId: string;
+  categoryName: string;
   copyProducts: IProducts[];
-  mutate: UseMutateFunction<AxiosResponse, unknown, IProductCreateRequest>;
+  insMutate: UseMutateFunction<AxiosResponse, unknown, IProductCreateRequest>;
   setCopyProducts: React.Dispatch<React.SetStateAction<IProducts[]>>;
 }
 
-function ProductsPopup({ categoryId, copyProducts, mutate, setCopyProducts }: IProductsPopup) {
+function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setCopyProducts }: IProductsPopup) {
   const setPopupActive = useSetRecoilState(popupState);
   const updActive = useRecoilValue(updateState);
   const productState = useRecoilValue(productRequestState);
@@ -64,7 +65,7 @@ function ProductsPopup({ categoryId, copyProducts, mutate, setCopyProducts }: IP
 
     /* create */
     const data = { id, productName, price };
-    mutate(data, {
+    insMutate(data, {
       onSuccess: () => {
         setPopupActive(false);
         client.invalidateQueries(queryKeys.products.all);
@@ -80,9 +81,10 @@ function ProductsPopup({ categoryId, copyProducts, mutate, setCopyProducts }: IP
   return (
     <FormProvider {...method}>
       <InputGroup onSubmit={method.handleSubmit(onSubmit)}>
-      <Close type='button' onClick={() => setPopupActive(false)}>
-        <FontAwesomeIcon icon={faXmark} />
-      </Close>
+        <Close type='button' onClick={() => setPopupActive(false)}>
+          <FontAwesomeIcon icon={faXmark} />
+        </Close>
+        <Title>{ categoryName }</Title>
         <input style={{ display: 'none' }} {...method.register("id")} />
         <ProductName />
         <ProductPrice />
@@ -120,6 +122,13 @@ const Close = styled.button`
   &:hover {
     opacity: .6;
   }
+`;
+
+const Title = styled.h2`
+  font-size: 14px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.textColor};
+  margin-top: 32px;
 `;
 
 const Submit = styled.button`

@@ -32,10 +32,10 @@ export default ProductName;
 const InputBox = styled.div`
   ${includes.flexBox('flex-start', 'flex-start')}
   flex-direction: column;
-  margin-top: 50px;
+  margin-top: 30px;
 
   @media ${media.pc_s} {
-    margin-top: 100px;
+    margin-top: 50px;
   }
 `;
 

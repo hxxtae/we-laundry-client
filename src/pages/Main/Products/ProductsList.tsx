@@ -80,7 +80,7 @@ function ProductsList({ reLoading, productObj }: IProductsList) {
       </GridContextProvider>
 
       {(popupActive) &&
-        <ProductsPopup categoryId={productObj.id} copyProducts={copyProducts} mutate={insMutate} setCopyProducts={setCopyProducts} />}
+        <ProductsPopup categoryId={productObj.id} categoryName={productObj.categoryName} copyProducts={copyProducts} insMutate={insMutate} setCopyProducts={setCopyProducts} />}
       {(reLoading || mutateLoading) &&
         <Overlay>
           <LoadingComponent loadingMessage='잠시만 기다려주세요.' />
