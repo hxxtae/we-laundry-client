@@ -123,11 +123,12 @@ DELETE /address/:id - Delete an existing address by its ID
 
 ### **products**
 ```
-GET /products            - Get list of products
-POST /products           - Create a new product (category)
-PUT /products/create/:id - Create a new product (list)
-PUT /products/update/:id - Update an existing product list by its ID
-DELETE /products/:id     - Delete an existing product by its ID
+GET /products            - Get list of products, category
+POST /products           - Create a new category
+POST /products/:id       - Create a new product
+PUT /products/:id        - Update an existing category list by its ID
+PUT /products/:id/list   - Update an existing product list by its ID
+DELETE /products/:id     - Delete an existing category by its ID
 ```
 
 ### **records**
