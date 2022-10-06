@@ -2,6 +2,7 @@ import { IRecordsOflaundry, IRecordsOfRepair } from "../services/records";
 
 type ISetState = IRecordsOflaundry | IRecordsOfRepair;
 
+// NOTE: 주문목록 상단 - + (주문 삭제, 추가) 버튼 이벤트 Hook
 export const useAllDelOfRecord = <T extends ISetState>(
   setState: React.Dispatch<React.SetStateAction<T[]>>,
   clickItems: string[],
@@ -31,7 +32,7 @@ export const useAllDelOfRecord = <T extends ISetState>(
           }
           return obj;
         })
-        .filter((obj) => (<IRecordsOflaundry>obj).productId || (<IRecordsOfRepair>obj).repairId);
+        .filter((obj) => !!(<IRecordsOflaundry>obj).productId || !!(<IRecordsOfRepair>obj).repairId);
       
       if (!clickItems.length) {
         return [];

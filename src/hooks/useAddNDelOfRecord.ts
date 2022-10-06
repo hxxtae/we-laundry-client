@@ -4,6 +4,7 @@ import { IRecordsOflaundry, IRecordsOfRepair } from "../services/records";
 type IDevide = 'add' | 'del'; 
 type ISetState = IRecordsOflaundry | IRecordsOfRepair;
 
+// NOTE: 주문 목록 상단 '휴지통' 아이콘 클릭 이벤트 Hook
 export const useAddNDelOfRecord = <T extends ISetState>( 
   setState: React.Dispatch<React.SetStateAction<T[]>>,
   clickItems: string[],
@@ -19,6 +20,7 @@ export const useAddNDelOfRecord = <T extends ISetState>(
           if (divide === 'add') count = obj.count + 1;
           else if (divide === 'del') count = obj.count - 1;
           price = (obj.price / obj.count) * count;
+          
 
           if (count === 0) {
             setClickItems((prevItems) => {
