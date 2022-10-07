@@ -23,8 +23,16 @@
 <br>
 
 <p align="center">
-  Homepage : <a href="https://hxxtae.github.io/we-laundry-desc/" target="_blank">https://hxxtae.github.io/we-laundry-desc/</a><br>
-  Application : <a href="https://welaundry.netlify.app/" target="_blank">https://welaundry.netlify.app/</a>
+  <a href="https://hxxtae.github.io/we-laundry-desc/" target="_blank">
+    <img src="https://img.shields.io/badge/homepage-white?style=for-the-badge&logo=googlechrome&color=%23097aba&logoColor=ffffff">
+  </a>
+  <a href="https://welaundry.netlify.app/" target="_blank">
+    <img src="https://img.shields.io/badge/APPLICATION-white?style=for-the-badge&logo=googlechrome&color=000000&logoColor=ffffff">
+  </a>
+  <a href="https://welaundry-collections.netlify.app/" target="_blank">
+    <img src="https://img.shields.io/badge/MANAGER-white?style=for-the-badge&logo=googlechrome&color=3BD671&logoColor=ffffff">
+  </a>
+  <br>
 </p>
 
 <br>
