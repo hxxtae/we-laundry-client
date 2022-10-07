@@ -1,42 +1,31 @@
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useRef } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 
+import { Background, Containers, ErrorMessage, InputTitles } from '../../components';
 import { colors, includes, media, buttonStyle, inputStyle } from '../../styles';
 import { inputMessage, mainDescStorage, regexrObj } from '../../util';
-import { authApi, descState } from '../../global/atoms';
-import { Background, Containers, ErrorMessage, InputTitles } from '../../components';
-
-interface ISignup {
-  username: string; // 닉네임
-  password: string; // 비밀번호
-  tel: string; // 전화번호
-}
-
-type ISignupForm = ISignup & {
-  passwordRepeat: string; // 비밀번호 확인
-}
+import { descState } from '../../global/atoms';
+import { useSignup } from './application/hooks';
+import { dto } from './application/interface';
 
 function Signup() {
-  console.log('Signup');
-
-  const authService = useRecoilValue(authApi);
+  console.log('sign');
   const setDesc = useSetRecoilState(descState);
   const password = useRef('');
   const history = useHistory();
-  const { register, setValue, handleSubmit, formState: { errors }, watch, setError } = useForm<ISignupForm>();
-  const { mutate } = useMutation((signData: ISignup) => authService.signup(signData));
+  const { register, setValue, handleSubmit, formState: { errors }, watch, setError } = useForm<dto.ISignupForm>();
+  const { isLoading, mutate } = useSignup();
   password.current = watch('password', '');
 
   const pwdValidate = (value: string) =>
     value === password.current || '비밀번호가 일치하지 않습니다.'
 
-  const onSubmit = async ({ username, password, tel }: ISignup) => {
+  const onSubmit = useCallback(({ username, password, tel }: dto.ISignup) => {
     const data = { username, password, tel };
-    mutate(data, {
+    isLoading || mutate(data, {
       onSuccess: () => {
         setValue('username', '');
         setValue('password', '');
@@ -54,7 +43,7 @@ function Signup() {
         setError('username', { type: 'custom', message: error.message });
       }
     });
-  }
+  }, [isLoading]);
 
   const onLogin = () => {
     history.push('/');
