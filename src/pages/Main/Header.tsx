@@ -9,26 +9,26 @@ import styled from 'styled-components';
 
 import { authApi, openState, sidebarState, userState } from '../../global/atoms';
 import { colors, dragging, includes, media } from '../../styles';
-import { useCustomDate } from '../../hooks';
+import { useCustomDate, useResetState } from '../../hooks';
 
 function Header() {
-  console.log("Header");
-
   const authService = useRecoilValue(authApi);
   const open = useRecoilValue(openState);
   const setSideToggle = useSetRecoilState(sidebarState);
   const setUser = useSetRecoilState(userState);
+  const { allStateReset } = useResetState(true);
   const history = useHistory();
   const { toDate, toClock } = useCustomDate();
   const client = useQueryClient();
 
-  const { mutate } = useMutation(() => authService.logout());
+  const { isLoading, mutate } = useMutation(() => authService.logout());
 
   const onLogout = async () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
-      mutate(undefined, {
+      isLoading || mutate(undefined, {
         onSuccess: () => {
           setUser(undefined);
+          allStateReset();
           client.clear();
           history.push('/');
         },

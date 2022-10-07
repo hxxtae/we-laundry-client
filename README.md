@@ -23,8 +23,16 @@
 <br>
 
 <p align="center">
-  Homepage : <a href="https://hxxtae.github.io/we-laundry-desc/" target="_blank">https://hxxtae.github.io/we-laundry-desc/</a><br>
-  Application : <a href="https://welaundry.netlify.app/" target="_blank">https://welaundry.netlify.app/</a>
+  <a href="https://hxxtae.github.io/we-laundry-desc/" target="_blank">
+    <img src="https://img.shields.io/badge/homepage-white?style=for-the-badge&logo=googlechrome&color=%23097aba&logoColor=ffffff">
+  </a>
+  <a href="https://welaundry.netlify.app/" target="_blank">
+    <img src="https://img.shields.io/badge/APPLICATION-white?style=for-the-badge&logo=googlechrome&color=000000&logoColor=ffffff">
+  </a>
+  <a href="https://welaundry-collections.netlify.app/" target="_blank">
+    <img src="https://img.shields.io/badge/MANAGER-white?style=for-the-badge&logo=googlechrome&color=3BD671&logoColor=ffffff">
+  </a>
+  <br>
 </p>
 
 <br>
@@ -123,11 +131,12 @@ DELETE /address/:id - Delete an existing address by its ID
 
 ### **products**
 ```
-GET /products            - Get list of products
-POST /products           - Create a new product (category)
-PUT /products/create/:id - Create a new product (list)
-PUT /products/update/:id - Update an existing product list by its ID
-DELETE /products/:id     - Delete an existing product by its ID
+GET /products            - Get list of products, category
+POST /products           - Create a new category
+POST /products/:id       - Create a new product
+PUT /products/:id        - Update an existing category list by its ID
+PUT /products/:id/list   - Update an existing product list by its ID
+DELETE /products/:id     - Delete an existing category by its ID
 ```
 
 ### **records**

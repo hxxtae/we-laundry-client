@@ -11,8 +11,6 @@ import App from './App';
 import { Suspense } from 'react';
 import LoginLoading from './pages/Login/LoginLoading';
 
-console.log('Index');
-
 const client = new QueryClient();
 
 const GlobalStyled = createGlobalStyle`
@@ -75,5 +73,12 @@ root.render(
       </RecoilRoot>
     </QueryClientProvider>
   //</React.StrictMode>
+);
+
+console.log('Website by %c https://hxxtae.me ', `
+  font-size: 14px; 
+  line-height: 44px;
+  color: #e7e7e7;
+  background-color: #000000`
 );
 

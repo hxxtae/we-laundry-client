@@ -10,9 +10,7 @@ import UserRouter from './routers/UserRouter';
 
 const csrfRef = createRef();
 
-function App() {
-  console.log('App');
-  
+function App() {  
   const theme = useRecoilValue(themeState);
   const thisTheme = theme ? darkTheme : lightTheme;
 

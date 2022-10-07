@@ -14,7 +14,7 @@ import {
   customerSearchState
 } from '../global';
 
-export const useResetState = () => {
+export const useResetState = (state: boolean = false) => {
   /* atom action */
   const resetUpdateState = useResetRecoilState(updateState);
   const resetDeleteState = useResetRecoilState(deleteState);
@@ -29,7 +29,7 @@ export const useResetState = () => {
   /* request */
   const resetAddressState = useResetRecoilState(addressRequestState);
   const resetCustomerState = useResetRecoilState(customerRequestState);
-  //const resetCustomerSearchState = useResetRecoilState(customerSearchState);
+  const resetCustomerSearchState = useResetRecoilState(customerSearchState);
   const resetProductState = useResetRecoilState(productRequestState);
   const resetRecordState = useResetRecoilState(recordRequestState);
 
@@ -45,9 +45,9 @@ export const useResetState = () => {
 
     resetAddressState();
     resetCustomerState();
-    //resetCustomerSearchState();
     resetProductState();
     resetRecordState();
+    if(state) resetCustomerSearchState();
   }
 
   return { allStateReset };
