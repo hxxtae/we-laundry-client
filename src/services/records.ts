@@ -105,14 +105,7 @@ export default class RecordsService implements IRecordsService {
   }
 
   async searchRecordByCustomer({ addname, dong, ho }: IRecordSearchRequestByDongAndHo) {
-    if (!!ho) {
-      const data = this.http.fetch(`/records/${addname}/${dong}/${ho}`, {
-        method: 'GET',
-      });
-      return data;
-    }
-
-    const data = this.http.fetch(`/records/${addname}/${dong}`, {
+    const data = this.http.fetch(`/records?addname=${addname}&dong=${dong}&ho=${ho}`, {
       method: 'GET',
     });
     return data;
