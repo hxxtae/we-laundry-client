@@ -42,28 +42,7 @@ export default class CustomerService implements ICustomerService {
   }
 
   async searchFetchCus({ addname, dong, ho }: ICustomerSearchRequest): Promise<AxiosResponse> {
-    if (!!addname && !dong && !ho) {
-      const data = await this.http.fetch(`/customer/${addname}`, {
-        method: 'GET',
-      });
-      return data;
-    }
-
-    if (!!addname && !!dong && !ho) {
-      const data = await this.http.fetch(`/customer/${addname}/${dong}`, {
-        method: 'GET',
-      });
-      return data;
-    }
-
-    if (!!addname && !!dong && !!ho) {
-      const data = await this.http.fetch(`/customer/${addname}/${dong}/${ho}`, {
-        method: 'GET',
-      });
-      return data;
-    }
-
-    const data = await this.http.fetch(`/customer/(none)`, {
+    const data = await this.http.fetch(`/customer?addname=${addname}&dong=${dong}&ho=${ho}`, {
       method: 'GET',
     });
     return data;
