@@ -17,13 +17,13 @@ function Header() {
   const setSideToggle = useSetRecoilState(sidebarState);
   const setUser = useSetRecoilState(userState);
   const { allStateReset } = useResetState(true);
-  const history = useHistory();
   const { toDate, toClock } = useCustomDate();
+  const history = useHistory();
   const client = useQueryClient();
 
   const { isLoading, mutate } = useMutation(() => authService.logout());
 
-  const onLogout = async () => {
+  const onLogout = () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
       isLoading || mutate(undefined, {
         onSuccess: () => {

@@ -14,7 +14,7 @@ interface ICustomerDong {
 function CustomerDong({ searchActive }: ICustomerDong, ref: any) {
   console.log('CustomerDong');
   const [selectAct, setSelectAct] = useState(false);
-  const { register, formState: { errors }, setValue, getValues } = useFormContext();
+  const { register, formState: { errors }, setValue, getValues, watch } = useFormContext();
   
   useImperativeHandle(ref, () => ({
     selectClose: () => {
@@ -33,7 +33,7 @@ function CustomerDong({ searchActive }: ICustomerDong, ref: any) {
           autoComplete="off"
           placeholder="동입력"
           {...register('dong', {
-            required: !searchActive ? inputMessage.required : false,
+            required: !searchActive || watch('ho') ? inputMessage.required : false,
             maxLength: { value: 5, message: inputMessage.maxLen(5) },
             minLength: { value: 1, message: inputMessage.minLen(1) },
             pattern: { value: regexrObj.notSpaceAndSpecial, message: "숫자만 입력가능합니다." },
