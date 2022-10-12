@@ -67,9 +67,10 @@ export default class ProductsService implements IProductsService {
   };
 
   async createProduct({ id, productName, price }: IProductCreateRequest) {
-    const data = await this.http.fetch(`/products/create/${id}`, {
-      method: 'PUT',
+    const data = await this.http.fetch(`/products/list`, {
+      method: 'POST',
       body: JSON.stringify({
+        id,
         productName,
         price,
       }),
@@ -88,7 +89,7 @@ export default class ProductsService implements IProductsService {
   };
 
   async updateProduct({ id, products }: IProductsUpdateRequest) {
-    const data = await this.http.fetch(`/products/update/${id}`, {
+    const data = await this.http.fetch(`/products/list/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
         products,
