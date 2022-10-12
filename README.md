@@ -111,10 +111,7 @@ POST /auth/logout    - User logout
 
 ### **customer**
 ```
-GET /customer                    - Get list of customers
-GET /customer/:addname           - Find a customers by its address name of address
-GET /customer/:addname/:dong     - Find a customers by its name, dong of address
-GET /customer/:addname/:dong/:ho - Find a customers by its name, dong, ho of address
+GET /customer?addname&dong&ho    - Find customers by its address name, dong, ho
 POST /customer                   - Create a new customer
 PUT /customer/:id                - Update an existing customer by its ID
 DELETE /customer/:id             - Delete an existing customer by its ID
@@ -133,17 +130,16 @@ DELETE /address/:id - Delete an existing address by its ID
 ```
 GET /products            - Get list of products, category
 POST /products           - Create a new category
-POST /products/:id       - Create a new product
+POST /products/list      - Create a new product
 PUT /products/:id        - Update an existing category list by its ID
-PUT /products/:id/list   - Update an existing product list by its ID
+PUT /products/list/:id   - Update an existing product list by its ID
 DELETE /products/:id     - Delete an existing category by its ID
 ```
 
 ### **records**
 ```
-GET /records/:recordDate        - Find a records by its Date
-GET /records/:addname/:dong     - Find a records by its name, dong of address
-GET /records/:addname/:dong/:ho - Find a records by its name, dong, ho of address
+GET /records?addname&dong&ho    - Find records by customer's address name, dong, ho
+GET /records/:recordDate        - Find records by its Date
 POST /records                   - Create a new record
 DELETE /records/:id             - Delete an existing record by its ID
 ```
