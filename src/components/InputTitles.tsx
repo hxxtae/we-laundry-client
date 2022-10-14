@@ -3,14 +3,15 @@ import { media } from '../styles';
 import { colors } from '../styles/constants';
 
 interface IInputTitles {
-  title: string;
+  title?: string;
   des?: string;
+  response?: boolean;
 }
 
-function InputTitles({ title, des }: IInputTitles) {
+function InputTitles({ title, des, response = false }: IInputTitles) {
   return (
-    <Wrapper>
-      <Title>{title}</Title>
+    <Wrapper response={response}>
+      {title && <Title>{title}</Title>}
       <Des>{des}</Des>
     </Wrapper>
   )
@@ -18,8 +19,13 @@ function InputTitles({ title, des }: IInputTitles) {
 
 export default InputTitles;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ response: boolean }>`
   padding-bottom: 10px;
+  display: ${({ response }) => response ? 'none' : 'block'};
+
+  @media ${media.pc_s} {
+    display: block;
+  }
 `;
 
 const Title = styled.h2`
