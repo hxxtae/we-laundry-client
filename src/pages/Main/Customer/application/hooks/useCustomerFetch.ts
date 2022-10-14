@@ -26,8 +26,8 @@ export const useCustomerFetch = (): ICustomerFetch => {
     status
   } = useQuery(queryKeys.customer.listDongHo(addname, dong, ho), () => customerService.searchFetchCus({ addname, dong, ho }), {
     enabled: !!addname, // 조건에 따른 query 동작(false: fetcing X)
-    staleTime: 600000,  // 10분
-    cacheTime: 600000, // 10분
+    staleTime: 1000 * 60 * 10, // 10분
+    cacheTime: 1000 * 60 * 10, // 10분
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: 'always',

@@ -20,8 +20,8 @@ export const useHistoryCustomerFetch = ({addname, dong, ho}: IRecordSearchReques
     data: hisDatas,
   } = useQuery(queryKeys.records.listDongHo(addname, dong, ho), () => recordsService.searchRecordByCustomer({addname, dong, ho}), {
     enabled: !!addname,
-    staleTime: 600000, // 10분
-    cacheTime: 600000, // 10분
+    staleTime: 1000 * 60 * 10, // 10분
+    cacheTime: 1000 * 60 * 10, // 10분
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: 'always',
