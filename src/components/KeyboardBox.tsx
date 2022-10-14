@@ -32,7 +32,7 @@ function KeyboardBox({ setValue, name, value }: IKeyboardBox) {
 
   const onErase = () => {
     setComStrNum((prev) => {
-      const arr = prev.split('');
+      const arr = prev.toString().split('');
       arr.pop();
       setValue(name, arr.join(''));
       return arr.join('');
