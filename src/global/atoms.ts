@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
 
 import { fetchCsrfToken } from '../App';
-import { AuthService, HttpClient, AddressService, CustomerService, ProductsService, SalesService } from '../services';
-import RecordsService, { IRecordsOflaundry, IRecordsOfRepair } from '../services/records';
+import { AuthService, HttpClient, AddressService, CustomerService, ProductsService, RecordsService, SalesService } from '../services';
+import { IRecordsOflaundry, IRecordsOfRepair } from '../services/records';
 import { mainDescStorage, openStorage, themeStorage } from '../util';
 
 const baseURL = process.env.REACT_APP_BASE_URL!;
