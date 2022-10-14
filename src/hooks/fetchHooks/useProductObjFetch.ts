@@ -25,7 +25,7 @@ export const useProductObjFetch = (): IProductObjFetch => {
     isFetching: reLoading,
     data,
   } = useQuery(queryKeys.products.all, () => productsService.fetchProductObjs(), {
-      staleTime: 1200000,  // 20분
+      staleTime: Infinity,
       cacheTime: Infinity,
       retry: false,
       refetchOnWindowFocus: false,

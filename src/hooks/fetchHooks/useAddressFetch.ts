@@ -18,7 +18,7 @@ export const useAddressFetch = (): IAddressFetch => {
     isFetching: reLoading,
     data: addDatas
   } = useQuery(queryKeys.address.all, () => addressService.fetchAdd(), {
-    staleTime: 1200000, // 20분
+    staleTime: Infinity,
     cacheTime: Infinity,
     retry: false,
     refetchOnWindowFocus: false,

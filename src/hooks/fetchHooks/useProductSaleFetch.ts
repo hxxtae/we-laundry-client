@@ -24,7 +24,7 @@ export const useProductSaleFetch = (): IProductSaleFetch => {
     isFetching,
     data: productStatsData
   } = useQuery(queryKeys.sale.statsOfProduct(), () => salesService.getAllProductSale(), {
-    staleTime: 1200000,  // 20분
+    staleTime: Infinity,
     cacheTime: Infinity,
     retry: false,
     refetchOnWindowFocus: false,

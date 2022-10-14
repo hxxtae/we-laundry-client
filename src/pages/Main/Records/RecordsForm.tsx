@@ -2,7 +2,8 @@ import { faArrowRotateRight, faCircleCheck } from '@fortawesome/free-solid-svg-i
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 import { useRecordCustomerFetch, useAvailableChk } from '../../../hooks';
@@ -10,9 +11,8 @@ import { buttonStyle, colors, includes, media } from '../../../styles';
 import { IRecordSearchRequestByAdd } from '../../../services/records';
 import { RecordAddname, RecordDong, RecordHo } from './RecordsInputs';
 import { LoadingComponent, Overlay } from '../../../components';
-import { queryKeys } from '../../../util';
-import { useRecoilValue } from 'recoil';
 import { recordReceiptExeState } from '../../../global';
+import { queryKeys } from '../../../util';
 
 function RecordsForm() {
   const [cusRequest, setCusRequest] = useState<IRecordSearchRequestByAdd>({ addname: '', dong: '', ho: '' });
@@ -21,6 +21,9 @@ function RecordsForm() {
   const client = useQueryClient();
   const { loading, cusDatas } = useRecordCustomerFetch(cusRequest);
   const availableChk = useAvailableChk({ cusDatas });
+  // NOTE: input of 'dong' and 'ho' reference object.
+  const childDongRef = useRef<{ selectClose: () => void }>();
+  const childHoRef = useRef<{ selectClose: () => void }>();
 
   const onSearch = ({ addname, dong, ho }: IRecordSearchRequestByAdd) => {
     const data = { addname, dong, ho };
@@ -37,6 +40,13 @@ function RecordsForm() {
     method.reset();
   }, [receiptExeChk]);
 
+  useEffect(() => {
+    if (availableChk) {
+      childDongRef.current?.selectClose();
+      childHoRef.current?.selectClose();
+    }
+  }, [availableChk]);
+
   return (
     <>
       <FormProvider {...method} >
@@ -51,8 +61,8 @@ function RecordsForm() {
             <FontAwesomeIcon icon={faArrowRotateRight} />
           </ReFetch>
           
-          <RecordDong searchActive={false} />
-          <RecordHo searchActive={false} />
+          <RecordDong ref={childDongRef} searchActive={false} />
+          <RecordHo ref={childHoRef} searchActive={false} />
           <ButtonBox>
             <SubmitButton>{'확인'}</SubmitButton>
           </ButtonBox>

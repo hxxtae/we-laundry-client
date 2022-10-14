@@ -20,8 +20,8 @@ export const useHistoryDateFetch = ( recordDate: string): IHistoryDateFetch => {
     data: hisDateDatas,
   } = useQuery(queryKeys.records.listDate(recordDate), () => recordsService.searchRecordByDate(recordDate), {
     enabled: !!recordDate,
-    staleTime: 600000, // 10분
-    cacheTime: Infinity,
+    staleTime: 1000 * 60 * 10, // 10분
+    cacheTime: 1000 * 60 * 10, // 10분
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: 'always',

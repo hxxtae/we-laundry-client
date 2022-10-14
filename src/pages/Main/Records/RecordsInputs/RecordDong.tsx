@@ -1,6 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
@@ -13,10 +13,16 @@ interface IRecordDong {
   searchActive: boolean;
 }
 
-function RecordDong({ searchActive }: IRecordDong) {
+function RecordDong({ searchActive }: IRecordDong, ref: any) {
   const [selectAct, setSelectAct] = useState(false);
   const receiptExeChk = useRecoilValue(recordReceiptExeState); // 접수 완료 확인 state
   const { register, formState: { errors }, setValue, getValues } = useFormContext();
+
+  useImperativeHandle(ref, () => ({
+    selectClose: () => {
+      setSelectAct(false);
+    },
+  }), []);
 
   useEffect(() => {
     setSelectAct(false);
@@ -44,7 +50,7 @@ function RecordDong({ searchActive }: IRecordDong) {
   )
 }
 
-export default RecordDong;
+export default forwardRef(RecordDong);
 
 const InputBox = styled.div`
   position: relative;

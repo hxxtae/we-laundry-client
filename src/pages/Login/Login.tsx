@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { inputStyle, buttonStyle, includes, media, colors, dragging } from '../../styles';
 import { inputMessage } from '../../util';
 import { authApi, userState } from '../../global/atoms';
-import { ErrorMessage } from '../../components';
+import { ErrorMessage, InputTitles } from '../../components';
 import LoginContext from './LoginContext';
 
 interface ILoginForm {
@@ -47,31 +47,39 @@ function Login() {
         <Logo>
           <LogoImg src={process.env.PUBLIC_URL + '/assets/svg/welaundry_medium_v2_darkblue.svg'} draggable='false' />
         </Logo>
-        <Title>{"로그인"}</Title>
+        {/* <Title>{"로그인"}</Title> */}
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            err={errors.username?.message}
-            {...register('username', {
-              required: inputMessage.required,
-              minLength: { value: 2, message: inputMessage.minLen(2) },
-              maxLength: { value: 10, message: inputMessage.maxLen(10) }
-            })}
-            placeholder="닉네임"
-            autoComplete='off' />
-          <ErrorMessage message={errors.username?.message} />
-          <Input
-            err={errors.password?.message}
-            type="password"
-            {...register('password', {
-              required: inputMessage.required,
-              minLength: { value: 6, message: inputMessage.minLen(6) },
-              maxLength: { value: 18, message: inputMessage.maxLen(18) }
-            })}
-            placeholder="비밀번호"
-            autoComplete='off' />
-          <ErrorMessage message={errors.password?.message} />
+          <Wrapper>
+            <InputTitles des='사용자 아이디 입력' response={true}/>
+            <Input
+              err={errors.username?.message}
+              {...register('username', {
+                required: inputMessage.required,
+                minLength: { value: 2, message: inputMessage.minLen(2) },
+                maxLength: { value: 10, message: inputMessage.maxLen(10) }
+              })}
+              placeholder="닉네임"
+              autoComplete='off' />
+            <ErrorMessage message={errors.username?.message} />
+          </Wrapper>
+
+          <Wrapper>
+            <InputTitles des='사용자 비밀번호 입력' response={true}/>
+            <Input
+              err={errors.password?.message}
+              type="password"
+              {...register('password', {
+                required: inputMessage.required,
+                minLength: { value: 6, message: inputMessage.minLen(6) },
+                maxLength: { value: 18, message: inputMessage.maxLen(18) }
+              })}
+              placeholder="비밀번호"
+              autoComplete='off' />
+            <ErrorMessage message={errors.password?.message} />
+          </Wrapper>
+
           <ButtonBox>
-            <Submit>{"확인"}</Submit>
+            <Submit>{"시작하기"}</Submit>
             <Line aria-hidden />
             <Button type='button' onClick={onSingup}>{"가입하기"}</Button>
           </ButtonBox>
@@ -132,15 +140,14 @@ const LogoImg = styled.img`
   object-fit: cover;
 `;
 
-const Title = styled.span`
-  font-size: 25px;
-  font-weight: 600;
-  color: ${(props) => props.theme.textColor};
-  margin-bottom: 20px;
-`;
-
 const Form = styled.form`
   width: 100%;
+`;
+
+const Wrapper = styled.div`
+  &:first-child{
+    margin-bottom: 10px;
+  }
 `;
 
 const Input = styled.input<{err: string | undefined}>`
@@ -148,10 +155,7 @@ const Input = styled.input<{err: string | undefined}>`
   background-color: ${(props) => props.theme.inputColor};
   border-color: ${(props) => props.err ? `${colors.red}` : `${props.theme.borderColor}`};
   color: ${(props) => props.theme.textColor};
-  
-  &:nth-of-type(2) {
-    margin-top: 10px;
-  }
+  margin-bottom: ${({ err }) => err ? '5px' : '0'};
 
   &:focus {
     border-color: ${(props) => props.err ? `${colors.red}` : ''};
@@ -167,13 +171,14 @@ const ButtonBox = styled.div`
 const Submit = styled.button`
   ${buttonStyle.primary()}
   width: 100%;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
 `;
 
 const Button = styled.button`
   ${buttonStyle.outline()}
   display: block;
   width: 100%;
+  letter-spacing: 1.5px;
 `;
 
 const Line = styled.div`
