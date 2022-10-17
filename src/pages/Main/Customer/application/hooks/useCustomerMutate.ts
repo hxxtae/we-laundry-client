@@ -29,7 +29,6 @@ export const useCustomerMutate = () => {
   return {
     isLoading,
     mutate,
-    client,
     state: {
       updateActive,
       setUpdateActive

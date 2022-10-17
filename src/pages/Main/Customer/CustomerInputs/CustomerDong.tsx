@@ -66,4 +66,5 @@ const Input = styled.input<{ err?: string }>`
   background-color: ${(props) => props.theme.inputColor};
   border-color: ${(props) => props.err ? `${colors.red}` : `${props.theme.borderColor}` };
   color: ${(props) => props.theme.textColor};
+  cursor: pointer;
 `;

@@ -1,26 +1,18 @@
-import { faArrowRotateRight, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useQueryClient } from 'react-query';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import '@fortawesome/fontawesome-svg-core';
 
 import { CustomerAddname, CustomerDong, CustomerHo } from './CustomerInputs';
 import { customerSearchState, searchState } from '../../../global';
 import { ICustomerRequest } from '../../../services/customer';
 import { buttonStyle, includes } from '../../../styles';
-import { queryKeys } from '../../../util';
 
 function CustomerSearch() {
   const setData = useSetRecoilState(customerSearchState);
   const [searchPop, setSearchPop] = useRecoilState(searchState);
-  const client = useQueryClient();
   const method = useForm<ICustomerRequest>();
-
-  const onRefetch = () => {
-    client.invalidateQueries(queryKeys.address.all);
-  }
 
   const onSearch = ({addname, dong, ho}: ICustomerRequest) => {
     setData({ addname, dong, ho });
@@ -35,9 +27,6 @@ function CustomerSearch() {
       <FormProvider {...method} >
         <InputGroup onSubmit={method.handleSubmit(onSearch)}>
           <CustomerAddname />
-          <ReFetch type='button' onClick={onRefetch}>
-            <FontAwesomeIcon icon={faArrowRotateRight} />
-          </ReFetch>
           <CustomerDong searchActive={searchPop} />
           <CustomerHo searchActive={searchPop} />
           <ButtonBox>
@@ -87,20 +76,6 @@ const InputGroup = styled.form`
   width: 100%;
   padding: 20px;
   margin-top: 70px;
-`;
-
-const ReFetch = styled.button`
-  ${buttonStyle.base}
-  background-color: ${(props) => props.theme.inputColor};
-  border: 1px solid ${(props) => props.theme.borderColor};
-  border-radius: 4px;
-  margin-right: 10px;
-  width: 40px;
-  height: 40px;
-  color: ${(props) => props.theme.textColor};
-  &:active {
-    opacity: .6;
-  }
 `;
 
 const ButtonBox = styled.div`

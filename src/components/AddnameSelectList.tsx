@@ -64,7 +64,7 @@ const selectVariant = {
 
 const SelectBox = styled(motion.ul)`
   position: absolute;
-  top: 85px;
+  top: 40px;
   left: 0;
   ${includes.flexBox('center', 'flex-start')}
   flex-direction: column;
