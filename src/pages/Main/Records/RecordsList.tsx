@@ -55,10 +55,6 @@ const Wrapper = styled.div`
     padding: 20px;
     height: 460px;
   }
-
-  @media ${media.pc_l} {
-    width: 692px;
-  }
 `;
 
 const List = styled.ul`

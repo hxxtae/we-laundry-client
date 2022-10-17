@@ -4,7 +4,7 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
-import { colors, includes, inputStyle } from '../../../../styles';
+import { colors, includes, inputStyle, media } from '../../../../styles';
 import { inputMessage, regexrObj } from '../../../../util';
 import { recordReceiptExeState } from '../../../../global';
 import { KeyboardBox } from '../../../../components';
@@ -54,16 +54,19 @@ export default forwardRef(RecordHo);
 
 const InputBox = styled.div`
   position: relative;
-  ${includes.flexBox('flex-start', 'center')}
-  flex-direction: column;
-  width: 150px;
+  width: 130px; 
   margin-right: 10px;
   z-index: 10;
+
+  @media ${media.pc_s} {
+    width: 150px;
+  }
 `;
 
-const Input = styled.input<{err?: string}>`
+const Input = styled.input<{ err?: string }>`
   ${inputStyle.base}
   background-color: ${(props) => props.theme.inputColor};
   border-color: ${(props) => props.err ? `${colors.red}` : `${props.theme.borderColor}` };
   color: ${(props) => props.theme.textColor};
+  cursor: pointer;
 `;
