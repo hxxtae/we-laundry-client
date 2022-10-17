@@ -1,139 +1,99 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormContext } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import { useQueryClient } from 'react-query';
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
-import { colors, dragging, includes, inputStyle, media, scroll } from '../../../../styles';
-import { InputTitles, LoadingItem } from '../../../../components';
-import { IAddressResponse } from '../../../../services/address';
+import { buttonStyle, colors, includes, inputStyle, media } from '../../../../styles';
+import { AddnameSelectList, InputTitles } from '../../../../components';
 import { recordReceiptExeState } from '../../../../global';
-import { useAddressFetch } from '../../../../hooks';
-import { inputMessage } from '../../../../util';
+import { inputMessage, queryKeys } from '../../../../util';
 
 function RecordAddname() {
   const [selectAct, setSelectAct] = useState(false);
-  const [selectChk, setSelectChk] = useState('');
   const receiptExeChk = useRecoilValue(recordReceiptExeState); // 접수 완료 확인 state
   const { register, formState: { errors }, setValue } = useFormContext();
-  const { loading, addDatas } = useAddressFetch();
+  const client = useQueryClient();
 
-  const selectClick = (addid: string, addname: string, addfullname: string) => {
+  const onSelectClick = (addid: string, addname: string, addfullname: string) => {
     setValue('addname', addname);
     setSelectAct(false);
-    setSelectChk(addid);
+  }
+
+  const onRefetch = () => {
+    client.invalidateQueries(queryKeys.address.all);
   }
 
   useEffect(() => {
     setSelectAct(false);
-    setSelectChk('');
   }, [receiptExeChk]);
 
   return (
     <InputBox>
-      <InputTitles title='고객 선택' des='' />
-      <InputWrapper>
-        <Input
-          err={errors.addname?.message}
-          autoComplete="off"
-          placeholder="주소이름선택"
-          onClick={() => setSelectAct((prev) => !prev)}
-          readOnly
-          {...register('addname', {
-          required: inputMessage.required,
-        })} />
-      
-        <AnimatePresence>
-          {selectAct &&
-            <SelectBox variants={selectVariant} initial="init" animate="start" exit="end">
-              {loading ? <LoadingItem /> :
-                addDatas?.map((item: IAddressResponse) => (
-                  <SelectItem
-                    key={item.id}
-                    chk={item.id === selectChk ? 'true' : 'false'}
-                    onClick={() => selectClick(item.id, item.addname, item.addfullname)}>
-                    <ItemText>
-                      {item.addname}
-                    </ItemText>
-                  </SelectItem>
-              ))}
-            </SelectBox>}
-        </AnimatePresence>
-      </InputWrapper>
+      <InputTitles title='고객 선택'/>
+      <Wrapper>
+        <InputWrapper>
+          <Input
+            err={errors.addname?.message}
+            autoComplete="off"
+            placeholder="주소이름선택"
+            onClick={() => setSelectAct((prev) => !prev)}
+            readOnly
+            {...register('addname', {
+            required: inputMessage.required,
+            })} />
+          <AddnameSelectList selectAct={selectAct} onSelectClick={onSelectClick} />
+        </InputWrapper>
+        <ReFetch type='button' onClick={onRefetch}>
+          <FontAwesomeIcon icon={faArrowRotateRight} />
+        </ReFetch>
+      </Wrapper>
     </InputBox>
   )
 }
 
 export default RecordAddname;
 
-const selectVariant = {
-  init: {
-    height: 0,
-  },
-  start: {
-    height: "auto",
-    transition: {
-      type: 'tween',
-    }
-  },
-  end: {
-    height: 0,
-    opacity: 0,
-    border: 0,
-  }
-}
-
 const InputBox = styled.div`
-  ${includes.flexBox('flex-start', 'center')}
-  flex-direction: column;
-  width: 120px;
+  margin-right: 10px;
+  width: 200px;
   z-index: 10;
 
-  @media ${media.pc_s} {
-    width: 200px;
+  @media ${media.pc_l} {
+    width: auto;
+    flex-grow: 1;
   }
+`;
+
+const Wrapper = styled.div`
+  ${includes.flexBox()}
 `;
 
 const InputWrapper = styled.div`
   position: relative;
 `;
 
-const Input = styled.input<{err?: string}>`
+const Input = styled.input<{ err?: string }>`
   ${inputStyle.base}
   background-color: ${(props) => props.theme.inputColor};
   border-color: ${(props) => props.err ? `${colors.red}` : `${props.theme.borderColor}` };
   color: ${(props) => props.theme.textColor};
+  cursor: pointer;
   z-index: 11;
 `;
 
-const SelectBox = styled(motion.ul)`
-  position: absolute;
-  top: 40px;
-  left: 0;
-  ${includes.flexBox('center', 'flex-start')}
-  flex-direction: column;
-  width: 100%;
-  max-height: 300px;
-  background-color: ${(props) => props.theme.bgColor};
+const ReFetch = styled.button`
+  ${buttonStyle.base}
+  background-color: ${(props) => props.theme.inputColor};
   border: 1px solid ${(props) => props.theme.borderColor};
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  overflow-y: auto;
-  ${(props) => scroll.custom(8, props.theme.borderColorSub, props.theme.textColor)}
-`;
+  border-radius: 4px;
+  min-width: 40px;
+  min-height: 40px;
+  color: ${(props) => props.theme.textColor};
 
-const SelectItem = styled(motion.li)<{chk: string}>`
-  ${dragging.stop}
-  width: 100%;
-  padding: 10px 16px;
-  background-color: ${(props) => props.chk === 'true' ? props.theme.borderColor : 'transparent' };
-  &:hover {
-    background-color: ${(props) => props.theme.borderColor};
+  &:active {
     opacity: .6;
   }
 `;
-
-const ItemText = styled.span`
-  color: ${(props) => props.theme.textColor};
-`;
-

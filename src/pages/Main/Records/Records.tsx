@@ -44,18 +44,13 @@ const Wrapper = styled.div`
   ${includes.flexBox('flex-start', 'flex-start')}
   align-items: stretch;
   width: 100%;
-
-  @media ${media.pc_l} {
-    width: auto;
-  }
 `;
 
 const ContextBox = styled.div`
   ${includes.flexBox('flex-start', 'flex-start')}
   flex-direction: column;
-  width: 100%;
 
   @media ${media.pc_l} {
-    width: auto;
+    width: 692px;
   }
 `;

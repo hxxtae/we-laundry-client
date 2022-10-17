@@ -1,7 +1,6 @@
-import { faArrowRotateRight, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useQueryClient } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
@@ -12,13 +11,11 @@ import { IRecordSearchRequestByAdd } from '../../../services/records';
 import { RecordAddname, RecordDong, RecordHo } from './RecordsInputs';
 import { LoadingComponent, Overlay } from '../../../components';
 import { recordReceiptExeState } from '../../../global';
-import { queryKeys } from '../../../util';
 
 function RecordsForm() {
   const [cusRequest, setCusRequest] = useState<IRecordSearchRequestByAdd>({ addname: '', dong: '', ho: '' });
   const receiptExeChk = useRecoilValue(recordReceiptExeState); // 접수 완료 확인 state
   const method = useForm<IRecordSearchRequestByAdd>();
-  const client = useQueryClient();
   const { loading, cusDatas } = useRecordCustomerFetch(cusRequest);
   const availableChk = useAvailableChk({ cusDatas });
   // NOTE: input of 'dong' and 'ho' reference object.
@@ -30,10 +27,6 @@ function RecordsForm() {
     setCusRequest({
       ...data
     });
-  }
-
-  const onRefetch = () => {
-    client.invalidateQueries(queryKeys.address.all);
   }
 
   useEffect(() => {
@@ -55,12 +48,7 @@ function RecordsForm() {
             <FontAwesomeIcon icon={faCircleCheck} />
             <Text>{availableChk ? '확인됨' : '확인안됨'}</Text>
           </Available>
-          
           <RecordAddname />
-          <ReFetch type='button' onClick={onRefetch}>
-            <FontAwesomeIcon icon={faArrowRotateRight} />
-          </ReFetch>
-          
           <RecordDong ref={childDongRef} searchActive={false} />
           <RecordHo ref={childHoRef} searchActive={false} />
           <ButtonBox>
@@ -81,6 +69,7 @@ export default RecordsForm;
 
 const InputGroup = styled.form`
   position: relative;
+  width: 100%;
   ${includes.flexBox('flex-end', 'flex-start')}
   border: 1px solid ${(props) => props.theme.borderColor};
   padding: 15px;
@@ -96,7 +85,7 @@ const InputGroup = styled.form`
 const Available = styled.div<{chk: boolean}>`
   position: absolute;
   top: 15px;
-  left: 75px;
+  left: 78px;
   ${includes.flexBox('center', 'space-between')}
   font-size: 10px;
   color: ${(props) => props.chk ? colors.green : colors.red};
@@ -110,22 +99,6 @@ const Available = styled.div<{chk: boolean}>`
 const Text = styled.span`
   margin-left: 3px;
   line-height: 1px;
-`;
-
-const ReFetch = styled.button`
-  ${buttonStyle.base}
-  background-color: ${(props) => props.theme.inputColor};
-  border: 1px solid ${(props) => props.theme.borderColor};
-  border-radius: 4px;
-  margin-right: 10px;
-  margin-bottom: 0; // (tablet style) 이 미세하게 틀어짐 막음
-  min-width: 40px;
-  min-height: 40px;
-  color: ${(props) => props.theme.textColor};
-
-  &:active {
-    opacity: .6;
-  }
 `;
 
 const ButtonBox = styled.div`

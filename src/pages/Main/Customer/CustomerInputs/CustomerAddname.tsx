@@ -1,14 +1,18 @@
-import { useState } from 'react';
+import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormContext } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import { AddnameSelectList, ErrorMessage, InputTitles } from '../../../../components';
-import { colors, includes, inputStyle } from '../../../../styles';
-import { inputMessage } from '../../../../util';
+import { buttonStyle, colors, includes, inputStyle } from '../../../../styles';
+import { inputMessage, queryKeys } from '../../../../util';
 
 function CustomerAddname() {
   const [selectAct, setSelectAct] = useState(false);
   const { register, formState: { errors }, setValue } = useFormContext();
+  const client = useQueryClient();
 
   const onSelectClick = (addid: string, addname: string, addfullname: string) => {
     setValue('addid', addid);
@@ -17,21 +21,31 @@ function CustomerAddname() {
     setSelectAct(false);
   }
 
+  const onRefetch = () => {
+    client.invalidateQueries(queryKeys.address.all);
+  }
+
   return (
     <InputBox>
       <InputTitles title='주소이름' des='주소의 이름을 선택해주세요.' />
-      <Input
-        err={errors.addname?.message}
-        autoComplete="off"
-        placeholder="주소이름선택"
-        onClick={() => setSelectAct((prev) => !prev)}
-        readOnly
-        {...register('addname', {
-        required: inputMessage.required,
-      })} />
-      <ErrorMessage absolute={true} message={errors.addname?.message} />
-
-      <AddnameSelectList selectAct={selectAct} onSelectClick={onSelectClick} />
+      <Wrapper>
+        <InputWrapper>
+          <Input
+            err={errors.addname?.message}
+            autoComplete="off"
+            placeholder="주소이름선택"
+            onClick={() => setSelectAct((prev) => !prev)}
+            readOnly
+            {...register('addname', {
+            required: inputMessage.required,
+            })} />
+          <ErrorMessage absolute={true} message={errors.addname?.message} />
+          <AddnameSelectList selectAct={selectAct} onSelectClick={onSelectClick} />
+        </InputWrapper>
+        <ReFetch type='button' onClick={onRefetch}>
+          <FontAwesomeIcon icon={faArrowRotateRight} />
+        </ReFetch>
+      </Wrapper>
     </InputBox>
   )
 }
@@ -39,10 +53,16 @@ function CustomerAddname() {
 export default CustomerAddname;
 
 const InputBox = styled.div`
+  flex-grow: 1;
+  margin-right: 10px;
+`;
+
+const Wrapper = styled.div`
+  ${includes.flexBox()}
+`;
+
+const InputWrapper = styled.div`
   position: relative;
-  ${includes.flexBox('flex-start', 'center')}
-  flex-direction: column;
-  width: 160px;
   flex-grow: 2;
   z-index: 10;
 `;
@@ -52,5 +72,20 @@ const Input = styled.input<{err?: string}>`
   background-color: ${(props) => props.theme.inputColor};
   border-color: ${(props) => props.err ? `${colors.red}` : `${props.theme.borderColor}` };
   color: ${(props) => props.theme.textColor};
+  cursor: pointer;
   z-index: 11;
+`;
+
+const ReFetch = styled.button`
+  display: inline-block;
+  ${buttonStyle.base}
+  background-color: ${(props) => props.theme.inputColor};
+  border: 1px solid ${(props) => props.theme.borderColor};
+  border-radius: 4px;
+  min-width: 40px;
+  min-height: 40px;
+  color: ${(props) => props.theme.textColor};
+  &:active {
+    opacity: .6;
+  }
 `;
