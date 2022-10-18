@@ -69,7 +69,6 @@ export default RecordsForm;
 
 const InputGroup = styled.form`
   position: relative;
-  width: 100%;
   ${includes.flexBox('flex-end', 'flex-start')}
   border: 1px solid ${(props) => props.theme.borderColor};
   padding: 15px;

@@ -5,30 +5,31 @@ import "react-datepicker/dist/react-datepicker.css";
 import ReactDatePicker from 'react-datepicker';
 import styled from 'styled-components';
 
-import { includes, inputStyle } from '../styles';
-
-interface IDateComponent {
-  thisDate: Date;
-  setThisDate: React.Dispatch<React.SetStateAction<Date>>;
-}
+import { colors, includes, inputStyle, media } from '../styles';
 
 export const dateToString = (date: Date) => {
   return date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
 }
 
-function DateComponent({ thisDate, setThisDate }: IDateComponent) {
-  const months = [
-    "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"
-  ];
+const months = [
+  "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"
+];
 
+interface IDateComponent {
+  thisDate: string;
+  setThisDate: React.Dispatch<React.SetStateAction<string>>;
+}
+
+function DateComponent({ thisDate, setThisDate }: IDateComponent) {
   return (
     <Wrapper>
       <ReactDatePicker
         locale={ko}
         className='datePickerInput'
         dateFormat="yyyy-MM-dd"
-        selected={thisDate}
-        onChange={(date: Date) => setThisDate(date)}
+        autoFocus
+        selected={new Date(thisDate)}
+        onChange={(date: Date) => setThisDate(dateToString(date))}
         maxDate={new Date()}
         todayButton={"Today"}
         popperModifiers={{ // 화면을 벗어나지 않도록 하는 설정
@@ -68,11 +69,17 @@ const Wrapper = styled.div`
     background-color: ${(props) => props.theme.inputColor};
     border-color: ${(props) => props.theme.borderColor };
     color: ${(props) => props.theme.textColor};
+    cursor: pointer;
   }
 
   .react-datepicker-popper {
-    top: -172px !important; 
-    left: 275px !important;
+    top: -152px !important; 
+    left: 250px !important;
+
+    @media ${media.pc_s} {
+      top: -172px !important; 
+      left: 275px !important;
+    }
   }
 
   .react-datepicker {
@@ -97,6 +104,16 @@ const Wrapper = styled.div`
       margin: 0 7px;
       color: ${(props) => props.theme.textColor};
       font-size: 12px;
+    }
+
+    .react-datepicker__day-name {
+      &:first-child {
+        color: ${colors.red};
+      }
+
+      &:last-child {
+        color: ${colors.blue};
+      }
     }
   }
 

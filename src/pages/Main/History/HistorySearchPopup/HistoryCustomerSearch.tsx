@@ -1,14 +1,12 @@
-import { faArrowRotateRight, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useQueryClient } from 'react-query';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { IRecordSearchRequestByAdd, IRecordSearchRequestByDongAndHo } from '../../../../services/records';
 import { RecordAddname, RecordDong, RecordHo } from '../../Records/RecordsInputs';
 import { buttonStyle, includes } from '../../../../styles';
-import { queryKeys } from '../../../../util';
 
 interface IHistoryCustomerSearch {
   setCustomerActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,17 +17,12 @@ interface IHistoryCustomerSearch {
 
 function HistoryCustomerSearch({ setCustomerActive, setNowDate, setCusObj, prevInput }: IHistoryCustomerSearch) {
   const method = useForm<IRecordSearchRequestByAdd>();
-  const client = useQueryClient();
 
   const onSearch = ({ addname, dong, ho }: IRecordSearchRequestByAdd) => {
     const data = { addname, dong, ho };
     setCusObj(data);
     setNowDate('');
     setCustomerActive(false);
-  }
-
-  const onRefetch = () => {
-    client.invalidateQueries(queryKeys.address.all);
   }
 
   useEffect(() => {
@@ -42,13 +35,10 @@ function HistoryCustomerSearch({ setCustomerActive, setNowDate, setCusObj, prevI
     <FormProvider {...method} >
       <InputGroup onSubmit={method.handleSubmit(onSearch)}>
         <RecordAddname />
-        <ReFetch type='button' onClick={onRefetch}>
-          <FontAwesomeIcon icon={faArrowRotateRight} />
-        </ReFetch>
         <RecordDong searchActive={false} />
         <RecordHo searchActive={true} />
         <ButtonBox>
-          <SubmitButton>{'확인'}</SubmitButton>
+          <Submit>{'확인'}</Submit>
         </ButtonBox>
         <Close type='button' onClick={() => setCustomerActive(false)}>
           <FontAwesomeIcon icon={faXmark} />
@@ -71,27 +61,12 @@ const InputGroup = styled.form`
   transition: background-color border-color 200ms ease-in-out;
 `;
 
-const ReFetch = styled.button`
-  ${buttonStyle.base}
-  background-color: ${(props) => props.theme.inputColor};
-  border: 1px solid ${(props) => props.theme.borderColor};
-  border-radius: 4px;
-  margin-right: 10px;
-  margin-bottom: 0;
-  min-width: 40px;
-  min-height: 40px;
-  color: ${(props) => props.theme.textColor};
-  &:active {
-    opacity: .6;
-  }
-`;
-
 const ButtonBox = styled.div`
   ${includes.flexBox()}
   height: 40px;
 `;
 
-const SubmitButton = styled.button`
+const Submit = styled.button`
   ${buttonStyle.primary()}
   width: 80px;
   height: 100%;

@@ -78,7 +78,7 @@ function HistoryList() {
         </ButtonGroup>
         <List>
           {!!(searchDatas(nowDate)?.length) ?
-            searchDatas(nowDate)?.map((obj, index, arr) => (
+            searchDatas(nowDate).map((obj, index, arr) => (
               findIdx(arr, obj.recordDate) === index && (
                 <HistoryListItem
                   key={obj.id}
