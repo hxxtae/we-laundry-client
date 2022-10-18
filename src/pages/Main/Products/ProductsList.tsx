@@ -21,7 +21,8 @@ interface IProductsList {
 
 function ProductsList({ reLoading, productObj }: IProductsList) {
   const productsService = useRecoilValue(productsApi);
-  const [copyProducts, setCopyProducts] = useState<IProducts[]>(productObj.products!);
+  // NOTE: productObj 객체 참조 끊기 / 끊지 않으면 query 데이터를 참조하며, state 변경 시 cache값도 변경된다.
+  const [copyProducts, setCopyProducts] = useState<IProducts[]>([...productObj.products]);
   const [updActive, setUpdActive] = useRecoilState(updateState);
   const [delActive, setDelActive] = useRecoilState(deleteState);
   const [popupActive, setPopupActive] = useRecoilState(popupState);
@@ -32,7 +33,9 @@ function ProductsList({ reLoading, productObj }: IProductsList) {
   const mutateLoading = updLoading || insLoading;
 
   useEffect(() => {
-    setCopyProducts(productObj.products!);
+    // NOTE: props가 변경되어 리렌더링이 되어 state의 초기값이 바뀌어도 state는 변하지 않음.
+    // state의 초기값은 최초 렌더링시 적용.
+    setCopyProducts([...productObj.products]);
   }, [reLoading]);
   
   const onSave = () => {

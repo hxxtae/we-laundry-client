@@ -27,7 +27,7 @@ function Products() {
   return (
     <Wrapper>
       <CategorysTabs productObjs={productObjs} categoryIdx={categoryIdx} setCategoryIdx={setCategoryIdx} />
-      {!!productObjs?.length ? productObjs.map((productObj, index) => (
+      {!!(productObjs?.length) ? productObjs.map((productObj, index) => (
           (index + 1) === categoryIdx && 
           <ProductsList
             key={productObj.id}
