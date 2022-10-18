@@ -18,7 +18,7 @@ export const inputStyle = {
     appearance: none;
     transition: background-color border-color 200ms ease-in-out;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
 
     &::placeholder {
       font-size: 14px;
@@ -26,10 +26,6 @@ export const inputStyle = {
 
     &:focus {
       border-color: ${colors.secondary};
-    }
-
-    @media ${media.pc_s} {
-      font-size: 16px;
     }
   `,
 }
