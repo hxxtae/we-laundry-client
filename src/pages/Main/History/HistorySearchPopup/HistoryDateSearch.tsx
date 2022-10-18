@@ -3,8 +3,8 @@ import {faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import DateComponent, { dateToString } from '../../../../components/DateComponent';
-import { buttonStyle, includes } from '../../../../styles';
+import DateComponent from '../../../../components/DateComponent';
+import { buttonStyle, includes, media } from '../../../../styles';
 import { InputTitles } from '../../../../components';
 
 interface IHistoryDateSearch {
@@ -15,11 +15,10 @@ interface IHistoryDateSearch {
 }
 
 function HistoryDateSearch({ setDateActive, setNowDate, setCusObj, prevInput }: IHistoryDateSearch) {
-  const searchInput = !prevInput ? new Date() : new Date(prevInput);
-  const [searchDate, setSearchDate] = useState(searchInput);
+  const [searchDate, setSearchDate] = useState(prevInput);
 
   const onSearch = () => {
-    setNowDate(dateToString(searchDate));
+    setNowDate(searchDate);
     setCusObj((prev) => ({
       ...prev,
       addname: '',
@@ -50,18 +49,24 @@ export default HistoryDateSearch;
 const Wrapper = styled.div`
   ${includes.flexBox()}
   position: relative;
-  width: 320px;
-  height: 320px;
+  top: -40px;
+  width: 285px;
+  height: 285px;
   padding: 20px;
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 4px;
   background-color: ${(props) => props.theme.bgColor};
+
+  @media ${media.pc_s} {
+    width: 320px;
+    height: 320px;
+  }
 `;
 
 const InputGroup = styled.form`
-  ${includes.flexBox('flex-start', 'center')}
+  ${includes.flexBox('stretch', 'center')}
   flex-direction: column;
-  width: 220px;
+  margin: 0 20px;
 `;
 
 const Close = styled.button`
@@ -82,8 +87,7 @@ const Close = styled.button`
 `;
 
 const ButtonGroup = styled.div`
-  ${includes.flexBox()}
-  width: 100%;
+  align-self: center;
 `;
 
 const Submit = styled.button`
