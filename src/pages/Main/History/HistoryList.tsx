@@ -15,12 +15,14 @@ import HistoryDateSearch from './HistorySearchPopup/HistoryDateSearch';
 import HistoryCustomerSearch from './HistorySearchPopup/HistoryCustomerSearch';
 
 function HistoryList() {
-  const [searchObj, setSearchObj] = useState({ recordDate: dateToString(new Date()), addname: '', dong: '', ho: '' });
+  const [searchObj, setSearchObj] = useState({
+    recordDate: dateToString(new Date()), addname: '', dong: '', ho: ''
+  });
   const [dateActive, setDateActive] = useState(false);
   const [customerActive, setCustomerActive] = useState(false);
   const [clickId, setClickId] = useState('');
-  const setRecordState = useSetRecoilState(recordRequestState);
-  const resetRecordState = useResetRecoilState(recordRequestState);
+  // const setRecordState = useSetRecoilState(recordRequestState);
+  // const resetRecordState = useResetRecoilState(recordRequestState);
   const { historyLoading, reHistoryLoading, historyDatas } = useHistoryFetch(searchObj);
   const searchLoading = historyLoading || reHistoryLoading;
 
@@ -28,37 +30,37 @@ function HistoryList() {
     return datas.findIndex((obj) => obj.recordDate === value);
   }
 
-  useEffect(() => {
-    if (searchLoading) {
-      return;
-    }
-
-    if (!(historyDatas?.length)) {
-      resetRecordState();
-      return;
-    }
-
-    const { id, recordDate, recordCount, recordPrice, cusid, addid, addname, addfullname, dong, ho, records } = historyDatas[0];
-    setRecordState((prevObj) => ({
-      ...prevObj,
-      id,
-      recordDate,
-      recordCount,
-      recordPrice,
-      cusid,
-      addid,
-      addname,
-      addfullname,
-      dong,
-      ho,
-      laundry: records.laundry,
-      repair: records.repair,
-    }));
-  }, [historyDatas]);
-
   const onClickItem = useCallback((itemId: string) => {
     setClickId(itemId);
   }, [clickId]);
+
+  // useEffect(() => {
+  //   if (searchLoading) {
+  //     return;
+  //   }
+
+  //   if (!(historyDatas?.length)) {
+  //     resetRecordState();
+  //     return;
+  //   }
+
+  //   const { id, recordDate, recordCount, recordPrice, cusid, addid, addname, addfullname, dong, ho, records } = historyDatas[0];
+  //   setRecordState((prevObj) => ({
+  //     ...prevObj,
+  //     id,
+  //     recordDate,
+  //     recordCount,
+  //     recordPrice,
+  //     cusid,
+  //     addid,
+  //     addname,
+  //     addfullname,
+  //     dong,
+  //     ho,
+  //     laundry: records.laundry,
+  //     repair: records.repair,
+  //   }));
+  // }, [historyDatas]);
 
   return (
     <>
