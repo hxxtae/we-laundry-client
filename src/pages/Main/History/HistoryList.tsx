@@ -5,7 +5,7 @@ import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { buttonStyle, dragging, includes, media, scroll } from '../../../styles';
-import { useHistoryDateFetch } from '../../../hooks';
+import { useHistoryFetch } from '../../../hooks';
 import { LoadingComponent, Overlay } from '../../../components';
 import { dateToString } from '../../../components/DateComponent';
 import { IRecordObjResponse } from '../../../services/records';
@@ -15,14 +15,14 @@ import HistoryDateSearch from './HistorySearchPopup/HistoryDateSearch';
 import HistoryCustomerSearch from './HistorySearchPopup/HistoryCustomerSearch';
 
 function HistoryList() {
-  const [nowDate, setNowDate] = useState({ recordDate: dateToString(new Date()), addname: '', dong: '', ho: '' });
+  const [searchObj, setSearchObj] = useState({ recordDate: dateToString(new Date()), addname: '', dong: '', ho: '' });
   const [dateActive, setDateActive] = useState(false);
   const [customerActive, setCustomerActive] = useState(false);
   const [clickId, setClickId] = useState('');
   const setRecordState = useSetRecoilState(recordRequestState);
   const resetRecordState = useResetRecoilState(recordRequestState);
-  const { loadingDate, reLoadingDate, historyDateDatas } = useHistoryDateFetch(nowDate);
-  const searchLoading = loadingDate || reLoadingDate;
+  const { historyLoading, reHistoryLoading, historyDatas } = useHistoryFetch(searchObj);
+  const searchLoading = historyLoading || reHistoryLoading;
 
   const findIdx = (datas: IRecordObjResponse[], value: string) => {
     return datas.findIndex((obj) => obj.recordDate === value);
@@ -33,13 +33,13 @@ function HistoryList() {
       return;
     }
 
-    if (!(historyDateDatas?.length)) {
+    if (!(historyDatas?.length)) {
       resetRecordState();
       return;
     }
 
-    const { id, recordDate, recordCount, recordPrice, cusid, addid, addname, addfullname, dong, ho, records } = historyDateDatas[0];
-    console.log(historyDateDatas)
+    const { id, recordDate, recordCount, recordPrice, cusid, addid, addname, addfullname, dong, ho, records } = historyDatas[0];
+    console.log(historyDatas)
     setRecordState((prevObj) => ({
       ...prevObj,
       id,
@@ -55,7 +55,7 @@ function HistoryList() {
       laundry: records.laundry,
       repair: records.repair,
     }));
-  }, [historyDateDatas]);
+  }, [historyDatas]);
 
   const onClickItem = useCallback((itemId: string) => {
     setClickId(itemId);
@@ -69,8 +69,8 @@ function HistoryList() {
           <CusButton onClick={() => setCustomerActive(true)}>{'주소로 검색'}</CusButton>
         </ButtonGroup>
         <List>
-          {!!(historyDateDatas?.length) ?
-            historyDateDatas.map((obj, index, arr) => (
+          {!!(historyDatas?.length) ?
+            historyDatas.map((obj, index, arr) => (
               findIdx(arr, obj.recordDate) === index && (
                 <HistoryListItem
                   key={obj.id}
@@ -96,15 +96,15 @@ function HistoryList() {
         <Overlay>
           <HistoryDateSearch
             setDateActive={setDateActive}
-            setNowDate={setNowDate}
-            prevInput={nowDate} />
+            setSearchObj={setSearchObj}
+            searchObj={searchObj} />
         </Overlay>}
       {customerActive && 
         <Overlay>
           <HistoryCustomerSearch
             setCustomerActive={setCustomerActive}
-            setNowDate={setNowDate}
-            prevInput={nowDate} />
+            setSearchObj={setSearchObj}
+            searchObj={searchObj} />
         </Overlay>}
     </>
   )

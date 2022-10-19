@@ -10,16 +10,16 @@ import { buttonStyle, includes } from '../../../../styles';
 
 interface IHistoryCustomerSearch {
   setCustomerActive: React.Dispatch<React.SetStateAction<boolean>>;
-  setNowDate: React.Dispatch<React.SetStateAction<IRecordSearchRequest>>;
-  prevInput: IRecordSearchRequest;
+  setSearchObj: React.Dispatch<React.SetStateAction<IRecordSearchRequest>>;
+  searchObj: IRecordSearchRequest;
 }
 
-function HistoryCustomerSearch({ setCustomerActive, setNowDate, prevInput }: IHistoryCustomerSearch) {
+function HistoryCustomerSearch({ setCustomerActive, setSearchObj, searchObj }: IHistoryCustomerSearch) {
   const method = useForm<IRecordSearchRequestByAdd>();
 
   const onSearch = ({ addname, dong, ho }: IRecordSearchRequestByAdd) => {
     const data = { addname, dong, ho };
-    setNowDate(prev => ({
+    setSearchObj(prev => ({
       ...prev,
       recordDate: '',
       ...data
@@ -28,9 +28,9 @@ function HistoryCustomerSearch({ setCustomerActive, setNowDate, prevInput }: IHi
   }
 
   useEffect(() => {
-    method.setValue('addname', prevInput.addname);
-    method.setValue('dong', prevInput.dong);
-    method.setValue('ho', prevInput.ho || '');
+    method.setValue('addname', searchObj.addname);
+    method.setValue('dong', searchObj.dong);
+    method.setValue('ho', searchObj.ho || '');
   }, []);
 
   return (

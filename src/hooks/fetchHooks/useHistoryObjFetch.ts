@@ -6,13 +6,13 @@ import { recordsApi } from '../../global';
 import { toastStyle } from '../../styles';
 import { queryKeys } from '../../util';
 
-interface IHistoryDateFetch {
-  loadingDate: boolean;
-  reLoadingDate: boolean;
-  historyDateDatas: IRecordObjResponse[];
+interface IHistoryFetch {
+  historyLoading: boolean;
+  reHistoryLoading: boolean;
+  historyDatas: IRecordObjResponse[];
 }
 
-export const useHistoryDateFetch = ({ recordDate, addname, dong, ho }: IRecordSearchRequest): IHistoryDateFetch => {
+export const useHistoryFetch = ({ recordDate, addname, dong, ho }: IRecordSearchRequest): IHistoryFetch => {
   const recordsService = useRecoilValue(recordsApi);
 
   const onSearchConfirm = () => {
@@ -29,8 +29,8 @@ export const useHistoryDateFetch = ({ recordDate, addname, dong, ho }: IRecordSe
   }
 
   const {
-    isLoading: loadingDate,
-    isFetching: reLoadingDate,
+    isLoading: historyLoading,
+    isFetching: reHistoryLoading,
     data: fetchDatas,
   } = useQuery(onSearchConfirm().queryKey, onSearchConfirm().queryFn, {
     staleTime: 1000 * 60 * 10, // 10분
@@ -43,5 +43,5 @@ export const useHistoryDateFetch = ({ recordDate, addname, dong, ho }: IRecordSe
     }
   });
 
-  return { loadingDate, reLoadingDate, historyDateDatas: fetchDatas?.data };
+  return { historyLoading, reHistoryLoading, historyDatas: fetchDatas?.data };
 }

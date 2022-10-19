@@ -10,15 +10,15 @@ import { IRecordSearchRequest } from '../../../../services/records';
 
 interface IHistoryDateSearch {
   setDateActive: React.Dispatch<React.SetStateAction<boolean>>;
-  setNowDate: React.Dispatch<React.SetStateAction<IRecordSearchRequest>>;
-  prevInput: IRecordSearchRequest;
+  setSearchObj: React.Dispatch<React.SetStateAction<IRecordSearchRequest>>;
+  searchObj: IRecordSearchRequest;
 }
 
-function HistoryDateSearch({ setDateActive, setNowDate, prevInput }: IHistoryDateSearch) {
-  const [searchDate, setSearchDate] = useState(prevInput.recordDate || dateToString(new Date()));
+function HistoryDateSearch({ setDateActive, setSearchObj, searchObj }: IHistoryDateSearch) {
+  const [searchDate, setSearchDate] = useState(searchObj.recordDate || dateToString(new Date()));
 
   const onSearch = () => {
-    setNowDate(prev => ({
+    setSearchObj(prev => ({
       ...prev,
       recordDate: searchDate,
       addname: '',

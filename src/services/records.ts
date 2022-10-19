@@ -61,7 +61,6 @@ export interface IRecordSearchRequestByAdd {
 }
 
 export type IRecordSearchRequest = IRecordSearchRequestByDate & IRecordSearchRequestByAdd;
-export type IRecordSearchConfirm = "customer" | "date";
 
 interface IRecordsService {
   createRecord: ({ recordCount, recordPrice, cusid, addid, addname, dong, ho, addfullname, laundry, repair }: IRecordRequest) => Promise<AxiosResponse>;
