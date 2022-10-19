@@ -4,31 +4,33 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { IRecordSearchRequestByAdd, IRecordSearchRequestByDongAndHo } from '../../../../services/records';
+import { IRecordSearchRequest, IRecordSearchRequestByAdd } from '../../../../services/records';
 import { RecordAddname, RecordDong, RecordHo } from '../../Records/RecordsInputs';
 import { buttonStyle, includes } from '../../../../styles';
 
 interface IHistoryCustomerSearch {
   setCustomerActive: React.Dispatch<React.SetStateAction<boolean>>;
-  setNowDate: React.Dispatch<React.SetStateAction<string>>;
-  setCusObj: React.Dispatch<React.SetStateAction<{ addname: string, dong: string, ho: string }>>;
-  prevInput: IRecordSearchRequestByDongAndHo;
+  setSearchObj: React.Dispatch<React.SetStateAction<IRecordSearchRequest>>;
+  searchObj: IRecordSearchRequest;
 }
 
-function HistoryCustomerSearch({ setCustomerActive, setNowDate, setCusObj, prevInput }: IHistoryCustomerSearch) {
+function HistoryCustomerSearch({ setCustomerActive, setSearchObj, searchObj }: IHistoryCustomerSearch) {
   const method = useForm<IRecordSearchRequestByAdd>();
 
   const onSearch = ({ addname, dong, ho }: IRecordSearchRequestByAdd) => {
     const data = { addname, dong, ho };
-    setCusObj(data);
-    setNowDate('');
+    setSearchObj(prev => ({
+      ...prev,
+      recordDate: '',
+      ...data
+    }));
     setCustomerActive(false);
   }
 
   useEffect(() => {
-    method.setValue('addname', prevInput.addname);
-    method.setValue('dong', prevInput.dong);
-    method.setValue('ho', prevInput.ho || '');
+    method.setValue('addname', searchObj.addname);
+    method.setValue('dong', searchObj.dong);
+    method.setValue('ho', searchObj.ho || '');
   }, []);
 
   return (

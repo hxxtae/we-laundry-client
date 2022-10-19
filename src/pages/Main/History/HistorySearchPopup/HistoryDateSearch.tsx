@@ -1,26 +1,26 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import DateComponent from '../../../../components/DateComponent';
+import { dateToString } from '../../../../components/DateComponent';
 import { buttonStyle, includes, media } from '../../../../styles';
-import { InputTitles } from '../../../../components';
+import { InputTitles, DateComponent } from '../../../../components';
+import { IRecordSearchRequest } from '../../../../services/records';
 
 interface IHistoryDateSearch {
   setDateActive: React.Dispatch<React.SetStateAction<boolean>>;
-  setNowDate: React.Dispatch<React.SetStateAction<string>>;
-  setCusObj: React.Dispatch<React.SetStateAction<{ addname: string, dong: string, ho: string }>>;
-  prevInput: string;
+  setSearchObj: React.Dispatch<React.SetStateAction<IRecordSearchRequest>>;
+  searchObj: IRecordSearchRequest;
 }
 
-function HistoryDateSearch({ setDateActive, setNowDate, setCusObj, prevInput }: IHistoryDateSearch) {
-  const [searchDate, setSearchDate] = useState(prevInput);
+function HistoryDateSearch({ setDateActive, setSearchObj, searchObj }: IHistoryDateSearch) {
+  const [searchDate, setSearchDate] = useState(searchObj.recordDate || dateToString(new Date()));
 
   const onSearch = () => {
-    setNowDate(searchDate);
-    setCusObj((prev) => ({
+    setSearchObj(prev => ({
       ...prev,
+      recordDate: searchDate,
       addname: '',
       dong: '',
       ho: ''
