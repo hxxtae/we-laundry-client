@@ -37,7 +37,7 @@ function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setC
     }
     const { productName, price } = productState;
     method.setValue('productName', productName);
-    method.setValue('price', price);
+    method.setValue('price', Number(price));
   }, []);
 
   const onSubmit = ({ id, productName, price }: IProductCreateRequest) => {
@@ -45,16 +45,18 @@ function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setC
     /* update */
     if (updActive) {
       const { productId, index } = productState;
+      // 이전 product obj
       const {
         productName: prev_productName,
         price: prev_price
       } = copyProducts[index];
       
+      // 새로운 product obj
       const updateProduct: IProducts = {
         ...copyProducts[index],
         productId,
         productName: productName || prev_productName,
-        price: price || prev_price,
+        price: Number(price) ?? Number(prev_price),
       };
 
       copyProducts.splice(index!, 1, updateProduct);
