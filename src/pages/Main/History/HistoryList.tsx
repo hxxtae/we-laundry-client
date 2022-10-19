@@ -39,7 +39,6 @@ function HistoryList() {
     }
 
     const { id, recordDate, recordCount, recordPrice, cusid, addid, addname, addfullname, dong, ho, records } = historyDatas[0];
-    console.log(historyDatas)
     setRecordState((prevObj) => ({
       ...prevObj,
       id,

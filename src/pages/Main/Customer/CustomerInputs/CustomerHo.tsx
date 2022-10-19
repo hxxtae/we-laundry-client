@@ -12,7 +12,6 @@ interface ICustomerHo {
 }
 
 function CustomerHo({ searchActive }: ICustomerHo, ref: any) {
-  console.log('CustomerHo');
   const [selectAct, setSelectAct] = useState(false);
   const { register, formState: { errors }, setValue, getValues } = useFormContext();
 
