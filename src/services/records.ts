@@ -60,16 +60,13 @@ export interface IRecordSearchRequestByAdd {
   ho: string;
 }
 
-export interface IRecordSearchRequestByDongAndHo {
-  addname: string;
-  dong: string;
-  ho?: string;
-}
+export type IRecordSearchRequest = IRecordSearchRequestByDate & IRecordSearchRequestByAdd;
+export type IRecordSearchConfirm = "customer" | "date";
 
 interface IRecordsService {
   createRecord: ({ recordCount, recordPrice, cusid, addid, addname, dong, ho, addfullname, laundry, repair }: IRecordRequest) => Promise<AxiosResponse>;
   searchRecordByDate: (recordDate: string) => Promise<AxiosResponse>;
-  searchRecordByCustomer: ({ addname, dong, ho }: IRecordSearchRequestByDongAndHo) => Promise<AxiosResponse>;
+  searchRecordByCustomer: ({ addname, dong, ho }: IRecordSearchRequestByAdd) => Promise<AxiosResponse>;
   deleteRecord: (id: string) => Promise<AxiosResponse>;
 }
 
@@ -104,7 +101,7 @@ export default class RecordsService implements IRecordsService {
     return data;
   }
 
-  async searchRecordByCustomer({ addname, dong, ho }: IRecordSearchRequestByDongAndHo) {
+  async searchRecordByCustomer({ addname, dong, ho }: IRecordSearchRequestByAdd) {
     const data = this.http.fetch(`/records?addname=${addname}&dong=${dong}&ho=${ho}`, {
       method: 'GET',
     });
