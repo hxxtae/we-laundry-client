@@ -5,11 +5,11 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
-import { customerRequestState, deleteState, searchState, updateState } from '../../../global';
+import { customerRequestState, searchState, updateState } from '../../../global';
 import { buttonStyle, includes, media, scroll } from '../../../styles';
 import { DeleteConfirm, LoadingComponent, Overlay } from '../../../components';
-import { usePaging } from '../../../hooks';
 import { useCustomerFetch, useCustomerDel } from './application/hooks';
+import { usePaging } from '../../../hooks';
 import { CustomerDTO } from './application/interface';
 import CustomerSearch from './CustomerSearch';
 import CustomerItem from './CustomerItem';
@@ -17,8 +17,8 @@ import CustomerItem from './CustomerItem';
 function CustomerList() {
   const setUpdateData = useSetRecoilState(customerRequestState);
   const [updateActive, setUpdateActive] = useRecoilState(updateState);
-  const [searchPop, setSearchPop] = useRecoilState(searchState);
-  const [deletePop, setDeletePop] = useRecoilState(deleteState);
+  const [searchPopup, setSearchPopup] = useRecoilState(searchState);
+  const [deletePopup, setDeletePopup] = useState(false);
   const [deleteId, setDeleteId] = useState('');  
   const { isLoading, isFetching, customerDatas } = useCustomerFetch();
   const { isMutating, mutate } = useCustomerDel();
@@ -41,7 +41,7 @@ function CustomerList() {
 
   const onDeleteActive = (id: string) => {
     if (updateActive) return;
-    setDeletePop(true);
+    setDeletePopup(true);
     setDeleteId(id);
     setUpdateActive(false);
   };
@@ -56,7 +56,7 @@ function CustomerList() {
         <Count>총 {customerDatas?.length || 0} 개</Count>
         <SearchButton
           typeof='button'
-          onClick={() => setSearchPop(true)}
+          onClick={() => setSearchPopup(true)}
           disabled={updateActive}>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
           <span>검색</span>
@@ -92,10 +92,10 @@ function CustomerList() {
         </PageMove>
       </PageNation>
 
-      {searchPop && <CustomerSearch />}
-      {deletePop &&
+      {searchPopup && <CustomerSearch />}
+      {deletePopup &&
         <Overlay>
-          <DeleteConfirm deleteId={deleteId} onDelete={onDelete} setDeletePop={setDeletePop} loading={isMutating} />
+          <DeleteConfirm deleteId={deleteId} onDelete={onDelete} setDeletePop={setDeletePopup} loading={isMutating} />
         </Overlay>}
       {(cusLoading || isMutating) && 
       <Overlay>
