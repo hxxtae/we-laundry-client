@@ -66,8 +66,8 @@
 
 - [Stack](#stack)
 - [RESTful Api](#restful-api)
-- [State Management](#state-management)
 - [Auth Confirm](#auth-confirm)
+- [State Management](#state-management)
 - [Theme](#theme)
 - [Router](#router)
 - [Page](#page)
@@ -200,6 +200,12 @@ export const isAuth = async (req, res, next) => {
   )
 }
 ```
+### 코드 설명과 이유
+
+1. `JWT(JSON Web Token)` 은(는) JSON 포맷을 이용하여 사용자에 대한 속성을 저장하는 Claim 기반의 WebToken입니다.
+2. 브라우저 쿠키에서 받은 JWT 토큰을 검증하는 코드입니다.
+3. `토큰-기반-인증` 시스템은 인증 받은 사용자들에게 토큰을 발급하고, 서버에 요청할 때마다 `토큰(JWT)`에 보관된 사용자 인증 정보를 검증하기 때문에, `서버-기반-인증` 방식 처럼 세션ID 토큰을 검증하기 위해 서버의 리소스를 많이 소모할 필요가 없습니다.
+
 
 <br>
 
@@ -246,6 +252,11 @@ const AuthContext = ({ children }: IAuthContextProps) => {
 }
 export default AuthContext;
 ```
+### 코드 설명과 이유
+
+1. 위 코드는 사용자 인증 성공 여부에 따른 라우터된 화면을 보여줍니다.
+2. `Server(React-Query)`에서 응답한 사용자의 정보를 받아 `Client(Recoil)`의 전역 상태로 관리되어 집니다.
+3. Server상태와 Client상태를 나누어 관리하기 때문에 프로젝트의 규모가 커질 수록 관리되는 상태의 복잡성을 낮출 수 있는 장점이 존재합니다. (상태 값에 따른 구독 컴포넌트의 명확성 향상)
 
 <br>
 
@@ -312,6 +323,29 @@ export default ThemeButton;
 
 ## Router
 
+### Before Login
+
+| Path         | Description                                  |
+| ------------ | -------------------------------------------- |
+| **/**        | Root path is Login page                      |
+| **/signup**  | This router path is signup page              |
+| **/\***      | This router path is connection by login page |
+
+<br>
+
+### After Login
+
+| Path            | Description                               |
+| --------------- | ----------------------------------------- |
+| **/**           | Root path is sales on & off page          |
+| **/records**    | This router path is order receiption page |
+| **/history**    | This router path is order list page       |
+| **/customer**   | This router path is customer manage page  |
+| **/products**   | This router path is products manage page  |
+| **/address**    | This router path is address manage page   |
+| **/sales**      | This router path is sales manage page     |
+| **/\***         | This router path is page not found        |
+
 <br>
 
 ## Page
@@ -362,7 +396,7 @@ export default ThemeButton;
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the APACHE-2.0 License.
 
 ![license](https://img.shields.io/github/license/hxxtae/we-laundry-client?color=%23097aba&logo=github&style=for-the-badge)
 
