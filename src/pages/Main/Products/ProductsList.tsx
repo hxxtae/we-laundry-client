@@ -1,13 +1,13 @@
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { GridContextProvider, swap } from "react-grid-dnd";
 import { useMutation, useQueryClient } from 'react-query';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { IProductCreateRequest, IProductObjResponse, IProducts, IProductsUpdateRequest } from '../../../services/products';
-import { deleteState, popupState, updateState, productsApi } from '../../../global';
+import { productsApi, productsPopupState, menuPopupState } from '../../../global';
 import { buttonStyle, includes, media, scroll, toastStyle } from '../../../styles';
 import { LoadingComponent, Overlay } from '../../../components';
 import { queryKeys } from '../../../util';
@@ -23,27 +23,24 @@ function ProductsList({ reLoading, productObj }: IProductsList) {
   const productsService = useRecoilValue(productsApi);
   // NOTE: productObj 객체 참조 끊기 / 끊지 않으면 query 데이터를 참조하며, state 변경 시 cache값도 변경된다.
   const [copyProducts, setCopyProducts] = useState<IProducts[]>([...productObj.products]);
-  const [updActive, setUpdActive] = useRecoilState(updateState);
-  const [delActive, setDelActive] = useRecoilState(deleteState);
-  const [popupActive, setPopupActive] = useRecoilState(popupState);
+  const [productsPopup, setProductsPopup] = useRecoilState(productsPopupState);
+  const setMenuPopup = useSetRecoilState(menuPopupState);
   const client = useQueryClient();
 
   const { isLoading: updLoading, mutate: updMutate } = useMutation(({ id, products }: IProductsUpdateRequest) => productsService.updateProduct({ id, products }));
   const { isLoading: insLoading, mutate: insMutate } = useMutation(({ id, productName, price }: IProductCreateRequest) => productsService.createProduct({ id, productName, price }));
   const mutateLoading = updLoading || insLoading;
-
-  useEffect(() => {
-    // NOTE: props가 변경되어 리렌더링이 되어 state의 초기값이 바뀌어도 state는 변하지 않음.
-    // state의 초기값은 최초 렌더링시 적용.
-    setCopyProducts([...productObj.products]);
-  }, [reLoading]);
   
   const onSave = () => {
     const data = { id: productObj.id, products: copyProducts };
     updMutate(data, {
       onSuccess: () => {
-        setUpdActive(false);
-        setDelActive(false);
+        setProductsPopup(prev => ({
+          ...prev,
+          mainPopup: false,
+          updatePopup: false,
+          deletePopup: false,
+        }));
         client.invalidateQueries(queryKeys.products.all);
         toastStyle.info('저장되었습니다.');
       },
@@ -52,6 +49,7 @@ function ProductsList({ reLoading, productObj }: IProductsList) {
         toastStyle.error(error.message);
       }
     });
+    setMenuPopup(false);
   };
 
   const onRollup = () => {
@@ -59,12 +57,18 @@ function ProductsList({ reLoading, productObj }: IProductsList) {
   }
 
   const onChange = (sourceId: string, sourceIndex: number, targetIndex: number, targetId?: string) => {
-    if (updActive || delActive) {
+    if (productsPopup.updatePopup || productsPopup.deletePopup) {
       return;
     }
     const nextState = swap(copyProducts!, sourceIndex, targetIndex);
     setCopyProducts(nextState);
   }
+
+  useEffect(() => {
+    // NOTE: props가 변경되어 리렌더링이 되어 state의 초기값이 바뀌어도 state는 변하지 않음.
+    // state의 초기값은 최초 렌더링시 적용.
+    setCopyProducts([...productObj.products]);
+  }, [reLoading]);
 
   return (
     <>
@@ -82,7 +86,7 @@ function ProductsList({ reLoading, productObj }: IProductsList) {
         </Wrapper>
       </GridContextProvider>
 
-      {(popupActive) &&
+      {(productsPopup.mainPopup) &&
         <ProductsPopup categoryId={productObj.id} categoryName={productObj.categoryName} copyProducts={copyProducts} insMutate={insMutate} setCopyProducts={setCopyProducts} />}
       {(reLoading || mutateLoading) &&
         <Overlay>

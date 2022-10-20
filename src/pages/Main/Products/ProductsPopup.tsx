@@ -1,16 +1,16 @@
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UseMutateFunction, useQueryClient } from 'react-query';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AxiosResponse } from 'axios';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
-import { popupState, updateState, productRequestState } from '../../../global';
+import { productRequestState, productsPopupState } from '../../../global';
 import { IProductCreateRequest, IProducts } from '../../../services/products';
-import { buttonStyle, colors, includes, toastStyle } from '../../../styles';
+import { buttonStyle, includes, toastStyle } from '../../../styles';
 import ProductName from './PorductsInputs/ProductName';
 import ProductPrice from './PorductsInputs/ProductPrice';
 import { queryKeys } from '../../../util';
@@ -24,26 +24,15 @@ interface IProductsPopup {
 }
 
 function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setCopyProducts }: IProductsPopup) {
-  const setPopupActive = useSetRecoilState(popupState);
-  const updActive = useRecoilValue(updateState);
+  const [productsPopup, setProductsPopup] = useRecoilState(productsPopupState);
   const productState = useRecoilValue(productRequestState);
   const method = useForm<IProductCreateRequest>();
   const client = useQueryClient();
 
-  useEffect(() => {
-    if (!updActive) {
-      method.setValue('id', categoryId);
-      return;
-    }
-    const { productName, price } = productState;
-    method.setValue('productName', productName);
-    method.setValue('price', Number(price));
-  }, []);
-
   const onSubmit = ({ id, productName, price }: IProductCreateRequest) => {
-    
+
     /* update */
-    if (updActive) {
+    if (productsPopup.updatePopup) {
       const { productId, index } = productState;
       // 이전 product obj
       const {
@@ -61,7 +50,10 @@ function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setC
 
       copyProducts.splice(index!, 1, updateProduct);
       setCopyProducts(copyProducts);
-      setPopupActive(false);
+      setProductsPopup(prev => ({
+        ...prev,
+        mainPopup: false,
+      }));
       return;
     }
 
@@ -69,7 +61,11 @@ function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setC
     const data = { id, productName, price };
     insMutate(data, {
       onSuccess: () => {
-        setPopupActive(false);
+        setProductsPopup(prev => ({
+          ...prev,
+          mainPopup: false,
+          createPopup: false,
+        }))
         client.invalidateQueries(queryKeys.products.all);
         toastStyle.success('품목이 추가되었습니다.');
       },
@@ -80,10 +76,24 @@ function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setC
     });
   };
 
+  useEffect(() => {
+    if (productsPopup.createPopup) {
+      method.setValue('id', categoryId);
+      return;
+    }
+    const { productName, price } = productState;
+    method.setValue('productName', productName);
+    method.setValue('price', price);
+  }, []);
+
   return (
     <FormProvider {...method}>
       <InputGroup onSubmit={method.handleSubmit(onSubmit)}>
-        <Close type='button' onClick={() => setPopupActive(false)}>
+        <Close type='button' onClick={() => setProductsPopup(prev => ({
+          ...prev,
+          mainPopup: false,
+          createPopup: false,
+        }))}>
           <FontAwesomeIcon icon={faXmark} />
         </Close>
         <Title>{ categoryName }</Title>

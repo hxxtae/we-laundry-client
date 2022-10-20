@@ -35,6 +35,13 @@ export interface IProductsUpdateRequest {
   products: IProducts[];
 }
 
+export type IPopupStates = {
+  mainPopup: boolean;
+  createPopup: boolean;
+  updatePopup: boolean;
+  deletePopup: boolean;
+}
+
 interface IProductsService {
   fetchProductObjs: () => Promise<AxiosResponse>;
   createCategory: ({ categoryName }: ICategoryRequest) => Promise<AxiosResponse>;
