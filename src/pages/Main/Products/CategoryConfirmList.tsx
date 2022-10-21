@@ -1,9 +1,11 @@
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useFormContext } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 import { useState } from 'react';
 
-import { dragging, includes, scroll } from '../../../styles';
+import { colors, dragging, includes, scroll } from '../../../styles';
 import { DeleteConfirm, Overlay } from '../../../components';
 import { useProductObjFetch } from '../../../hooks';
 import { categoryPopupState } from '../../../global';
@@ -23,8 +25,8 @@ function CategoryConfirmList({ onDelete }: ICategoryConfirmList) {
     if (categoryPopup.updatePopup) {
       setValue('id', id);
       setValue('categoryName', name);
+      setDeleteId(id);
     }
-
     if (categoryPopup.deletePopup) {
       setDeleteConfirmPopup(true);
       setDeleteId(id);
@@ -41,6 +43,10 @@ function CategoryConfirmList({ onDelete }: ICategoryConfirmList) {
           <Item
             key={productObj.id}
             onClick={() => onItemClick(productObj.id, productObj.categoryName)}>
+            {productObj.id === deleteId &&
+              <Check>
+                <FontAwesomeIcon icon={faCheckCircle} />
+              </Check>}
             <Name>{productObj.categoryName}</Name>
           </Item>
         ))}
@@ -80,6 +86,7 @@ const List = styled.ul`
 
 const Item = styled.li`
   ${includes.flexBox()}
+  position: relative;
   flex-shrink: 0;
   width: 100%;
   height: 35px;
@@ -94,6 +101,13 @@ const Item = styled.li`
     background-color: ${(props) => props.theme.inputColor};
   }
 `;
+
+const Check = styled.span`
+  position: absolute;
+  right: 30px;
+  color: ${colors.green};
+  transition: color 200ms ease-in-out;
+`
 
 const Name = styled.span`
   color: ${(props) => props.theme.textColor};
