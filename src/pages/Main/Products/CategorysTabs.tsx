@@ -1,13 +1,12 @@
-import styled from 'styled-components';
 import { faPlus, faChevronLeft, faChevronRight, faGear } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useMutation } from 'react-query';
-import { useRecoilValue } from 'recoil';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import styled from 'styled-components';
 
+import { categoryPopupState, menuPopupState, productsApi, productsPopupState } from '../../../global';
 import { IProductObjResponse, ICategoryRequest } from '../../../services/products';
-import { deleteState, productsApi, updateState } from '../../../global';
 import { buttonStyle, colors, includes, media } from '../../../styles';
 import { LoadingComponent, Overlay } from '../../../components';
 import { usePaging } from '../../../hooks';
@@ -21,26 +20,25 @@ interface ICategorysTabs {
 }
 
 function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysTabs) {
-  const [popupActive, setPopupActive] = useState(false);
-  const [menuActive, setMenuActive] = useState(false);
-  const [updActive, setUpdActive] = useState(false);
-  const [delActive, setDelActive] = useState(false);
-  const updProActive = useRecoilValue(updateState);
-  const delProActive = useRecoilValue(deleteState);
   const productsService = useRecoilValue(productsApi);
-
+  const [categoryPopup, setCategoryPopup] = useRecoilState(categoryPopupState);
+  const productsPopup = useRecoilValue(productsPopupState);
+  const [menuPopup, setMenuPopup] = useRecoilState(menuPopupState);
+  
   const { isLoading: insAndUpdLoading, mutate } = useMutation(
-    updActive ?
+    categoryPopup.updatePopup ?
       ({ id, categoryName }: ICategoryRequest) => productsService.updateCategory({ id, categoryName }) :
       ({ categoryName }: ICategoryRequest) => productsService.createCategory({ categoryName }));
-
   const { isLoading: delLoading, mutate: delMutate } = useMutation((id: string) => productsService.deleteCategory(id));
-  
   const { fetchDatas, prevPage, nextPage, pageSort: { ASC } } = usePaging(productObjs, productObjs?.length, 5, 1);
 
   const onAddCategory = () => {
-    setPopupActive(true);
-    setMenuActive(false);
+    setCategoryPopup((prev) => ({
+      ...prev,
+      mainPopup: true,
+      createPopup: true,
+    }));
+    setMenuPopup(false);
   }
 
   return (
@@ -52,7 +50,7 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
             <Tab
               type='button'
               onClick={() => setCategoryIdx(ASC(index))}
-              disabled={updProActive || delProActive}>
+              disabled={productsPopup.updatePopup || productsPopup.deletePopup}>
               {productObj.categoryName}
             </Tab>
             {ASC(index) === categoryIdx &&
@@ -63,7 +61,7 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
             <Tab
               type='button'
               onClick={onAddCategory}
-              disabled={updProActive || delProActive}>
+              disabled={productsPopup.updatePopup || productsPopup.deletePopup}>
               <FontAwesomeIcon icon={faPlus} />
               <span>{'추가'}</span>
           </Tab>
@@ -77,25 +75,15 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
           <TabMove onClick={nextPage}>
             <FontAwesomeIcon icon={faChevronRight} />
           </TabMove>
-          <TabSetting onClick={() => setMenuActive((prev) => !prev)} disabled={!productObjs?.length}>
+          <TabSetting onClick={() => setMenuPopup((prev) => !prev)} disabled={!productObjs?.length}>
             <FontAwesomeIcon icon={faGear} />
           </TabSetting>
         </TabControl>
       </TabsGroup>
 
-      {popupActive && <CategoryPopup
-        setPopupActive={setPopupActive}
-        setUpdActive={setUpdActive}
-        setDelActive={setDelActive}
-        mutate={mutate}
-        delMutate={delMutate}
-        updActive={updActive}
-        delActive={delActive} />}
-      {menuActive && <SettingMenu
-        setMenuActive={setMenuActive}
-        setPopupActive={setPopupActive}
-        setUpdCateAct={setUpdActive}
-        setDelCateAct={setDelActive} />}
+      {categoryPopup.mainPopup && <CategoryPopup mutate={mutate} delMutate={delMutate} />}
+      {menuPopup && <SettingMenu />}
+      
       {(insAndUpdLoading || delLoading) && 
         <Overlay>
           <LoadingComponent loadingMessage='잠시만 기다려주세요.' />
@@ -133,7 +121,7 @@ const Wrapper = styled.div`
 
 const Tab = styled.button`
   flex-shrink: 0;
-  ${buttonStyle.base}
+  ${buttonStyle.base()}
   padding: 15px;
   color: ${(props) => props.theme.textColor};
   font-size: 12px;

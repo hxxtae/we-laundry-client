@@ -4,56 +4,90 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-import { deleteState, popupState, updateState } from '../../../global';
+import { categoryPopupState, menuPopupState,productsPopupState } from '../../../global';
 import { buttonStyle, includes, media, toastStyle } from '../../../styles';
 
-interface IProductsMenu {
-  setMenuActive: React.Dispatch<React.SetStateAction<boolean>>;
-  setUpdCateAct: React.Dispatch<React.SetStateAction<boolean>>;
-  setDelCateAct: React.Dispatch<React.SetStateAction<boolean>>;
-  setPopupActive: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-function SettingMenu({ setMenuActive, setUpdCateAct, setDelCateAct, setPopupActive }: IProductsMenu) {
-  const setPopupProAct = useSetRecoilState(popupState);
-  const [updProAct, setUpdProAct] = useRecoilState(updateState);
-  const [delProAct, setDelProAct] = useRecoilState(deleteState);
+function SettingMenu() {
+  const setCategoryPopup = useSetRecoilState(categoryPopupState);
+  const [productsPopup, setProductsPopup] = useRecoilState(productsPopupState);
+  const setMenuPopup = useSetRecoilState(menuPopupState);
 
   const onClick = (btnIdx: number) => {
     if (btnIdx === 0) {
-      setUpdCateAct(true);
-      setPopupActive(true);
+      setCategoryPopup(prev => ({
+        ...prev,
+        mainPopup: true,
+        updatePopup: true
+      }));
+
     } else if (btnIdx === 1) {
-      setDelCateAct(true);
-      setPopupActive(true);
+      setCategoryPopup(prev => ({
+        ...prev,
+        mainPopup: true,
+        deletePopup: true
+      }));
+
     } else if (btnIdx === 2) {
-      setPopupProAct(true);
+      setProductsPopup(prev => ({
+        ...prev,
+        mainPopup: true,
+        createPopup: true
+      }));
+
     } else if (btnIdx === 3) {
-      setUpdProAct((prev) => !prev);
-      if (!updProAct) {
+      setProductsPopup(prev => ({
+        ...prev,
+        updatePopup: true,
+      }))
+      if (!productsPopup.updatePopup) {
         toastStyle.infoSecondary('변경 항목을 선택해주세요.');
+      } else {
+        setProductsPopup(prev => ({
+          ...prev,
+          updatePopup: false,
+        }));
       }
+
     } else if (btnIdx === 4) {
-      setDelProAct((prev) => !prev);
-      if (!delProAct) {
+      setProductsPopup(prev => ({
+        ...prev,
+        deletePopup: true
+      }));
+      if (!productsPopup.deletePopup) {
         toastStyle.infoSecondary('삭제 항목을 선택해주세요.');
+      } else {
+        setProductsPopup(prev => ({
+          ...prev,
+          deletePopup: false,
+        }));
       }
     };
-    setMenuActive(false);
+    
+    setMenuPopup(false);
   }
 
   return (
     <Wrapper variants={settingMenuVariant} initial="init" animate="start" exit="end">
       <MenuList variants={menuListVariant}>
-        <MenuItem type="button" onClick={() => onClick(0)} disabled={updProAct || delProAct}>
+        <MenuItem type="button"
+          onClick={() => onClick(0)}
+          disabled={productsPopup.updatePopup || productsPopup.deletePopup}>
           <FontAwesomeIcon icon={faFileCirclePlus} /> {'카테고리 변경'}</MenuItem>
-        <MenuItem type="button" onClick={() => onClick(1)} disabled={updProAct || delProAct}>
+        <MenuItem type="button"
+          onClick={() => onClick(1)}
+          disabled={productsPopup.updatePopup || productsPopup.deletePopup}>
           <FontAwesomeIcon icon={faFileCircleMinus} /> {'카테고리 삭제'}</MenuItem>
-        <MenuItem type="button" onClick={() => onClick(2)} disabled={updProAct || delProAct}>
+        <MenuItem type="button"
+          onClick={() => onClick(2)}
+          disabled={productsPopup.updatePopup || productsPopup.deletePopup}>
           <FontAwesomeIcon icon={faFolderPlus} /> {'품목 신규 추가'}</MenuItem>
-        <MenuItem type="button" onClick={() => onClick(3)} disabled={delProAct}>
+        <MenuItem type="button"
+          onClick={() => onClick(3)}
+          disabled={productsPopup.deletePopup}>
           <FontAwesomeIcon icon={faFolderOpen} /> {'품목 목록 변경'}</MenuItem>
-        <MenuItem type="button" onClick={() => onClick(4)} disabled={updProAct}>
+        <MenuItem type="button"
+          onClick={() => onClick(4)}
+          disabled={productsPopup.updatePopup}>
           <FontAwesomeIcon icon={faFolderMinus} /> {'품목 목록 삭제'}</MenuItem>
       </MenuList>
     </Wrapper>

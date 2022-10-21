@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import { buttonStyle, colors, dragging, includes, media, toastStyle } from '../../../styles';
-import { deleteState, recordRequestState, recordsApi } from '../../../global';
 import { DeleteConfirm, LoadingComponent, Overlay } from '../../../components';
+import { recordRequestState, recordsApi } from '../../../global';
 import { dateToString } from '../../../components/DateComponent';
 import { queryKeys } from '../../../util';
 import HistoryDetailList from './HistoryDetailList';
@@ -12,9 +13,8 @@ import HistoryDetailList from './HistoryDetailList';
 function HistoryDetails() {
   const recordState = useRecoilValue(recordRequestState);
   const recordService = useRecoilValue(recordsApi);
-  const [deletePopup, setDeletePopup] = useRecoilState(deleteState);
+  const [deletePopup, setDeletePopup] = useState(false);
   const client = useQueryClient();
-
   const { isLoading, mutate } = useMutation((id: string) => recordService.deleteRecord(id));
 
   const onUpdateClick = () => {

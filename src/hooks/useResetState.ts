@@ -1,9 +1,6 @@
 import { useResetRecoilState } from 'recoil';
 import {
-  deleteState,
   searchState,
-  updateState,
-  popupState,
   addressRequestState,
   customerRequestState,
   productRequestState,
@@ -11,14 +8,17 @@ import {
   recordLaundryState,
   recordRepairState,
   recordReceiptExeState,
-  customerSearchState
+  customerSearchState,
+  categoryPopupState,
+  productsPopupState,
+  menuPopupState
 } from '../global';
 
 export const useResetState = (state: boolean = false) => {
   /* atom action */
-  const resetUpdateState = useResetRecoilState(updateState);
-  const resetDeleteState = useResetRecoilState(deleteState);
-  const resetPopupState = useResetRecoilState(popupState);
+  const resetCategoryPopupState = useResetRecoilState(categoryPopupState);
+  const resetProductsPopupState = useResetRecoilState(productsPopupState);
+  const resetMenuPopupState = useResetRecoilState(menuPopupState);
   const resetSearchState = useResetRecoilState(searchState);
 
   /* atom Records */
@@ -34,9 +34,9 @@ export const useResetState = (state: boolean = false) => {
   const resetRecordState = useResetRecoilState(recordRequestState);
 
   const allStateReset = () => {
-    resetUpdateState();
-    resetDeleteState();
-    resetPopupState();
+    resetCategoryPopupState();
+    resetProductsPopupState();
+    resetMenuPopupState();
     resetSearchState();
 
     resetLaundryState();

@@ -207,7 +207,7 @@ const ButtonBox = styled.div`
 `;
 
 const Button = styled.button`
-  ${buttonStyle.primary}
+  ${buttonStyle.primary()}
   width: 100%;
 
   &:last-child {

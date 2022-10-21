@@ -321,7 +321,7 @@ const ReceiptPayBox = styled.div`
 const ReceiptPayment = styled.button`
   ${includes.flexBox()}
   flex-direction: column;
-  ${buttonStyle.primary}
+  ${buttonStyle.primary()}
   width: 130px;
   height: 80px;
   margin-right: 15px;

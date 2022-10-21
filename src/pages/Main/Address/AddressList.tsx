@@ -229,7 +229,7 @@ const Item = styled.span`
 
   &:last-child {
     button {
-      ${buttonStyle.base}
+      ${buttonStyle.base()}
       ${includes.flexBox()}
       height: 30px;
       font-size: 12px;

@@ -2,6 +2,7 @@ import { atom } from 'recoil';
 
 import { fetchCsrfToken } from '../App';
 import { AuthService, HttpClient, AddressService, CustomerService, ProductsService, RecordsService, SalesService } from '../services';
+import { IPopupStates } from '../services/products';
 import { IRecordsOflaundry, IRecordsOfRepair } from '../services/records';
 import { mainDescStorage, openStorage, themeStorage } from '../util';
 
@@ -90,28 +91,48 @@ export const openState = atom<boolean>({
 
 /*
 ===================
-  Page Products.
+  Page Customer.
 ===================
 */
-export const updateState = atom<boolean>({
-  key: 'updateActive',
-  default: false,
-});
-
-export const deleteState = atom<boolean>({
-  key: 'deleteActive',
-  default: false,
-});
-
 export const searchState = atom<boolean>({
   key: 'searchActive',
   default: false,
 });
 
-export const popupState = atom<boolean>({
-  key: 'popupActive',
+export const updateState = atom<boolean>({
+  key: 'updateActive',
   default: false,
 });
+
+/*
+===================
+  Page Products.
+===================
+*/
+export const menuPopupState = atom<boolean>({
+  key: 'menuPopup',
+  default: false,
+});
+
+export const categoryPopupState = atom<IPopupStates>({
+  key: 'createPopup',
+  default: {
+    mainPopup: false,
+    createPopup: false,
+    updatePopup: false,
+    deletePopup: false
+  }
+});
+
+export const productsPopupState = atom<IPopupStates>({
+  key: 'productsPopup',
+  default: {
+    mainPopup: false,
+    createPopup: false,
+    updatePopup: false,
+    deletePopup: false
+  }
+})
 
 /*
 ===================

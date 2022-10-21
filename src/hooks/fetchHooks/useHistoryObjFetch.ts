@@ -1,10 +1,11 @@
 import { useQuery } from 'react-query';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { IRecordObjResponse, IRecordSearchRequest } from '../../services/records';
-import { recordsApi } from '../../global';
+import { recordRequestState, recordsApi } from '../../global';
 import { toastStyle } from '../../styles';
 import { queryKeys } from '../../util';
+import { useEffect } from 'react';
 
 interface IHistoryFetch {
   historyLoading: boolean;
@@ -14,6 +15,8 @@ interface IHistoryFetch {
 
 export const useHistoryFetch = ({ recordDate, addname, dong, ho }: IRecordSearchRequest): IHistoryFetch => {
   const recordsService = useRecoilValue(recordsApi);
+  const setRecordState = useSetRecoilState(recordRequestState);
+  const resetRecordState = useResetRecoilState(recordRequestState);
 
   const onSearchConfirm = () => {
     if (!recordDate) {
@@ -40,8 +43,39 @@ export const useHistoryFetch = ({ recordDate, addname, dong, ho }: IRecordSearch
     refetchOnReconnect: 'always',
     onError: (error: any) => {
       toastStyle.error(error.message);
+    },
+    select: (data) => {
+      return data ? data.data : [];
     }
   });
 
-  return { historyLoading, reHistoryLoading, historyDatas: fetchDatas?.data };
+  useEffect(() => {
+    if (historyLoading || reHistoryLoading) {
+      return;
+    }
+
+    if (!(fetchDatas?.length)) {
+      resetRecordState();
+      return;
+    }
+
+    const { id, recordDate, recordCount, recordPrice, cusid, addid, addname, addfullname, dong, ho, records } = fetchDatas[0];
+    setRecordState((prevObj) => ({
+      ...prevObj,
+      id,
+      recordDate,
+      recordCount,
+      recordPrice,
+      cusid,
+      addid,
+      addname,
+      addfullname,
+      dong,
+      ho,
+      laundry: records.laundry,
+      repair: records.repair,
+    }));
+  }, [fetchDatas]);
+
+  return { historyLoading, reHistoryLoading, historyDatas: fetchDatas };
 }

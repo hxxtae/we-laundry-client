@@ -1,7 +1,7 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-import { deleteState, popupState, productRequestState, updateState } from '../../../global';
+import { menuPopupState, productRequestState, productsPopupState } from '../../../global';
 import { colors, dragging, includes } from '../../../styles';
 import { IProducts } from '../../../services/products';
 
@@ -14,32 +14,39 @@ interface IProductsCard {
 
 function ProductsCard({ products, product: { productName, price }, index, setCopyProducts }: IProductsCard) {
   const setProductState = useSetRecoilState(productRequestState);
-  const setPopupActive = useSetRecoilState(popupState);
-  const updActive = useRecoilValue(updateState);
-  const delActive = useRecoilValue(deleteState);
+  const [productsPopup, setProductsPopup] = useRecoilState(productsPopupState);
+  const setMenuPopup = useSetRecoilState(menuPopupState);
 
   const onClick = (index: number) => {
     /* update */
-    if (updActive && !delActive) {
+    if (productsPopup.updatePopup && !productsPopup.deletePopup) {
       const { productId, productName, price } = products[index];
-      setPopupActive(true);
       setProductState({
         productId,
         productName,
         price,
         index,
       });
+      setProductsPopup(prev => ({
+        ...prev,
+        mainPopup: true,
+      }));
     }
     /* delete */
-    if (delActive && !updActive) {
+    if (productsPopup.deletePopup && !productsPopup.updatePopup) {
       const copyProducts = [...products];
       copyProducts.splice(index, 1);
       setCopyProducts(copyProducts);
     }
+
+    setMenuPopup(false);
   };
 
   return (
-    <Card updActive={updActive} delActive={delActive} onClick={() => onClick(index)}>
+    <Card
+      updActive={productsPopup.updatePopup}
+      delActive={productsPopup.deletePopup}
+      onClick={() => onClick(index)}>
       <Name>{productName}</Name>
       <Price>{price.toLocaleString()}</Price>
     </Card>

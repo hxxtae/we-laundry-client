@@ -50,6 +50,7 @@ const Wrapper = styled.div`
   ${includes.flexBox()}
   position: relative;
   top: -40px;
+  left: -120px;
   width: 285px;
   height: 285px;
   padding: 20px;
@@ -58,6 +59,7 @@ const Wrapper = styled.div`
   background-color: ${(props) => props.theme.bgColor};
 
   @media ${media.pc_s} {
+    left: -140px;
     width: 320px;
     height: 320px;
   }
@@ -74,7 +76,7 @@ const Close = styled.button`
   top: 20px;
   right: 20px;
   ${includes.flexBox()}
-  ${buttonStyle.base}
+  ${buttonStyle.base()}
   background-color: ${(props) => props.theme.borderColor};
   width: 30px;
   height: 30px;
@@ -91,7 +93,7 @@ const ButtonGroup = styled.div`
 `;
 
 const Submit = styled.button`
-  ${buttonStyle.primary}
+  ${buttonStyle.primary()}
   margin-top: 50px;
   width: 100px;
 `;

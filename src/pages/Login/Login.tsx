@@ -22,7 +22,7 @@ function Login() {
   const { register, setValue, handleSubmit, formState: { errors }, setError } = useForm<ILoginForm>();
   const { mutate } = useMutation((loginData: ILoginForm) => authService.login(loginData));
 
-  const onSubmit = async ({ username, password }: ILoginForm) => {
+  const onSubmit = ({ username, password }: ILoginForm) => {
     const data = { username, password };
     mutate(data, {
       onSuccess: () => {
@@ -37,6 +37,18 @@ function Login() {
     })
   }
 
+  const onInterviewerSubmit = () => {
+    const data = { username: process.env.REACT_APP_INTERVIEWER_ID!, password: process.env.REACT_APP_INTERVIEWER_PW! };
+    mutate(data, {
+      onSuccess: () => {
+        setUser(data.username);
+      },
+      onError: (data: any) => {
+        console.log(`interviewer Login Error: ${data.message}`);
+      }
+    })
+  }
+
   const onSingup = () => {
     history.push('/signup');
   }
@@ -47,7 +59,6 @@ function Login() {
         <Logo>
           <LogoImg src={process.env.PUBLIC_URL + '/assets/svg/welaundry_medium_v2_darkblue.svg'} draggable='false' />
         </Logo>
-        {/* <Title>{"로그인"}</Title> */}
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Wrapper>
             <InputTitles des='사용자 아이디 입력' response={true}/>
@@ -79,12 +90,13 @@ function Login() {
           </Wrapper>
 
           <ButtonBox>
-            <Submit>{"시작하기"}</Submit>
+            <Submit interviewer={false}>{"시작하기"}</Submit>
             <Line aria-hidden />
             <Button type='button' onClick={onSingup}>{"가입하기"}</Button>
+            <Submit type='button' interviewer={true} onClick={onInterviewerSubmit}>{"둘러보기"}</Submit>
           </ButtonBox>
         </Form>
-        <Info>{"@ 2022 WeLaundry Inc. All Right Reserved"}</Info>
+        <Info>{"All Right Reserved © 2022 hxxtae."}</Info>
       </InputBox>
     </LoginContext>
   )
@@ -121,12 +133,12 @@ const InputBox = styled.div`
 
 const Logo = styled.div`
   position: absolute;
-  top: 40px;
+  top: 30px;
   width: 150px;
   height: 60px;
 
   @media ${media.pc_s} {
-    top: 85px;
+    top: 70px;
     width: 200px;
     height: 80px;
   }
@@ -168,8 +180,9 @@ const ButtonBox = styled.div`
   margin-top: 20px;
 `;
 
-const Submit = styled.button`
-  ${buttonStyle.primary()}
+const Submit = styled.button<{ interviewer: boolean }>`
+  ${({ interviewer }) => buttonStyle.primary(interviewer)}
+  margin-top: ${({ interviewer }) => interviewer ? `40px` : `0`};
   width: 100%;
   letter-spacing: 1.5px;
 `;

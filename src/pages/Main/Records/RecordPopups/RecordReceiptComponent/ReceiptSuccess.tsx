@@ -163,7 +163,7 @@ const Sum = styled.strong`
 `;
 
 const Exit = styled.button`
-  ${buttonStyle.primary}
+  ${buttonStyle.primary()}
   width: 100%;
   height: 40px;
 
