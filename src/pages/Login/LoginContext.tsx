@@ -14,7 +14,7 @@ function LoginContext({ children }: ILoginContext) {
   const [imgPaths] = useState([...loginImg]);
 
   const [next, setNext] = useState(1);
-  let opcityStart: React.MutableRefObject<any> = useRef(null);
+  const opcityStart: React.MutableRefObject<any> = useRef(null);
 
   useEffect(() => {
     opcityStart.current = setInterval(() => setNext((prev) => {
