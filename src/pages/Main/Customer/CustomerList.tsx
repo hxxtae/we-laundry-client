@@ -128,7 +128,7 @@ const Count = styled.strong`
 `;
 
 const SearchButton = styled.button`
-  ${buttonStyle.primary}
+  ${buttonStyle.primary()}
   ${includes.flexBox()}
   width: 100px;
   height: 30px;

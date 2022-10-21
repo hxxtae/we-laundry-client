@@ -61,7 +61,7 @@ const Wrapper = styled.div`
 `;
 
 const Tab = styled.button`
-  ${buttonStyle.base}
+  ${buttonStyle.base()}
   padding: 15px;
   color: ${(props) => props.theme.textColor};
   font-size: 12px;

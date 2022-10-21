@@ -68,7 +68,7 @@ const InputWrapper = styled.div`
 `;
 
 const Input = styled.input<{err?: string}>`
-  ${inputStyle.base}
+  ${inputStyle.base()}
   background-color: ${(props) => props.theme.inputColor};
   border-color: ${(props) => props.err ? `${colors.red}` : `${props.theme.borderColor}` };
   color: ${(props) => props.theme.textColor};
@@ -78,7 +78,7 @@ const Input = styled.input<{err?: string}>`
 
 const ReFetch = styled.button`
   display: inline-block;
-  ${buttonStyle.base}
+  ${buttonStyle.base()}
   background-color: ${(props) => props.theme.inputColor};
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 4px;

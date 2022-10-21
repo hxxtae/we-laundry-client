@@ -71,7 +71,7 @@ const ListControl = styled.div`
 `;
 
 const Tab = styled.button`
-  ${buttonStyle.primary}
+  ${buttonStyle.primary()}
 
   &:last-child {
     margin-left: 5px;

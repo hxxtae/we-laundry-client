@@ -33,8 +33,6 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
   const { fetchDatas, prevPage, nextPage, pageSort: { ASC } } = usePaging(productObjs, productObjs?.length, 5, 1);
 
   const onAddCategory = () => {
-    //setPopupActive(true);
-    //setMenuActive(false);
     setCategoryPopup((prev) => ({
       ...prev,
       mainPopup: true,
@@ -83,12 +81,9 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
         </TabControl>
       </TabsGroup>
 
-      {categoryPopup.mainPopup && <CategoryPopup
-        
-        mutate={mutate}
-        delMutate={delMutate}
-        />}
-      {menuPopup && <SettingMenu/>}
+      {categoryPopup.mainPopup && <CategoryPopup mutate={mutate} delMutate={delMutate} />}
+      {menuPopup && <SettingMenu />}
+      
       {(insAndUpdLoading || delLoading) && 
         <Overlay>
           <LoadingComponent loadingMessage='잠시만 기다려주세요.' />
@@ -126,7 +121,7 @@ const Wrapper = styled.div`
 
 const Tab = styled.button`
   flex-shrink: 0;
-  ${buttonStyle.base}
+  ${buttonStyle.base()}
   padding: 15px;
   color: ${(props) => props.theme.textColor};
   font-size: 12px;

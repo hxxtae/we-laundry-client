@@ -35,7 +35,7 @@ export const inputStyle = {
 --------------------------------
 */
 export const buttonStyle = {
-  base: () => `
+  base: (chk: boolean = false) => `
     padding: 8px;
     font-weight: 600;
     border-radius: 4px;
@@ -47,14 +47,14 @@ export const buttonStyle = {
     }
   `,
 
-  primary: () => `
+  primary: (chk: boolean = false) => `
     ${buttonStyle.base()}
     color: white;
-    background-color: ${colors.blue};
+    background-color: ${chk ? colors.green : colors.blue};
     transition: background-color 200ms ease-in-out;
 
     &:not(:disabled):hover {
-      background-color: ${colors.blueDark};
+      background-color: ${chk ? colors.greenDark : colors.blueDark};
     }
   `,
 

@@ -79,7 +79,7 @@ const Close = styled.button`
   top: 20px;
   right: 25px;
   ${includes.flexBox()}
-  ${buttonStyle.base}
+  ${buttonStyle.base()}
   background-color: ${(props) => props.theme.borderColor};
   width: 30px;
   height: 30px;

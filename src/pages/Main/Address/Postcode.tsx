@@ -51,7 +51,7 @@ const Box = styled.div`
 const Button = styled.button`
   position: absolute;
   bottom: -35px;
-  ${buttonStyle.primary}
+  ${buttonStyle.primary()}
   width: 100%;
   margin-top: 5px;
 `;

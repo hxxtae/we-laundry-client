@@ -208,7 +208,7 @@ const Bottom = styled.div`
 `;
 
 const PaymentButton = styled.button`
-  ${buttonStyle.primary}
+  ${buttonStyle.primary()}
   height: 60px;
   flex-grow: 1;
   border-radius: 0px;

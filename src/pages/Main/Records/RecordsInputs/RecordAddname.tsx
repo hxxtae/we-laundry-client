@@ -85,7 +85,7 @@ const Input = styled.input<{ err?: string }>`
 `;
 
 const ReFetch = styled.button`
-  ${buttonStyle.base}
+  ${buttonStyle.base()}
   background-color: ${(props) => props.theme.inputColor};
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 4px;

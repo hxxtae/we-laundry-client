@@ -96,13 +96,13 @@ const ButtonGroup = styled.div`
 `;
 
 const DateButton = styled.button`
-  ${buttonStyle.primary}
+  ${buttonStyle.primary()}
   flex-grow: 1;
   margin-right: 4px;
 `;
 
 const CusButton = styled.button`
-  ${buttonStyle.primary}
+  ${buttonStyle.primary()}
   flex-grow: 1;
 `;
 

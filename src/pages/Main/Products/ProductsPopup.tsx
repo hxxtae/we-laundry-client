@@ -126,7 +126,7 @@ const Close = styled.button`
   top: 40px;
   right: 40px;
   ${includes.flexBox()}
-  ${buttonStyle.base}
+  ${buttonStyle.base()}
   background-color: ${(props) => props.theme.borderColor};
   width: 30px;
   height: 30px;
@@ -144,7 +144,7 @@ const Title = styled.h2`
 `;
 
 const Submit = styled.button`
-  ${buttonStyle.primary}
+  ${buttonStyle.primary()}
   margin-top: 50px;
   width: 100px;
 `;

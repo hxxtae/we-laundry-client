@@ -135,13 +135,13 @@ const ButtonGroup = styled.div`
 `;
 
 const Save = styled.button`
-  ${buttonStyle.primary}
+  ${buttonStyle.primary()}
   height: 40px;
   margin-right: 5px;
 `;
 
 const Rollup = styled.button`
-  ${buttonStyle.base}
+  ${buttonStyle.base()}
   background-color: ${(props) => props.theme.inputColor};
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 4px;
