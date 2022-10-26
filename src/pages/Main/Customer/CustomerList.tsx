@@ -26,7 +26,7 @@ function CustomerList() {
 
   const {
     fetchDatas,
-    pageList,
+    pageBtnList,
     clickPageIdx,
     setPage,
     nextPage,
@@ -79,7 +79,7 @@ function CustomerList() {
         <PageMove onClick={prevPage}>
           <FontAwesomeIcon icon={faChevronLeft} size="1x" />
         </PageMove>
-        {pageList.map((page) => (
+        {pageBtnList.map((page) => (
           <Page
             key={page}
             chk={clickPageIdx}

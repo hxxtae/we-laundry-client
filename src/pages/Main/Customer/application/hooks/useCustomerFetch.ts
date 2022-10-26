@@ -9,7 +9,7 @@ import { queryKeys } from '../../../../../util';
 interface ICustomerFetch {
   isLoading: boolean;
   isFetching: boolean;
-  customerDatas?: CustomerDTO.ICustomerResponse[] | [];
+  customerDatas: CustomerDTO.ICustomerResponse[] | [];
   refetch: () => void;
   status: string;
 }
