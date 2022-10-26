@@ -30,7 +30,7 @@ function AddressList({ setUpdateActive }: IAddressList) {
   const addLoading = loading || reLoading;
   const {
     fetchDatas,
-    pageList,
+    pageBtnList,
     clickPageIdx,
     setPage,
     nextPage,
@@ -95,7 +95,7 @@ function AddressList({ setUpdateActive }: IAddressList) {
         <PageMove onClick={prevPage}>
           <FontAwesomeIcon icon={faChevronLeft} size="1x" />
         </PageMove>
-        {pageList.map((page) => (
+        {pageBtnList.map((page) => (
           <Page
             key={page}
             chk={clickPageIdx}
