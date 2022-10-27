@@ -14,6 +14,13 @@ interface ICustomerDong {
 function CustomerDong({ searchActive }: ICustomerDong, ref: any) {
   const [selectAct, setSelectAct] = useState(false);
   const { register, formState: { errors }, setValue, getValues, watch } = useFormContext();
+
+  const inputProp = register('dong', {
+    required: !searchActive || watch('ho') ? inputMessage.required : false,
+    maxLength: { value: 5, message: inputMessage.maxLen(5) },
+    minLength: { value: 1, message: inputMessage.minLen(1) },
+    pattern: { value: regexrObj.notSpaceAndSpecial, message: "숫자만 입력가능합니다." },
+  })
   
   useImperativeHandle(ref, () => ({
     selectClose: () => {
@@ -31,12 +38,7 @@ function CustomerDong({ searchActive }: ICustomerDong, ref: any) {
           err={errors.dong?.message}
           autoComplete="off"
           placeholder="동입력"
-          {...register('dong', {
-            required: !searchActive || watch('ho') ? inputMessage.required : false,
-            maxLength: { value: 5, message: inputMessage.maxLen(5) },
-            minLength: { value: 1, message: inputMessage.minLen(1) },
-            pattern: { value: regexrObj.notSpaceAndSpecial, message: "숫자만 입력가능합니다." },
-        })}/>
+          {...inputProp}/>
         <ErrorMessage absolute={true} message={errors.dong?.message} />
         <AnimatePresence>
           {selectAct && <KeyboardBox name={'dong'} setValue={setValue} value={getValues('dong')}/>}

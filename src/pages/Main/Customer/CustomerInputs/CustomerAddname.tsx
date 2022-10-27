@@ -14,6 +14,10 @@ function CustomerAddname() {
   const { register, formState: { errors }, setValue } = useFormContext();
   const client = useQueryClient();
 
+  const inputProp = register('addname', {
+    required: inputMessage.required,
+  });
+
   const onSelectClick = (addid: string, addname: string, addfullname: string) => {
     setValue('addid', addid);
     setValue('addname', addname);
@@ -36,9 +40,7 @@ function CustomerAddname() {
             placeholder="주소이름선택"
             onClick={() => setSelectAct((prev) => !prev)}
             readOnly
-            {...register('addname', {
-            required: inputMessage.required,
-            })} />
+            {...inputProp} />
           <ErrorMessage absolute={true} message={errors.addname?.message} />
           <AddnameSelectList selectAct={selectAct} onSelectClick={onSelectClick} />
         </InputWrapper>
