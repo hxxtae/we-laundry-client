@@ -15,6 +15,13 @@ function CustomerHo({ searchActive }: ICustomerHo, ref: any) {
   const [selectAct, setSelectAct] = useState(false);
   const { register, formState: { errors }, setValue, getValues } = useFormContext();
 
+  const inputProp = register('ho', {
+    required: !searchActive ? inputMessage.required : false,
+    maxLength: { value: 5, message: inputMessage.maxLen(5) },
+    minLength: { value: 1, message: inputMessage.minLen(1) },
+    pattern: { value: regexrObj.notSpaceAndSpecial, message: "숫자만 입력가능합니다." },
+})
+
   useImperativeHandle(ref, () => ({
     selectClose: () => {
       setSelectAct(false);
@@ -31,12 +38,7 @@ function CustomerHo({ searchActive }: ICustomerHo, ref: any) {
           err={errors.ho?.message}
           autoComplete="off"
           placeholder="호입력"
-          {...register('ho', {
-            required: !searchActive ? inputMessage.required : false,
-            maxLength: { value: 5, message: inputMessage.maxLen(5) },
-            minLength: { value: 1, message: inputMessage.minLen(1) },
-            pattern: { value: regexrObj.notSpaceAndSpecial, message: "숫자만 입력가능합니다." },
-        })}/>
+          {...inputProp}/>
         <ErrorMessage absolute={true} message={errors.ho?.message} />
 
         <AnimatePresence>
