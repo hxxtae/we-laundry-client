@@ -16,21 +16,19 @@ interface IPageing<T> {
  * ---------------------------
  * 페이징 처리 Hook (usePaging)
  * ---------------------------
- * @param datas - 배열 데이터
- * @param dataLen - 배열 데이터 길이
- * @param pagePost - 페이지에 보여질 리스트 개수
+ * @param datas - 데이터들
+ * @param dataLen - 데이터 길이
+ * @param pagePost - 페이지에 보여질 데이터 개수
  * @param pageBtnPost - 보여질 페이지 번호 버튼 개수
  */
 export function usePaging<T>(datas: T[], dataLen: number, pagePost: number, pageBtnPost: number): IPageing<T> {
-  const [currentPage, setCurrentPage] = useState(1); // 다음 페이지 번호 ex) 1, 2, 3, ... (선택)
-
-  const indexOfLast = pagePost * currentPage;  // 10, 20, 30
-  const indexOfFirst = indexOfLast - pagePost; // 10 - 10 = 0, 20 - 10 = 10, 30 - 10 = 20
+  const [currentPage, setCurrentPage] = useState(1); // 선택한 페이지 번호 ex) 1, 2, 3, ... (선택)
+  const fetchDatas = fetchDataPost(datas, pagePost, currentPage);
+  const { pageBtnList, pageLen } = pageBtnListFnc(currentPage, dataLen!, pagePost, pageBtnPost);
+  const clickPageIdx = (currentPage % pageBtnPost) || pageBtnPost;
 
   const ASC = (num: number) => (((currentPage - 1) * pagePost) + num) + 1;
   const DESC = (num: number) => dataLen ? dataLen - (((currentPage - 1) * pagePost) + num) : 0;
-
-  const { pageBtnList, pageLen } = pageBtnListFnc(currentPage, dataLen!, pagePost, pageBtnPost);
 
   const next = (prevPage: number) => {
     if (prevPage >= pageLen) return prevPage;
@@ -42,23 +40,36 @@ export function usePaging<T>(datas: T[], dataLen: number, pagePost: number, page
   };
 
   return {
-    fetchDatas: datas ? datas.slice(indexOfFirst, indexOfLast) : [],
+    fetchDatas,
     pageBtnList,
-    clickPageIdx: (currentPage % pageBtnPost) || pageBtnPost,
+    clickPageIdx,
     setPage: setCurrentPage,
     nextPage: () => setCurrentPage(next),
     prevPage: () => setCurrentPage(prev),
     pageSort: { ASC, DESC }
   };
 }
+/**
+ * ------------------------------
+ * 보여질 "Fetch 데이터" 출력 함수
+ * ------------------------------
+ * @param datas - 데이터들
+ * @param pagePost - 페이지에 보여질 데이터 개수
+ * @param currentPage - 선택한 페이지 번호
+ */
+function fetchDataPost<T>(datas: T[], pagePost: number, currentPage: number) {
+  const indexOfLast = pagePost * currentPage;  // ex) 10, 20, 30
+  const indexOfFirst = indexOfLast - pagePost; // ex) 10 - 10 = 0, 20 - 10 = 10, 30 - 10 = 20
+  return datas ? datas.slice(indexOfFirst, indexOfLast) : [];
+}
 
 /**
- * -----------------------------
- * 보여질 페이지 버튼 리스트 객체 함수
- * -----------------------------
+ * --------------------------------
+ * 보여질 "페이지 버튼 리스트" 객체 함수
+ * --------------------------------
  * @param nowPage - 현재 페이지
  * @param dataLen - 배열 데이터 길이
- * @param pagePost - 페이지에 보여질 리스트 개수
+ * @param pagePost - 페이지에 보여질 데이터 개수
  * @param pageBtnPost - 보여질 페이지 번호 버튼 개수
  */
 function pageBtnListFnc(nowPage: number, dataLen: number, pagePost: number, pageBtnPost: number) {
