@@ -12,6 +12,11 @@ interface IAddressFullName {
 function AddressFullName({ onFindAddress }: IAddressFullName) {
   const { register, formState: { errors } } = useFormContext();
 
+  const inputProp = register('addfullname', {
+    required: inputMessage.required,
+    maxLength: { value: 50, message: inputMessage.maxLen(50) },
+  });
+
   return (
     <InputBox>
       <InputTitles title='주소' des='상세 주소를 입력해주세요.' />
@@ -21,10 +26,7 @@ function AddressFullName({ onFindAddress }: IAddressFullName) {
         readOnly
         onClick={onFindAddress}
         onFocus={onFindAddress}
-        {...register('addfullname', {
-        required: inputMessage.required,
-        maxLength: { value: 50, message: inputMessage.maxLen(50) },
-      })} />
+        {...inputProp} />
       <ErrorMessage absolute={true} message={errors.addfullname?.message} />
     </InputBox>
   )

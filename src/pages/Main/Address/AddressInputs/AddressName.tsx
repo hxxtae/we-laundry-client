@@ -8,6 +8,13 @@ import { inputMessage, regexrObj } from '../../../../util';
 function AddressName() {
   const { register, formState: { errors } } = useFormContext();
 
+  const inputProp = register('addname', {
+    required: inputMessage.required,
+    maxLength: { value: 10, message: inputMessage.maxLen(10) },
+    minLength: { value: 2, message: inputMessage.minLen(2) },
+    pattern: { value: regexrObj.notSpaceAndSpecial, message: "공백과 특수문자 사용은 불가합니다." },
+  });
+
   return (
     <InputBox>
       <InputTitles title='주소이름' des='주소의 이름을 입력해주세요.' />
@@ -15,12 +22,7 @@ function AddressName() {
         err={errors.addname?.message}
         autoComplete="off"
         placeholder="주소이름입력"
-        {...register('addname', {
-        required: inputMessage.required,
-        maxLength: { value: 10, message: inputMessage.maxLen(10) },
-        minLength: { value: 2, message: inputMessage.minLen(2) },
-        pattern: { value: regexrObj.notSpaceAndSpecial, message: "공백과 특수문자 사용은 불가합니다." },
-      })} />
+        {...inputProp} />
       <ErrorMessage absolute={true} message={errors.addname?.message} />
     </InputBox>
   )
