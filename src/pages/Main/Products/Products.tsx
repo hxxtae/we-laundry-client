@@ -26,18 +26,23 @@ function Products() {
 
   return (
     <Wrapper>
-      <CategorysTabs productObjs={productObjs} categoryIdx={categoryIdx} setCategoryIdx={setCategoryIdx} />
-      {!!(productObjs?.length) ? productObjs.map((productObj, index) => (
+      <CategorysTabs
+        productObjs={productObjs}
+        categoryIdx={categoryIdx}
+        setCategoryIdx={setCategoryIdx} />
+      {!!(productObjs?.length) ?
+        productObjs.map((productObj, index) => (
           (index + 1) === categoryIdx && 
           <ProductsList
             key={productObj.id}
             reLoading={reLoading}
             productObj={productObj} />
-      )) :
+        )) :
         <NotFound>
           <FontAwesomeIcon icon={faBoxOpen} />
           <span>{'카테고리와 품목을 추가해 주세요.'}</span>
-        </NotFound>}
+        </NotFound>
+      }
 
       {loading &&
       <Overlay>
