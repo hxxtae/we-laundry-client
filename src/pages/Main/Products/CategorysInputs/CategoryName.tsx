@@ -8,6 +8,14 @@ import { inputMessage, regexrObj } from '../../../../util';
 function CategoryName() {
   const { register, formState: { errors } } = useFormContext();
 
+  const inputProp = register("categoryName", {
+    required: inputMessage.required,
+    maxLength: { value: 8, message: inputMessage.maxLen(8) },
+    minLength: { value: 1, message: inputMessage.minLen(1) },
+    pattern: { value: regexrObj.notPartSpecial, message: "_ / , 외 특수문자 입력 불가합니다." },
+    setValueAs: value => value.trim(),
+  });
+
   return (
     <InputBox>
       <InputTitles title='카테고리명' des='카테고리 이름을 입력해주세요.' />
@@ -15,13 +23,7 @@ function CategoryName() {
         err={errors.categoryName?.message}
         autoComplete="off"
         placeholder="카테고리명입력"
-        {...register("categoryName", {
-          required: inputMessage.required,
-          maxLength: { value: 8, message: inputMessage.maxLen(8) },
-          minLength: { value: 1, message: inputMessage.minLen(1) },
-          pattern: { value: regexrObj.notPartSpecial, message: "_ / , 외 특수문자 입력 불가합니다." },
-          setValueAs: value => value.trim(),
-        })} />
+        {...inputProp} />
       <ErrorMessage absolute={true} message={errors.categoryName?.message} />
     </InputBox>
   )

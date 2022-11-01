@@ -11,6 +11,13 @@ function ProductPrice() {
   const [selectAct, setSelectAct] = useState(false);
   const { register, formState: { errors }, setValue, getValues } = useFormContext();
 
+  const inputProp = register("price", {
+    required: inputMessage.required,
+    maxLength: { value: 7, message: inputMessage.maxLen(7) },
+    minLength: { value: 1, message: inputMessage.minLen(1) },
+    pattern: { value: regexrObj.notFirstZero, message: '잘못된 형식입니다.'}
+  });
+
   return (
     <InputBox>
       <InputTitles title='가격' des='품목의 가격을 입력해주세요.' />
@@ -22,12 +29,7 @@ function ProductPrice() {
           err={errors.price?.message}
           autoComplete="off"
           placeholder="가격입력"
-          {...register("price", {
-            required: inputMessage.required,
-            maxLength: { value: 7, message: inputMessage.maxLen(7) },
-            minLength: { value: 1, message: inputMessage.minLen(1) },
-            pattern: { value: regexrObj.notFirstZero, message: '잘못된 형식입니다.'}
-          })} />
+          {...inputProp} />
         <ErrorMessage absolute={true} message={errors.price?.message} />
 
         <AnimatePresence>

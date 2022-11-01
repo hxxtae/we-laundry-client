@@ -8,6 +8,14 @@ import { inputMessage, regexrObj } from '../../../../util';
 function ProductName() {
   const { register, formState: { errors } } = useFormContext();
 
+  const inputProp = register("productName", {
+    required: inputMessage.required,
+    maxLength: { value: 10, message: inputMessage.maxLen(10) },
+    minLength: { value: 1, message: inputMessage.minLen(1) },
+    pattern: { value: regexrObj.includeKorAndEng, message: "한글 및 영문만 입력 가능" },
+    setValueAs: value => value.trim(),
+  });
+
   return (
     <InputBox>
       <InputTitles title='품목명' des='사용 할 품목명을 입력해주세요.' />
@@ -15,13 +23,7 @@ function ProductName() {
         err={errors.productName?.message}
         autoComplete="off"
         placeholder="품목명입력"
-        {...register("productName", {
-          required: inputMessage.required,
-          maxLength: { value: 10, message: inputMessage.maxLen(10) },
-          minLength: { value: 1, message: inputMessage.minLen(1) },
-          pattern: { value: regexrObj.includeKorAndEng, message: "한글 및 영문만 입력 가능" },
-          setValueAs: value => value.trim(),
-        })} />
+        {...inputProp} />
       <ErrorMessage absolute={true} message={errors.productName?.message} />
     </InputBox>
   )
