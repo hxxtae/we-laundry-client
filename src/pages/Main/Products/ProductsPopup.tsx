@@ -76,6 +76,14 @@ function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setC
     });
   };
 
+  const onClose = () => {
+    setProductsPopup(prev => ({
+      ...prev,
+      mainPopup: false,
+      createPopup: false,
+    }));
+  }
+
   useEffect(() => {
     if (productsPopup.createPopup) {
       method.setValue('id', categoryId);
@@ -89,11 +97,7 @@ function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setC
   return (
     <FormProvider {...method}>
       <InputGroup onSubmit={method.handleSubmit(onSubmit)}>
-        <Close type='button' onClick={() => setProductsPopup(prev => ({
-          ...prev,
-          mainPopup: false,
-          createPopup: false,
-        }))}>
+        <Close type='button' onClick={onClose}>
           <FontAwesomeIcon icon={faXmark} />
         </Close>
         <Title>{ categoryName }</Title>

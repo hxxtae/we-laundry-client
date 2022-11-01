@@ -19,7 +19,11 @@ function ProductsBoard({ products, setCopyProducts }: IProductsBoard) {
     >
       {products?.map((product, index) => (
         <GridItem key={product.productId}>
-          <ProductsCard product={product} products={products} index={index} setCopyProducts={setCopyProducts} />
+          <ProductsCard
+            product={product}
+            products={products}
+            index={index}
+            setCopyProducts={setCopyProducts} />
         </GridItem>
       ))}
     </GridDropZone>

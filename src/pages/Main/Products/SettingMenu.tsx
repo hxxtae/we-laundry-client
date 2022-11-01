@@ -35,13 +35,14 @@ function SettingMenu() {
       }));
 
     } else if (btnIdx === 3) {
-      setProductsPopup(prev => ({
-        ...prev,
-        updatePopup: true,
-      }))
       if (!productsPopup.updatePopup) {
+        setProductsPopup(prev => ({
+          ...prev,
+          updatePopup: true,
+        }));
         toastStyle.infoSecondary('변경 항목을 선택해주세요.');
-      } else {
+      }
+      if(productsPopup.updatePopup) {
         setProductsPopup(prev => ({
           ...prev,
           updatePopup: false,
@@ -49,13 +50,14 @@ function SettingMenu() {
       }
 
     } else if (btnIdx === 4) {
-      setProductsPopup(prev => ({
-        ...prev,
-        deletePopup: true
-      }));
       if (!productsPopup.deletePopup) {
+        setProductsPopup(prev => ({
+          ...prev,
+          deletePopup: true
+        }));
         toastStyle.infoSecondary('삭제 항목을 선택해주세요.');
-      } else {
+      }
+      if(productsPopup.deletePopup) {
         setProductsPopup(prev => ({
           ...prev,
           deletePopup: false,
