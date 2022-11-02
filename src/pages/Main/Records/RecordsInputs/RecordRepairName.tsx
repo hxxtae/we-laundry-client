@@ -8,6 +8,14 @@ import { inputMessage, regexrObj } from '../../../../util';
 function RecordRepairName() {
   const { register, formState: { errors } } = useFormContext();
 
+  const inputProp = register('repairName', {
+    required: inputMessage.required,
+    maxLength: { value: 10, message: inputMessage.maxLen(10) },
+    minLength: { value: 1, message: inputMessage.minLen(1) },
+    pattern: { value: regexrObj.notPartSpecial, message: "_ / , 제외 특수문자 입력 불가합니다." },
+    setValueAs: value => value.trim(),
+  });
+
   return (
     <InputBox>
       <InputTitles title='품명' des='수선 이름을 입력해주세요.' />
@@ -15,13 +23,7 @@ function RecordRepairName() {
           err={errors.repairName?.message}
           autoComplete="off"
           placeholder="수선이름"
-          {...register('repairName', {
-            required: inputMessage.required,
-            maxLength: { value: 10, message: inputMessage.maxLen(10) },
-            minLength: { value: 1, message: inputMessage.minLen(1) },
-            pattern: { value: regexrObj.notPartSpecial, message: "_ / , 제외 특수문자 입력 불가합니다." },
-            setValueAs: value => value.trim(),
-        })} />
+          {...inputProp} />
         <ErrorMessage absolute={true} message={errors.repairName?.message} />
     </InputBox>
   )

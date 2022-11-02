@@ -25,27 +25,13 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
   const recordState = useRecoilValue(recordRequestState);
   const recordsService = useRecoilValue(recordsApi);
   const setReceiptExeChk = useSetRecoilState(recordReceiptExeState);
-  const [sumLaundry, setSumLaundry] = useState({price: 0, count: 0});
+  const [sumLaundry, setSumLaundry] = useState({ price: 0, count: 0 });
   const [sumRepair, setSumRepair] = useState({ price: 0, count: 0 });
   const [receiptOkAct, setReceiptOkAct] = useState(false);
   const client = useQueryClient();
   const nowDate = dateToString(new Date());
   
   const { isLoading, mutate } = useMutation((_recordState: IRecordRequest) => recordsService.createRecord(_recordState));
-
-  useEffect(() => {
-    const sumLaundryObj = laundry.reduce((prev, curr) => ({
-      price: (prev.price + curr.price),
-      count: (prev.count + curr.count),
-    }), { price: 0, count: 0 });
-    const sumRepairObj = repair.reduce((prev, curr) => ({
-      price: (prev.price + curr.price),
-      count: (prev.count + curr.count),
-    }), { price: 0, count: 0 });
-
-    setSumLaundry(sumLaundryObj);
-    setSumRepair(sumRepairObj);
-  }, []);
 
   const onReceipt = () => {
     mutate(recordState, {
@@ -63,6 +49,20 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
       }
     });
   };
+
+  useEffect(() => {
+    const sumLaundryObj = laundry.reduce((prev, curr) => ({
+      price: (prev.price + curr.price),
+      count: (prev.count + curr.count),
+    }), { price: 0, count: 0 });
+    const sumRepairObj = repair.reduce((prev, curr) => ({
+      price: (prev.price + curr.price),
+      count: (prev.count + curr.count),
+    }), { price: 0, count: 0 });
+
+    setSumLaundry(sumLaundryObj);
+    setSumRepair(sumRepairObj);
+  }, []);
 
   return (
     <>
