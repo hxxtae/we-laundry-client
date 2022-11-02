@@ -26,6 +26,10 @@ function RecordAddname() {
     client.invalidateQueries(queryKeys.address.all);
   }
 
+  const inputProp = register('addname', {
+    required: inputMessage.required,
+  });
+
   useEffect(() => {
     setSelectAct(false);
   }, [receiptExeChk]);
@@ -41,9 +45,7 @@ function RecordAddname() {
             placeholder="주소이름선택"
             onClick={() => setSelectAct((prev) => !prev)}
             readOnly
-            {...register('addname', {
-            required: inputMessage.required,
-            })} />
+            {...inputProp} />
           <AddnameSelectList selectAct={selectAct} onSelectClick={onSelectClick} />
         </InputWrapper>
         <ReFetch type='button' onClick={onRefetch}>

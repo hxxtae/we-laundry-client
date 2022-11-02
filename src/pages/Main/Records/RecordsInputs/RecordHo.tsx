@@ -4,7 +4,7 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
-import { colors, includes, inputStyle, media } from '../../../../styles';
+import { colors, inputStyle, media } from '../../../../styles';
 import { inputMessage, regexrObj } from '../../../../util';
 import { recordReceiptExeState } from '../../../../global';
 import { KeyboardBox } from '../../../../components';
@@ -17,6 +17,13 @@ function RecordHo({ searchActive }: IRecordHo, ref: any) {
   const [selectAct, setSelectAct] = useState(false);
   const receiptExeChk = useRecoilValue(recordReceiptExeState); // 접수 완료 확인 state
   const { register, formState: { errors }, setValue, getValues } = useFormContext();
+
+  const inputProp = register('ho', {
+    required: !searchActive ? inputMessage.required : false,
+    maxLength: { value: 5, message: inputMessage.maxLen(5) },
+    minLength: { value: 1, message: inputMessage.minLen(1) },
+    pattern: { value: regexrObj.notSpaceAndSpecial, message: "숫자만 입력가능합니다." },
+  });
 
   useImperativeHandle(ref, () => ({
     selectClose: () => {
@@ -36,12 +43,7 @@ function RecordHo({ searchActive }: IRecordHo, ref: any) {
         err={errors.ho?.message}
         autoComplete="off"
         placeholder="호입력"
-        {...register('ho', {
-          required: !searchActive ? inputMessage.required : false,
-          maxLength: { value: 5, message: inputMessage.maxLen(5) },
-          minLength: { value: 1, message: inputMessage.minLen(1) },
-          pattern: { value: regexrObj.notSpaceAndSpecial, message: "숫자만 입력가능합니다." },
-      })}/>
+        {...inputProp}/>
 
       <AnimatePresence>
         {selectAct && <KeyboardBox name={'ho'} setValue={setValue} value={getValues('ho')}/>}
