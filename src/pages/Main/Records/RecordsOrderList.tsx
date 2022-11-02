@@ -15,6 +15,19 @@ function RecordsOrderList({ clickItems, setClickItems, setTotalPay }: IRecordsOr
   const laundry = useRecoilValue(recordLaundryState);
   const repair = useRecoilValue(recordRepairState);
 
+  const onClickItem = (itemId: string) => {
+    setClickItems((prevItems) => {
+      const copyItems = [...prevItems];
+      const index = copyItems.indexOf(itemId);
+      if (index !== -1) {
+        copyItems.splice(index, 1);
+      } else {
+        copyItems.push(itemId);
+      }
+      return copyItems;
+    });
+  }
+
   useEffect(() => {
     setTotalPay(() => {
       const recordArray = [...laundry, ...repair];
@@ -29,19 +42,6 @@ function RecordsOrderList({ clickItems, setClickItems, setTotalPay }: IRecordsOr
       };
     });
   }, [laundry, repair]);
-
-  const onClickItem = (itemId: string) => {
-    setClickItems((prevItems) => {
-      const copyItems = [...prevItems];
-      const index = copyItems.indexOf(itemId);
-      if (index !== -1) {
-        copyItems.splice(index, 1);
-      } else {
-        copyItems.push(itemId);
-      }
-      return copyItems;
-    });
-  }
 
   return (
     <OrderList>
