@@ -36,12 +36,12 @@ export enum SidePaths {
   public
 =============================
 */
-interface loginKey {
+export interface IloginKey {
   id: number;
   path: string;
 }
 
-export const loginImg: loginKey[] = [
+export const loginImg: IloginKey[] = [
   {
     id: 1,
     path: `${process.env.PUBLIC_URL}/assets/img/img_login.jpg`,
