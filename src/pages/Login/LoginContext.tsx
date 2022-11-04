@@ -16,6 +16,8 @@ function LoginContext({ children }: ILoginContext) {
   const [next, setNext] = useState(1);
   const opcityStart: React.MutableRefObject<any> = useRef(null);
 
+  const imgPathProps = imgPaths.find((imgPath) => imgPath.id === next);
+
   useEffect(() => {
     opcityStart.current = setInterval(() => setNext((prev) => {
       if (prev === imgPaths.length) {
@@ -33,18 +35,14 @@ function LoginContext({ children }: ILoginContext) {
           <Section>
             <Wrapper>
               <ImgBox>
-                {
-                  imgPaths
-                    .map((imgPath) => (next === imgPath.id) &&
-                      (<Img
-                        key={imgPath.id}
-                        src={imgPath.path}
-                        variants={opacityVariants}
-                        initial="init"
-                        animate="begin"
-                        exit="end"
-                      />))
-                }
+                <Img
+                  key={imgPathProps?.id}
+                  src={imgPathProps?.path}
+                  variants={opacityVariants}
+                  initial="init"
+                  animate="begin"
+                  exit="end"
+                />
               </ImgBox>
               {children}
             </Wrapper>
@@ -69,9 +67,6 @@ const opacityVariants = {
   },
   end: {
     opacity: 0,
-    transition: {
-      duration: 2,
-    }
   }
 }
 
