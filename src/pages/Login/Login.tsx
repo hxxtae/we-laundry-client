@@ -1,13 +1,12 @@
 import { useHistory } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-import { inputStyle, buttonStyle, includes, media, colors, dragging } from '../../styles';
-import { inputMessage } from '../../util';
+import { buttonStyle, includes, media, colors, dragging } from '../../styles';
 import { authApi, userState } from '../../global/atoms';
-import { ErrorMessage, InputTitles } from '../../components';
+import { LoginUserName, LoginPassword } from './LoginInputs';
 import LoginContext from './LoginContext';
 
 interface ILoginForm {
@@ -19,27 +18,27 @@ function Login() {
   const history = useHistory();
   const authService = useRecoilValue(authApi);
   const setUser = useSetRecoilState(userState);
-  const { register, setValue, handleSubmit, formState: { errors }, setError } = useForm<ILoginForm>();
-  const { mutate } = useMutation((loginData: ILoginForm) => authService.login(loginData));
+  const method = useForm<ILoginForm>();
+  const { isLoading, mutate } = useMutation((loginData: ILoginForm) => authService.login(loginData));
 
   const onSubmit = ({ username, password }: ILoginForm) => {
     const data = { username, password };
-    mutate(data, {
+    isLoading || mutate(data, {
       onSuccess: () => {
-        setValue('username', '');
-        setValue('password', '');
+        method.setValue('username', '');
+        method.setValue('password', '');
         setUser(data.username);
       },
       onError: (error: any) => {
-        setError('username', { type: 'custom', message: error.message });
-        setError('password', { type: 'custom', message: error.message });
+        method.setError('username', { type: 'custom', message: error.message });
+        method.setError('password', { type: 'custom', message: error.message });
       },
     })
   }
 
   const onInterviewerSubmit = () => {
     const data = { username: process.env.REACT_APP_INTERVIEWER_ID!, password: process.env.REACT_APP_INTERVIEWER_PW! };
-    mutate(data, {
+    isLoading || mutate(data, {
       onSuccess: () => {
         setUser(data.username);
       },
@@ -59,43 +58,18 @@ function Login() {
         <Logo>
           <LogoImg src={process.env.PUBLIC_URL + '/assets/svg/welaundry_medium_v2_darkblue.svg'} draggable='false' />
         </Logo>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Wrapper>
-            <InputTitles des='사용자 아이디 입력' response={true}/>
-            <Input
-              err={errors.username?.message}
-              {...register('username', {
-                required: inputMessage.required,
-                minLength: { value: 2, message: inputMessage.minLen(2) },
-                maxLength: { value: 10, message: inputMessage.maxLen(10) }
-              })}
-              placeholder="닉네임"
-              autoComplete='off' />
-            <ErrorMessage message={errors.username?.message} />
-          </Wrapper>
-
-          <Wrapper>
-            <InputTitles des='사용자 비밀번호 입력' response={true}/>
-            <Input
-              err={errors.password?.message}
-              type="password"
-              {...register('password', {
-                required: inputMessage.required,
-                minLength: { value: 6, message: inputMessage.minLen(6) },
-                maxLength: { value: 18, message: inputMessage.maxLen(18) }
-              })}
-              placeholder="비밀번호"
-              autoComplete='off' />
-            <ErrorMessage message={errors.password?.message} />
-          </Wrapper>
-
-          <ButtonBox>
-            <Submit interviewer={false}>{"시작하기"}</Submit>
-            <Line aria-hidden />
-            <Button type='button' onClick={onSingup}>{"가입하기"}</Button>
-            <Submit type='button' interviewer={true} onClick={onInterviewerSubmit}>{"둘러보기"}</Submit>
-          </ButtonBox>
-        </Form>
+        <FormProvider {...method}>
+          <Form onSubmit={method.handleSubmit(onSubmit)}>
+            <LoginUserName />
+            <LoginPassword />
+            <ButtonBox>
+              <Submit interviewer={false}>{"시작하기"}</Submit>
+              <Line aria-hidden />
+              <Button type='button' onClick={onSingup}>{"가입하기"}</Button>
+              <Submit type='button' interviewer={true} onClick={onInterviewerSubmit}>{"둘러보기"}</Submit>
+            </ButtonBox>
+          </Form>
+          </FormProvider>
         <Info>{"All Right Reserved © 2022 hxxtae."}</Info>
       </InputBox>
     </LoginContext>
@@ -154,24 +128,6 @@ const LogoImg = styled.img`
 
 const Form = styled.form`
   width: 100%;
-`;
-
-const Wrapper = styled.div`
-  &:first-child{
-    margin-bottom: 10px;
-  }
-`;
-
-const Input = styled.input<{err: string | undefined}>`
-  ${inputStyle.base}
-  background-color: ${(props) => props.theme.inputColor};
-  border-color: ${(props) => props.err ? `${colors.red}` : `${props.theme.borderColor}`};
-  color: ${(props) => props.theme.textColor};
-  margin-bottom: ${({ err }) => err ? '5px' : '0'};
-
-  &:focus {
-    border-color: ${(props) => props.err ? `${colors.red}` : ''};
-  }
 `;
 
 const ButtonBox = styled.div`
