@@ -17,6 +17,15 @@ function CustomerItem({ fetchDatas, sort, onUpdateActive, onDeleteActive }: ICus
 
   return (
     <>
+      <Head>
+        <Title>No.</Title>
+        <Title>고객이름</Title>
+        <Title>주소이름</Title>
+        <Title>동</Title>
+        <Title>호</Title>
+        <Title>생성날짜</Title>
+        <Title>설정</Title>
+      </Head>
       {fetchDatas.map((fetchData, idx) => (
       <Items key={fetchData.id}>
         <Item>{sort(idx)}</Item>
@@ -35,6 +44,40 @@ function CustomerItem({ fetchDatas, sort, onUpdateActive, onDeleteActive }: ICus
 }
 
 export default CustomerItem;
+
+const Head = styled.span`
+  ${includes.flexBox()}
+  flex-shrink: 0;
+  width: 100%;
+  height: 40px;
+  border-bottom: none;
+  position: sticky;
+  top: 0;
+  background-color: ${(props) => props.theme.bgColor};
+  z-index: 1;
+`;
+
+const Title = styled.h2`
+  ${includes.flexBox()}
+  flex-shrink: 0;
+  color: ${(props) => props.theme.textColor};
+  width: 100px;
+  font-weight: 600;
+  opacity: .6;
+
+  &:nth-of-type(1) {
+    width: 50px;
+  }
+
+  &:nth-of-type(2) {
+    width: 160px;
+  }
+
+  &:nth-of-type(3) {
+    width: 160px;
+  }
+
+`;
 
 const Items = styled.li`
   ${includes.flexBox()}

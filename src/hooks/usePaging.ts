@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-interface IPageing<T> {
+export interface IPageing<T> {
   fetchDatas: T[];      // - 현재 페이지 번호에서 데이터들
   pageBtnList: number[];   // - 페이지 번호들
   clickPageIdx: number; // - 클릭한 페이지 번호
