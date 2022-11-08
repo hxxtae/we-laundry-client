@@ -29,11 +29,7 @@ function CustomerSearch() {
           <CustomerAddname />
           <CustomerDong searchActive={searchPop} />
           <CustomerHo searchActive={searchPop} />
-          <ButtonBox>
-            <SubmitButton>
-              {'조회'}
-            </SubmitButton>
-          </ButtonBox>
+          <SubmitButton>{'조회'}</SubmitButton>
         </InputGroup>
       </FormProvider>
     </SearchBox>
@@ -78,13 +74,8 @@ const InputGroup = styled.form`
   margin-top: 70px;
 `;
 
-const ButtonBox = styled.div`
-  ${includes.flexBox()}
-  height: 40px;
-`;
-
 const SubmitButton = styled.button`
   ${buttonStyle.primary()}
   width: 80px;
-  height: 100%;
+  height: 40px;
 `;

@@ -7,7 +7,7 @@ import { sidebarClickState } from '../../../global';
 import { includes, media } from '../../../styles';
 import { useResetState } from '../../../hooks';
 import CustomerForm from './CustomerForm';
-import CustomerList from './CustomerList';
+import CustomerListContext from './CustomerListContext';
 
 function Customer() {
   const setSideClick = useSetRecoilState(sidebarClickState);
@@ -22,7 +22,7 @@ function Customer() {
   return (
     <Wrapper>
       <CustomerForm/>
-      <CustomerList/>
+      <CustomerListContext/>
     </Wrapper>
   )
 }
