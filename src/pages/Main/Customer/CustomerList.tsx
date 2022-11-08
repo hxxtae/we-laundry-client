@@ -1,89 +1,39 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { useState } from 'react';
 import styled from 'styled-components';
-import '@fortawesome/fontawesome-svg-core';
 
-import { DeleteConfirm, LoadingComponent, Overlay, Pagination } from '../../../components';
-import { customerRequestState, searchState, updateState } from '../../../global';
-import { useCustomerFetch, useCustomerDel } from './application/hooks';
 import { includes, media, scroll } from '../../../styles';
-import { usePaging } from '../../../hooks';
 import { CustomerDTO } from './application/interface';
-import CustomerListTop from './CustomerListTop';
-import CustomerItem from './CustomerItem';
-import CustomerSearch from './CustomerSearch';
+import CustomerItems from './CustomerItems';
 
-function CustomerList() {
-  const setUpdateData = useSetRecoilState(customerRequestState);
-  const [updateActive, setUpdateActive] = useRecoilState(updateState);
-  const [searchPopup, setSearchPopup] = useRecoilState(searchState);
-  const [deletePopup, setDeletePopup] = useState(false);
-  const [deleteId, setDeleteId] = useState('');  
-  const { isLoading, isFetching, customerDatas } = useCustomerFetch();
-  const { isMutating, mutate } = useCustomerDel();
-  const cusLoading = isLoading || isFetching;
+interface ICustomerList {
+  fetchDatas: CustomerDTO.ICustomerResponse[];
+  sort: (num: number) => number;
+  onUpdateActive: (fetchData: CustomerDTO.ICustomerRequest) => void;
+  onDeleteActive: (id: string) => void;
+}
 
-  const pageObj = usePaging<CustomerDTO.ICustomerResponse>(customerDatas, customerDatas?.length, 10, 5);
-
-  const onUpdateActive = ({id, addid, addname, addfullname, name, dong, ho}: CustomerDTO.ICustomerRequest) => {
-    setUpdateData({id, addid, addname, addfullname, name, dong, ho});
-    setUpdateActive(true);
-  };
-
-  const onDeleteActive = (id: string) => {
-    if (updateActive) return;
-    setDeletePopup(true);
-    setDeleteId(id);
-    setUpdateActive(false);
-  };
-
-  const onSearchActive = () => {
-    setSearchPopup(true);
-  }
-
-  const onDelete = (id: string) => {
-    isMutating || mutate(id);
-  };
+function CustomerList({ fetchDatas, sort, onUpdateActive, onDeleteActive }: ICustomerList) {
 
   return (
-    <Wrapper>
-      <CustomerListTop customerDataLen={customerDatas?.length} onSearchActive={onSearchActive} />
-      <List>
-        <CustomerItem
-          fetchDatas={pageObj.fetchDatas}
-          sort={pageObj.pageSort.DESC}
-          onUpdateActive={onUpdateActive}
-          onDeleteActive={onDeleteActive} />
-      </List>
-      <Pagination {...pageObj} />
-
-      {searchPopup && <CustomerSearch />}
-      {deletePopup &&
-        <Overlay>
-          <DeleteConfirm
-            deleteId={deleteId}
-            onDelete={onDelete}
-            setDeletePop={setDeletePopup}
-            loading={isMutating} />
-        </Overlay>}
-      {(cusLoading || isMutating) && 
-      <Overlay>
-        <LoadingComponent loadingMessage='잠시만 기다려주세요.' />
-      </Overlay>}
-    </Wrapper>
+    <List>
+      <Head>
+        <Title>No.</Title>
+        <Title>고객이름</Title>
+        <Title>주소이름</Title>
+        <Title>동</Title>
+        <Title>호</Title>
+        <Title>생성날짜</Title>
+        <Title>설정</Title>
+      </Head>
+      <CustomerItems
+        fetchDatas={fetchDatas}
+        sort={sort}
+        onUpdateActive={onUpdateActive}
+        onDeleteActive={onDeleteActive} />
+    </List>
   )
 }
 
 export default CustomerList;
-
-const Wrapper = styled.div`
-  width: 100%;
-  padding: 20px;
-  border: 1px solid ${(props) => props.theme.borderColor};
-  border-radius: 4px;
-  background-color: ${(props) => props.theme.bgColor};
-  transition: background-color border-color 200ms ease-in-out;
-`;
 
 const List = styled.ul`
   ${includes.flexBox('center', 'flex-start')}
@@ -97,4 +47,38 @@ const List = styled.ul`
     overflow-y: hidden;
     max-height: 450px;
   }
+`;
+
+const Head = styled.span`
+  ${includes.flexBox()}
+  flex-shrink: 0;
+  width: 100%;
+  height: 40px;
+  border-bottom: none;
+  position: sticky;
+  top: 0;
+  background-color: ${(props) => props.theme.bgColor};
+  z-index: 1;
+`;
+
+const Title = styled.h2`
+  ${includes.flexBox()}
+  flex-shrink: 0;
+  color: ${(props) => props.theme.textColor};
+  width: 100px;
+  font-weight: 600;
+  opacity: .6;
+
+  &:nth-of-type(1) {
+    width: 50px;
+  }
+
+  &:nth-of-type(2) {
+    width: 160px;
+  }
+
+  &:nth-of-type(3) {
+    width: 160px;
+  }
+
 `;
