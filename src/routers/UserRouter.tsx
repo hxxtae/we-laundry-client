@@ -1,18 +1,22 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import LoginLoading from '../pages/Login/LoginLoading';
 
-import MainContext from '../pages/Main/MainContext';
-import UserContextRouter from './UserContextRouter';
+const MainContext = lazy(() => import("../pages/Main/MainContext"));
+const UserContextRouter = lazy(() => import("./UserContextRouter"));
 
 function UserRouter() {
   return (
     <BrowserRouter>
-      <Switch>
-        <Route path={process.env.PUBLIC_URL + "/"}>
-          <MainContext>
-            <UserContextRouter />
-          </MainContext>
-        </Route>
-      </Switch>
+      <Suspense fallback={<LoginLoading />}>
+        <Switch>
+          <Route path={process.env.PUBLIC_URL + "/"}>
+            <MainContext>
+              <UserContextRouter />
+            </MainContext>
+          </Route>
+        </Switch>
+      </Suspense>
     </BrowserRouter>
   )
 }
