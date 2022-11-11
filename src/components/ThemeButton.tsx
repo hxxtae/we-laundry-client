@@ -23,27 +23,27 @@ function ThemeButton() {
     <Box>
       <AnimatePresence>
         <ToggleButton type='button' onClick={onClick}>
-            <Wrapper>
-            {!theme ?
-              <Circle key='dark' layoutId='theme' /> :
-              <Text
-                variants={textVariants}
-                initial='init'
-                animate='start'
-                exit='end'
-              >{'Light'}</Text>}
-            </Wrapper>
-            <Wrapper>
-            {theme ?
-              <Circle key='light' layoutId='theme' /> :
-              <Text
-                variants={textVariants}
-                initial='init'
-                animate='start'
-                exit='end'
-              >{'Dark'}</Text>}
-            </Wrapper>
-          </ToggleButton>
+          <Wrapper>
+          {!theme ?
+            <Circle key='dark' layoutId='theme' /> :
+            <Text
+              variants={textVariants}
+              initial='init'
+              animate='start'
+              exit='end'
+            >{'Light'}</Text>}
+          </Wrapper>
+          <Wrapper>
+          {theme ?
+            <Circle key='light' layoutId='theme' /> :
+            <Text
+              variants={textVariants}
+              initial='init'
+              animate='start'
+              exit='end'
+            >{'Dark'}</Text>}
+          </Wrapper>
+        </ToggleButton>
       </AnimatePresence>
     </Box>
   )
@@ -57,6 +57,9 @@ const textVariants = {
   },
   start: {
     opacity: 1,
+    transition: {
+      duration: 1
+    }
   },
   end: {
     opacity: 0
@@ -81,7 +84,7 @@ const ToggleButton = styled(motion.button)`
   height: 100%;
   background-color: ${colors.borderLight};
   border-radius: 20px;
-  box-shadow: 0 0 20px ${(props) => props.theme.textColor};
+  box-shadow: 0 0 15px ${(props) => props.theme.textColor};
   overflow: hidden;
   cursor: pointer;
 `;
