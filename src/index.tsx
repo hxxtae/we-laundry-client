@@ -49,7 +49,6 @@ const GlobalStyled = createGlobalStyle`
     background-color: transparent;
     border: 0;
     &:focus {
-      box-shadow: none;
       outline: none;
     }
   }
