@@ -1,18 +1,14 @@
 import { useResetRecoilState } from 'recoil';
 import {
-  searchState,
   addressRequestState,
-  customerRequestState,
   productRequestState,
   recordRequestState,
   recordLaundryState,
   recordRepairState,
   recordReceiptExeState,
-  customerSearchState,
   categoryPopupState,
   productsPopupState,
   menuPopupState,
-  updateState
 } from '../global';
 
 export const useResetState = (state: boolean = false) => {
@@ -20,20 +16,14 @@ export const useResetState = (state: boolean = false) => {
   const resetCategoryPopupState = useResetRecoilState(categoryPopupState);
   const resetProductsPopupState = useResetRecoilState(productsPopupState);
   const resetMenuPopupState = useResetRecoilState(menuPopupState);
-  const resetSearchState = useResetRecoilState(searchState);
 
   /* atom Records */
   const resetLaundryState = useResetRecoilState(recordLaundryState);
   const resetRepairState = useResetRecoilState(recordRepairState);
   const resetReceiptState = useResetRecoilState(recordReceiptExeState);
 
-  /* atom Customer */
-  const resetUpdateActive = useResetRecoilState(updateState);
-
   /* request */
   const resetAddressState = useResetRecoilState(addressRequestState);
-  const resetCustomerState = useResetRecoilState(customerRequestState);
-  const resetCustomerSearchState = useResetRecoilState(customerSearchState);
   const resetProductState = useResetRecoilState(productRequestState);
   const resetRecordState = useResetRecoilState(recordRequestState);
 
@@ -41,19 +31,14 @@ export const useResetState = (state: boolean = false) => {
     resetCategoryPopupState();
     resetProductsPopupState();
     resetMenuPopupState();
-    resetSearchState();
 
     resetLaundryState();
     resetRepairState();
     resetReceiptState();
 
-    resetUpdateActive();
-
     resetAddressState();
-    resetCustomerState();
     resetProductState();
     resetRecordState();
-    if(state) resetCustomerSearchState();
   }
 
   return { allStateReset };

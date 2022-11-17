@@ -13,14 +13,23 @@ export interface ICustomerResponse {
   createdAt: string;
 }
 
-export interface ICustomerRequest {
-  id?: string;
-  addid?: string;
+export interface ICustomerCreateRequest {
+  addid: string;
   addname: string;
-  addfullname?: string;
+  addfullname: string;
   name?: string;
-  dong?: string;
-  ho?: string;
+  dong: string;
+  ho: string;
+}
+
+export interface ICustoemrUpdateRequest {
+  id: string;
+  addid: string;
+  addname: string;
+  addfullname: string;
+  name?: string;
+  dong: string;
+  ho: string;
 }
 
 export interface ICustomerSearchRequest {
@@ -31,8 +40,8 @@ export interface ICustomerSearchRequest {
 
 interface ICustomerService {
   searchFetchCus: ({ addname, dong, ho }: ICustomerSearchRequest) => Promise<AxiosResponse>;
-  createCus: ({ addid, addname, addfullname, name, dong, ho }: ICustomerRequest) => Promise<AxiosResponse>;
-  updateCus: ({ id, addid, addname, addfullname, name, dong, ho }: ICustomerRequest) => Promise<AxiosResponse>;
+  createCus: ({ addid, addname, addfullname, name, dong, ho }: ICustomerCreateRequest) => Promise<AxiosResponse>;
+  updateCus: ({ id, addid, addname, addfullname, name, dong, ho }: ICustoemrUpdateRequest) => Promise<AxiosResponse>;
   deleteCus: (id: string) => Promise<AxiosResponse>;
 }
 
@@ -48,7 +57,7 @@ export default class CustomerService implements ICustomerService {
     return data;
   }
 
-  async createCus({ addid, addname, addfullname, name, dong, ho }: ICustomerRequest): Promise<AxiosResponse> {
+  async createCus({ addid, addname, addfullname, name, dong, ho }: ICustomerCreateRequest): Promise<AxiosResponse> {
     const data = await this.http.fetch('/customer', {
       method: 'POST',
       body: JSON.stringify({
@@ -63,7 +72,7 @@ export default class CustomerService implements ICustomerService {
     return data;
   }
   
-  async updateCus({ id, addid, addname, addfullname, name, dong, ho }: ICustomerRequest) {
+  async updateCus({ id, addid, addname, addfullname, name, dong, ho }: ICustoemrUpdateRequest) {
     const data = await this.http.fetch(`/customer/${id}`, {
       method: 'PUT',
       body: JSON.stringify({

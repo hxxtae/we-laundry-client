@@ -1,7 +1,8 @@
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 
-import { customerApi, customerSearchState } from '../../../../../global';
+import { customerApi } from '../../../../../global';
+import { customerSearchState } from '../atom';
 import { CustomerDTO } from '../interface';
 import { toastStyle } from '../../../../../styles';
 import { queryKeys } from '../../../../../util';

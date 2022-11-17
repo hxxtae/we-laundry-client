@@ -2,7 +2,7 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 import { buttonStyle, colors, includes } from '../../../styles';
-import { updateState } from '../../../global';
+import { updateState } from './application/atom';
 import { CustomerDTO } from './application/interface';
 
 interface ICustomerItems {

@@ -11,13 +11,19 @@ export interface ICustomerResponse {
 }
 
 export interface ICustomerRequest {
-  id?: string;
-  addid?: string;
+  id: string;
+  addid: string;
   addname: string;
-  addfullname?: string;
+  addfullname: string;
   name?: string;
-  dong?: string;
-  ho?: string;
+  dong: string;
+  ho: string;
+}
+
+export interface ICustomerForm {
+  addname: string;
+  dong: string;
+  ho: string;
 }
 
 export interface ICustomerSearchRequest {

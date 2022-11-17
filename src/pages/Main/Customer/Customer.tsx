@@ -1,6 +1,6 @@
 import { useSetRecoilState } from 'recoil';
 import { useRouteMatch } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { sidebarClickState } from '../../../global';
@@ -8,15 +8,22 @@ import { includes, media } from '../../../styles';
 import { useResetState } from '../../../hooks';
 import CustomerForm from './CustomerForm';
 import CustomerListContext from './CustomerListContext';
+import { useCustomerResetAtom } from './application/hooks';
 
 function Customer() {
   const setSideClick = useSetRecoilState(sidebarClickState);
   const { allStateReset } = useResetState();
+  const { resetCustomerRequest, resetUpdateState, resetSearchState } = useCustomerResetAtom();
   const { path } = useRouteMatch();
   
   useEffect(() => {
     setSideClick(path);
-    return () => allStateReset();
+    return () => {
+      allStateReset();
+      resetCustomerRequest();
+      resetUpdateState();
+      resetSearchState();
+    };
   }, []);
 
   return (

@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
-import { updateState } from '../../../global';
 import { buttonStyle, includes } from '../../../styles';
+import { updateState } from './application/atom';
 
 interface IComponentListTop {
   customerDataLen: number;
