@@ -2,15 +2,19 @@ import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormContext } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
+import { useSetRecoilState } from 'recoil';
 import { useState } from 'react';
 import styled from 'styled-components';
 
 import { AddnameSelectList, ErrorMessage, InputTitles } from '../../../../components';
 import { buttonStyle, colors, includes, inputStyle } from '../../../../styles';
 import { inputMessage, queryKeys } from '../../../../util';
+import { customerRequestState } from '../application/atom';
+
 
 function CustomerAddname() {
   const [selectAct, setSelectAct] = useState(false);
+  const setCustomerObj = useSetRecoilState(customerRequestState);
   const { register, formState: { errors }, setValue } = useFormContext();
   const client = useQueryClient();
 
@@ -19,9 +23,13 @@ function CustomerAddname() {
   });
 
   const onSelectClick = (addid: string, addname: string, addfullname: string) => {
-    setValue('addid', addid);
+    setCustomerObj((prev) => ({
+      ...prev,
+      addid,
+      addname,
+      addfullname,
+    }));
     setValue('addname', addname);
-    setValue('addfullname', addfullname);
     setSelectAct(false);
   }
 

@@ -4,28 +4,29 @@ import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
 import { DeleteConfirm, LoadingComponent, Overlay, Pagination } from '../../../components';
-import { customerRequestState, searchState, updateState } from '../../../global';
-import { useCustomerFetch, useCustomerDel } from './application/hooks';
 import { usePaging } from '../../../hooks';
+
+import { customerRequestState, searchState, updateState } from './application/atom';
+import { useCustomerFetch, useCustomerDel } from './application/hooks';
 import { CustomerDTO } from './application/interface';
 import CustomerListTop from './CustomerListTop';
-import CustomerList from './CustomerList';
 import CustomerSearch from './CustomerSearch';
+import CustomerList from './CustomerList';
 
 function CustomerListContext() {
-  const setUpdateData = useSetRecoilState(customerRequestState);
+  const setCustomerObj = useSetRecoilState(customerRequestState);
   const [updateActive, setUpdateActive] = useRecoilState(updateState);
   const [searchPopup, setSearchPopup] = useRecoilState(searchState);
   const [deletePopup, setDeletePopup] = useState(false);
   const [deleteId, setDeleteId] = useState('');  
   const { isLoading, isFetching, customerDatas } = useCustomerFetch();
-  const { isMutating, mutate } = useCustomerDel();
+  const { isDelLoading, mutateDel } = useCustomerDel();
   const cusLoading = isLoading || isFetching;
 
   const pageObj = usePaging<CustomerDTO.ICustomerResponse>(customerDatas, customerDatas?.length, 10, 5);
 
   const onUpdateActive = ({id, addid, addname, addfullname, name, dong, ho}: CustomerDTO.ICustomerRequest) => {
-    setUpdateData({id, addid, addname, addfullname, name, dong, ho});
+    setCustomerObj({id, addid, addname, addfullname, name, dong, ho});
     setUpdateActive(true);
   };
 
@@ -41,7 +42,7 @@ function CustomerListContext() {
   }
 
   const onDelete = (id: string) => {
-    isMutating || mutate(id);
+    isDelLoading || mutateDel(id);
   };
 
   return (
@@ -61,9 +62,9 @@ function CustomerListContext() {
             deleteId={deleteId}
             onDelete={onDelete}
             setDeletePop={setDeletePopup}
-            loading={isMutating} />
+            loading={isDelLoading} />
         </Overlay>}
-      {(cusLoading || isMutating) && 
+      {(cusLoading || isDelLoading) && 
       <Overlay>
         <LoadingComponent loadingMessage='잠시만 기다려주세요.' />
       </Overlay>}

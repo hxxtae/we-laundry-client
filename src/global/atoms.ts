@@ -91,21 +91,6 @@ export const openState = atom<boolean>({
 
 /*
 ===================
-  Page Customer.
-===================
-*/
-export const searchState = atom<boolean>({
-  key: 'searchActive',
-  default: false,
-});
-
-export const updateState = atom<boolean>({
-  key: 'updateActive',
-  default: false,
-});
-
-/*
-===================
   Page Products.
 ===================
 */

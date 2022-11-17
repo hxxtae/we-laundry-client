@@ -4,17 +4,18 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-import { CustomerAddname, CustomerDong, CustomerHo } from './CustomerInputs';
-import { customerSearchState, searchState } from '../../../global';
-import { ICustomerRequest } from '../../../services/customer';
 import { buttonStyle, includes } from '../../../styles';
+
+import { CustomerDTO } from './application/interface';
+import { customerSearchState, searchState } from './application/atom';
+import { CustomerAddname, CustomerDong, CustomerHo } from './CustomerInputs';
 
 function CustomerSearch() {
   const setData = useSetRecoilState(customerSearchState);
   const [searchPop, setSearchPop] = useRecoilState(searchState);
-  const method = useForm<ICustomerRequest>();
+  const method = useForm<CustomerDTO.ICustomerSearchRequest>();
 
-  const onSearch = ({addname, dong, ho}: ICustomerRequest) => {
+  const onSearch = ({addname, dong, ho}: CustomerDTO.ICustomerSearchRequest) => {
     setData({ addname, dong, ho });
     setSearchPop(false);
   }

@@ -1,30 +1,7 @@
 import { atom } from 'recoil';
 import { IAddressRequest } from '../services/address';
-import { ICustomerRequest, ICustomerSearchRequest } from '../services/customer';
 import { IProductRequest } from '../services/products';
 import { IRecordRequest } from '../services/records';
-
-export const customerRequestState = atom<ICustomerRequest>({
-  key: 'customerRequest',
-  default: {
-    id: '',
-    addid: '',
-    addname: '',
-    addfullname: '',
-    name: '',
-    dong: '',
-    ho: '',
-  }
-});
-
-export const customerSearchState = atom<ICustomerSearchRequest>({
-  key: 'customerSearchRequest',
-  default: {
-    addname: '',
-    dong: '',
-    ho: '',
-  }
-});
 
 export const addressRequestState = atom<IAddressRequest>({
   key: 'addressRequest',
