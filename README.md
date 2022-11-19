@@ -322,6 +322,9 @@ export default ThemeButton;
 <br>
 
 ## Router
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/79623316/202746086-47361697-5adc-460c-a492-23fc1245c02e.png" alt="welaundry Router Flow">
+</p>
 
 ### Before Login
 
