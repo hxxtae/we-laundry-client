@@ -6,7 +6,7 @@ import { includes, media } from '../../styles';
 function LoadingLogo() {
   return (
     <LoadingBox>
-      <Logo src='./assets/svg/welaundry_medium_v2_darkblue.svg' alt='Welaundry logo'></Logo>
+      <Logo src={process.env.PUBLIC_URL + '/assets/svg/welaundry_medium_v2_darkblue.svg'} alt='Welaundry logo'></Logo>
       <Message>잠시만 기다려주세요</Message>
     </LoadingBox>
   )

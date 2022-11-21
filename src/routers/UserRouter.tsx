@@ -23,6 +23,9 @@ function UserRouter() {
               <UserPosRouter />
             </MainContext>
           </Route>
+          <Route path={pathStr('board', true)}>
+            <BoardContext />
+          </Route>
           <Route path={"*"}>
             <NotFoundPage />
           </Route>
