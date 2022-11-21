@@ -5,15 +5,16 @@ import styled from 'styled-components';
 import { descState } from '../../global/atoms';
 import { headerHeight, includes, media } from '../../styles';
 import { Background, Containers, Overlay } from '../../components';
+
 import Header from './Header';
 import Sidebar from './Sidebar';
-import MainDescription from './MainDescription';
+import PosDescription from './PosDescription';
 
-interface IMainContext {
+interface IPosContext {
   children: JSX.Element;
 }
 
-function MainContext({ children }: IMainContext) {
+function PosContext({ children }: IPosContext) {
   const desc = useRecoilValue(descState);
 
   return (
@@ -26,7 +27,7 @@ function MainContext({ children }: IMainContext) {
               <LayoutGroup>
                 <Sidebar />
                 <Context >
-                  {desc ? <MainDescription /> : children}
+                  {desc ? <PosDescription /> : children}
                 </Context>
               </LayoutGroup>
             </Group>
@@ -38,7 +39,7 @@ function MainContext({ children }: IMainContext) {
   )
 }
 
-export default MainContext;
+export default PosContext;
 
 const Wrapper = styled.div`
   height: 100vh;

@@ -5,7 +5,7 @@ import BoardContext from '../pages/Board/BoardContext';
 import LoginLoading from '../pages/Login/LoginLoading';
 import { pathStr } from './path';
 
-const MainContext = lazy(() => import("../pages/Main/MainContext"));
+const PosContext = lazy(() => import("../pages/Pos/PosContext"));
 const UserPosRouter = lazy(() => import("./UserPosRouter"));
 
 function UserRouter() {
@@ -14,14 +14,14 @@ function UserRouter() {
       <Suspense fallback={<LoginLoading />}>
         <Switch>
           <Route path={pathStr('pos', true)}>
-            <MainContext>
+            <PosContext>
               <UserPosRouter />
-            </MainContext>
+            </PosContext>
           </Route>
           <Route exact path={process.env.PUBLIC_URL + '/'}>
-            <MainContext>
+            <PosContext>
               <UserPosRouter />
-            </MainContext>
+            </PosContext>
           </Route>
           <Route path={pathStr('board', true)}>
             <BoardContext />

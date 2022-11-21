@@ -4,13 +4,13 @@ import { lazy, Suspense } from 'react';
 import { LoadingItem, NotFoundPage } from '../components';
 import { pathStr } from './path';
 
-const Records = lazy(() => import("../pages/Main/Records/Records"));
-const History = lazy(() => import("../pages/Main/History/History"));
-const Customer = lazy(() => import("../pages/Main/Customer/Customer"));
-const Products = lazy(() => import("../pages/Main/Products/Products"));
-const Address = lazy(() => import("../pages/Main/Address/Address"));
-const Sales = lazy(() => import("../pages/Main/Sales/Sales"));
-const OpenAndClose = lazy(() => import("../pages/Main/OpenAndClose/OpenAndClose"));
+const Records = lazy(() => import("../pages/Pos/Records/Records"));
+const History = lazy(() => import("../pages/Pos/History/History"));
+const Customer = lazy(() => import("../pages/Pos/Customer/Customer"));
+const Products = lazy(() => import("../pages/Pos/Products/Products"));
+const Address = lazy(() => import("../pages/Pos/Address/Address"));
+const Sales = lazy(() => import("../pages/Pos/Sales/Sales"));
+const OpenAndClose = lazy(() => import("../pages/Pos/OpenAndClose/OpenAndClose"));
 
 function UserPosRouter() {
   return (
