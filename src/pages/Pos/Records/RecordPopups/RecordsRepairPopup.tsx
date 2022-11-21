@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import { IRecordsOfRepair } from '../../../../services/records';
 import { buttonStyle, includes } from '../../../../styles';
 import { recordRepairState } from '../../../../global';
-import { RecordRepairName } from './../RecordsInputs';
-import { RecordRepairPrice } from './../RecordsInputs';
+import { RecordRepairName } from '../RecordsInputs';
+import { RecordRepairPrice } from '../RecordsInputs';
 import { useEffect } from 'react';
 
 interface IRecordRepairPopup {

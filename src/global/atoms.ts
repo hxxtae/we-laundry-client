@@ -56,7 +56,7 @@ export const salesApi = atom<SalesService>({
 
 /*
 ===================
-  Main.
+  Pos.
 ===================
 */
 export const themeState = atom<boolean>({

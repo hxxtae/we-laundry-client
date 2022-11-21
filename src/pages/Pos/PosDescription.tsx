@@ -21,7 +21,7 @@ interface IPos {
   pcPos: string;
 }
 
-function MainDescription() {
+function PosDescription() {
   const [descStep, setDescStep] = useState(0);
   const setDescState = useSetRecoilState(descState);
 
@@ -95,7 +95,7 @@ function MainDescription() {
   );
 }
 
-export default MainDescription;
+export default PosDescription;
 
 const DescList = styled.div<{descStep: number}>`
   position: absolute;

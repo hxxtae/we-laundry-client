@@ -1,11 +1,19 @@
 import { faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { userState } from '../global';
+import { pathStr } from '../routers/path';
 import { colors, includes, media } from '../styles';
 
 function NotFoundPage() {
+  const user = useRecoilValue(userState);
+  const returnPath = () => {
+    return user ? pathStr('pos') : '/';
+  }
+
   return (
     <Section>
       <Wrapper>
@@ -13,7 +21,7 @@ function NotFoundPage() {
         <DescBox>
           <Title><FontAwesomeIcon icon={faWarning} style={{ color: colors.red}} /> Oops! Page not found.</Title>
           <Desc>페이지를 찾을 수 없습니다.</Desc>
-          <Desc>포스 <Link to={'/'} style={{ color: colors.blue }}>메인 페이지</Link>로 돌아가거나 welaundry에 문의해 주세요.</Desc>
+          <Desc>포스 <Link to={returnPath()} style={{ color: colors.blue }}>메인 페이지</Link>로 돌아가거나 welaundry에 문의해 주세요.</Desc>
         </DescBox>
       </Wrapper>
     </Section>

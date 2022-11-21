@@ -8,7 +8,7 @@ interface IAuthContextProps {
 }
 
 function AuthContext({ children }: IAuthContextProps) {
-const { user, isLoading } = useAuthFetch();
+  const { user, isLoading } = useAuthFetch();
 
   return (
     <>
