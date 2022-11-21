@@ -1,19 +1,30 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { NotFoundPage } from '../components';
+import BoardContext from '../pages/Board/BoardContext';
 import LoginLoading from '../pages/Login/LoginLoading';
+import { pathStr } from './path';
 
 const MainContext = lazy(() => import("../pages/Main/MainContext"));
-const UserContextRouter = lazy(() => import("./UserContextRouter"));
+const UserPosRouter = lazy(() => import("./UserPosRouter"));
 
 function UserRouter() {
   return (
     <BrowserRouter>
       <Suspense fallback={<LoginLoading />}>
         <Switch>
-          <Route path={process.env.PUBLIC_URL + "/"}>
+          <Route path={pathStr('pos', true)}>
             <MainContext>
-              <UserContextRouter />
+              <UserPosRouter />
             </MainContext>
+          </Route>
+          <Route exact path={process.env.PUBLIC_URL + '/'}>
+            <MainContext>
+              <UserPosRouter />
+            </MainContext>
+          </Route>
+          <Route path={"*"}>
+            <NotFoundPage />
           </Route>
         </Switch>
       </Suspense>

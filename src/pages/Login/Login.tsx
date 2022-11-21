@@ -1,11 +1,12 @@
 import { useHistory } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useMutation } from 'react-query';
 import styled from 'styled-components';
 
 import { buttonStyle, includes, media, colors, dragging } from '../../styles';
 import { authApi, userState } from '../../global/atoms';
+import { pathStr } from '../../routers/path';
 import { LoginUserName, LoginPassword } from './LoginInputs';
 import LoginContext from './LoginContext';
 
@@ -27,6 +28,7 @@ function Login() {
       onSuccess: () => {
         method.setValue('username', '');
         method.setValue('password', '');
+        history.push(pathStr('pos'));
         setUser(data.username);
       },
       onError: (error: any) => {
@@ -40,6 +42,7 @@ function Login() {
     const data = { username: process.env.REACT_APP_INTERVIEWER_ID!, password: process.env.REACT_APP_INTERVIEWER_PW! };
     isLoading || mutate(data, {
       onSuccess: () => {
+        history.push(pathStr('pos'));
         setUser(data.username);
       },
       onError: (data: any) => {
@@ -49,7 +52,7 @@ function Login() {
   }
 
   const onSingup = () => {
-    history.push('/signup');
+    history.push(pathStr('signup'));
   }
 
   return (
