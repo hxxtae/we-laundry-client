@@ -326,28 +326,40 @@ export default ThemeButton;
   <img src="https://user-images.githubusercontent.com/79623316/202746086-47361697-5adc-460c-a492-23fc1245c02e.png" alt="welaundry Router Flow">
 </p>
 
-### Before Login
+### Before Login (NonUserRouter)
 
-| Path         | Description                                  |
-| ------------ | -------------------------------------------- |
-| **/**        | Root path is Login page                      |
-| **/signup**  | This router path is signup page              |
-| **/\***      | This router path is connection by login page |
+| Path         | Property  | Description                                  |
+| ------------ | --------- |--------------------------------------------- |
+| **/**        | _[exact]_ | Root path is Login page                      |
+| **/signup**  | _[exact]_ | This router path is signup page              |
+| **\***       |           | This router path is connection by login page |
 
 <br>
 
-### After Login
+### After Login (UserRouter)
 
-| Path            | Description                               |
-| --------------- | ----------------------------------------- |
-| **/**           | Root path is sales on & off page          |
-| **/records**    | This router path is order receiption page |
-| **/history**    | This router path is order list page       |
-| **/customer**   | This router path is customer manage page  |
-| **/products**   | This router path is products manage page  |
-| **/address**    | This router path is address manage page   |
-| **/sales**      | This router path is sales manage page     |
-| **/\***         | This router path is page not found        |
+| Path            | Property  | Description                               |
+| --------------- | --------- | ----------------------------------------- |
+| **/**           | _[exact]_ | POS Context router                        |
+| **/pos**        |           | POS Context router                        |
+| **/board**      |           | Board Context router                      |
+| **\***          |           | This router path is page not found        |
+
+<br>
+
+### After Login (UserPosRouter)
+
+| Path              | Property  | Description                               |
+| ----------------- | --------- | ----------------------------------------- |
+| **/**             | _[exact]_ | Root path is pos on & off page            |
+| **/pos**          | _[exact]_ | This router path is pos on & off page     |
+| **/pos/records**  | _[exact]_ | This router path is order receiption page |
+| **/pos/history**  | _[exact]_ | This router path is order list page       |
+| **/pos/customer** | _[exact]_ | This router path is customer manage page  |
+| **/pos/products** | _[exact]_ | This router path is products manage page  |
+| **/pos/address**  | _[exact]_ | This router path is address manage page   |
+| **/pos/sales**    | _[exact]_ | This router path is sales manage page     |
+| **\***            |           | This router path is page not found        |
 
 <br>
 
