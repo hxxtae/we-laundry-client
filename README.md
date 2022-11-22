@@ -71,14 +71,14 @@
 - [Theme](#theme)
 - [Router](#router)
 - [Page](#page)
-  1. [로그인 & 회원가입](#page-1-login-signup)
-  2. [메인화면](#page-2-메인화면)
-  3. [주소관리](#page-3-주소관리)
-  4. [고객관리](#page-4-고객관리)
-  5. [품목관리](#page-5-품목관리)
-  6. [주문접수](#page-6-주문접수)
-  7. [주문조회](#page-7-주문조회)
-  8. [매출관리-(진행중)](#page-8-매출관리--진행중)
+  1. [로그인 & 회원가입 page](#1-로그인-페이지login-page--회원가입-패이지signup-page)
+  2. [포스 메인 page](#2-포스-메인-페이지posonandoff-page)
+  3. [주소 관리 page](#3-주소-관리-페이지address-page)
+  4. [고객 관리 page](#4-고객-관리-페이지customer-page)
+  5. [품목 관리 page](#5-품목-관리-페이지products-page)
+  6. [주문 접수 page](#6-주문-접수-페이지records-page)
+  7. [주문 조회 page](#7-주문-조회-페이지history-page)
+  8. [매출 관리 page](#8-매출-관리-페이지sales-page_진행중)
 - [License](#license)
 
 <br>
@@ -323,7 +323,7 @@ export default ThemeButton;
 
 ## Router
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/79623316/202746086-47361697-5adc-460c-a492-23fc1245c02e.png" alt="welaundry Router Flow">
+  <img src="https://user-images.githubusercontent.com/79623316/203274607-945e1ac7-e953-4796-b1c3-5cb932713aec.jpg" alt="welaundry Router Flow">
 </p>
 
 ### Before Login (NonUserRouter)
@@ -365,46 +365,46 @@ export default ThemeButton;
 
 ## Page
 
-### page 1 (로그인, 회원가입)
+### 1. 로그인 페이지(login page) / 회원가입 패이지(signup page)
 ![login](https://user-images.githubusercontent.com/79623316/175766234-eadafa94-ad69-4780-a052-c2dea289ba21.PNG)
 ![signup](https://user-images.githubusercontent.com/79623316/175767125-584dcdb1-2359-487f-a947-53ba72270830.PNG)
 
 <br>
 
-### page 2 (메인화면)
+### 2. 포스 메인 페이지(posOnAndOff page)
 ![main](https://user-images.githubusercontent.com/79623316/175766846-8e868b5c-db6a-43a5-ae9c-bab8339c3b8e.PNG)
 
 <br>
 
-### page 3 (주소관리)
+### 3. 주소 관리 페이지(address page)
 ![address](https://user-images.githubusercontent.com/79623316/175766955-51daf465-d0b5-40ee-8acc-388e9afa55a6.PNG)
 ![address_addfullname](https://user-images.githubusercontent.com/79623316/175766961-93c4b8a5-9719-43c4-8f1c-0cb4763988f6.PNG)
 
 <br>
 
-### page 4 (고객관리)
+### 4. 고객 관리 페이지(customer page)
 ![customer](https://user-images.githubusercontent.com/79623316/175766940-bd6e2760-0d35-415f-960a-efb7a0e9d81b.PNG)
 
 <br>
 
-### page 5 (품목관리)
+### 5. 품목 관리 페이지(products page)
 ![products](https://user-images.githubusercontent.com/79623316/175766950-f16f9e95-6370-4df9-b63f-4aab44f0937f.PNG)
 
 <br>
 
-### page 6 (주문접수)
+### 6. 주문 접수 페이지(records page)
 ![record](https://user-images.githubusercontent.com/79623316/175766868-c6217ba4-f049-468e-8e4b-6b3cdf0a8b5f.PNG)
 ![record_receipt](https://user-images.githubusercontent.com/79623316/175766892-0caa73bf-5ae0-46ab-a9b5-aac05f8a09dd.PNG)
 ![record_success](https://user-images.githubusercontent.com/79623316/175766907-d400950f-09a7-46cd-9228-d5854c56f1e9.PNG)
 
 <br>
 
-### page 7 (주문조회)
+### 7. 주문 조회 페이지(history page)
 ![history](https://user-images.githubusercontent.com/79623316/175766922-260c2047-8eeb-4056-87a2-dfacf2cfa6c0.PNG)
 
 <br>
 
-### page 8 (매출관리 : 진행중)
+### 8. 매출 관리 페이지(sales page)_진행중
 ![sale](https://user-images.githubusercontent.com/79623316/183927294-6867463a-c8c8-476d-b0dc-8cd446128075.PNG)
 
 <br>
