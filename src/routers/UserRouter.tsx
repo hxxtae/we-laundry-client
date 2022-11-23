@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { NotFoundPage } from '../components';
+import { Background, NotFoundPage } from '../components';
 import BoardContext from '../pages/Board/BoardContext';
 import LoginLoading from '../pages/Login/LoginLoading';
 import { pathStr } from './path';
@@ -27,7 +27,9 @@ function UserRouter() {
             <BoardContext />
           </Route>
           <Route path={"*"}>
-            <NotFoundPage />
+            <Background>
+              <NotFoundPage />
+            </Background>
           </Route>
         </Switch>
       </Suspense>
