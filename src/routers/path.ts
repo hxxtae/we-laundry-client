@@ -38,11 +38,14 @@ const posPath: IPosPath = {
 }
 
 type IPath = INonUserPath & IUserPath & IPosPath;
-export const totalPath: IPath = {
+const totalPath: IPath = {
   ...nonUserPath,
   ...userPath,
   ...posPath,
 }
+
+// NOTE: check property of totalPath object
+//console.log(Object.keys(totalPath).map(key => `'${key}'`).join(' | '));
 
 export const pathStr = (path: IPathName, rootActive = false) => {
   return rootActive ? `${root}${totalPath[path]}` : `${totalPath[path]}`;
