@@ -1,11 +1,12 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
 import { Background, NotFoundPage } from '../components';
-import BoardContext from '../pages/Board/BoardContext';
-import LoginLoading from '../pages/Login/LoginLoading';
 import { pathStr } from './path';
+import LoginLoading from '../pages/Login/LoginLoading';
 
 const PosContext = lazy(() => import("../pages/Pos/PosContext"));
+const BoardContext = lazy(() => import("../pages/Board/BoardContext"));
 const UserPosRouter = lazy(() => import("./UserPosRouter"));
 
 function UserRouter() {

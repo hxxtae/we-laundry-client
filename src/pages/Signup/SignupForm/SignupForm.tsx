@@ -10,10 +10,10 @@ import { mainDescStorage } from '../../../util';
 
 import { useSignup } from '../application/hooks';
 import { dto } from '../application/interface';
+import SignupUserName from './SignupUserName';
 import SignupPassword from './SignupPassword';
 import SignupPasswordConfirm from './SignupPasswordConfirm';
 import SignupTel from './SignupTel';
-import SignupUserName from './SignupUserName';
 
 function SignupForm() {
   const setDesc = useSetRecoilState(descState);
