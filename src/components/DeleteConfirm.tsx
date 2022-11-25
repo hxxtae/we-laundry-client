@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { buttonStyle, colors, includes } from '../styles';
+import { buttonStyle, includes } from '../styles';
 
 interface IDeleteConfirm {
   deleteId: string; // 삭제 대상 id
