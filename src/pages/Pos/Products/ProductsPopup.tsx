@@ -13,7 +13,7 @@ import { IProductCreateRequest, IProducts } from '../../../services/products';
 import { buttonStyle, includes, toastStyle } from '../../../styles';
 import ProductName from './PorductsInputs/ProductName';
 import ProductPrice from './PorductsInputs/ProductPrice';
-import { queryKeys } from '../../../util';
+import { isIntegerCheck, queryKeys } from '../../../util';
 
 interface IProductsPopup {
   categoryId: string;
@@ -30,22 +30,21 @@ function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setC
   const client = useQueryClient();
 
   const onSubmit = ({ id, productName, price }: IProductCreateRequest) => {
+    const integerPrice = isIntegerCheck(price);
+    if (integerPrice === false) {
+      alert("정수만 입력해 주세요");
+      return;
+    }
 
     /* update */
     if (productsPopup.updatePopup) {
       const { productId, index } = productState;
-      // 이전 product obj
-      const {
-        productName: prev_productName,
-        price: prev_price
-      } = copyProducts[index];
       
       // 새로운 product obj
       const updateProduct: IProducts = {
-        ...copyProducts[index],
         productId,
-        productName: productName || prev_productName,
-        price: Number(price) ?? Number(prev_price),
+        productName,
+        price: integerPrice,
       };
 
       copyProducts.splice(index!, 1, updateProduct);
@@ -58,7 +57,7 @@ function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setC
     }
 
     /* create */
-    const data = { id, productName, price };
+    const data = { id, productName, price: integerPrice };
     insMutate(data, {
       onSuccess: () => {
         setProductsPopup(prev => ({

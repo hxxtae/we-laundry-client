@@ -36,27 +36,27 @@ export const useProductSaleFetch = (): IProductSaleFetch => {
 
   const loading = isLoading || isFetching;
 
-  // -------------------------
-  // 품목 이름 (한, 영) 필터링
-  // -------------------------
-  const nameOverlap = (statsArr: IProductStats[]) => {
-    const str = new RegExp(/[가-하ㄱ-ㅎㅏ-ㅣa-zA-Z]+/);
-    const nameStatsArr = statsArr.map((obj) => {
-      const { productName } = obj;
-      const name = str.exec(productName)?.toString();
+  // ---------------------------------
+  // 같은 품목 이름 (한, 영) 으로 변환
+  // ---------------------------------
+  const sameNameFilter = (statsArr: IProductStats[]) => {
+    const strRegExp = new RegExp(/[가-하ㄱ-ㅎㅏ-ㅣa-zA-Z]+/);
+    const newProductArrBysameName = statsArr.map((productState) => {
+      const { productName } = productState;
+      const name = strRegExp.exec(productName)?.toString();
       return {
-        ...obj,
+        ...productState,
         productName: name as string,
       }
     });
 
-    return nameStatsArr;
+    return newProductArrBysameName;
   }
 
   // -------------------------
   // 품목 이름 중복 결합
   // -------------------------
-  const nameOverlapSum = (statsArr: IProductStats[]) => {
+  const sameNameFilterSum = (statsArr: IProductStats[]) => {
     const sumStatsArr = statsArr.reduce((prev: IProductStats[], curr: IProductStats) => {
       const idx = prev.findIndex((obj) => obj.productName === curr.productName);
       if (idx === -1) {
@@ -89,8 +89,8 @@ export const useProductSaleFetch = (): IProductSaleFetch => {
       }
     }
 
-    const statsArrByName = nameOverlap(datas.productStats);
-    const statsArrBySum = nameOverlapSum(statsArrByName);
+    const statsArrByName = sameNameFilter(datas.productStats);
+    const statsArrBySum = sameNameFilterSum(statsArrByName);
 
     const statsArr: IProductStats[] = statsArrBySum.sort((a, b) => {
       if (b[sort] - a[sort] === 0) {
