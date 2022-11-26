@@ -1,6 +1,6 @@
 /*
 =============================
-  input
+  input validation
 =============================
 */
 export const regexrObj = {
@@ -22,13 +22,38 @@ export const inputMessage = {
   minLen: (minNum: number) => `최소 ${minNum}자 까지 입력해야 합니다.`,
 };
 
-export enum SidePaths {
-  "records",
-  "history",
-  "customer",
-  "products",
-  "address",
-  "sales",
+/*
+=============================
+  number check
+=============================
+*/
+export const isNumberCheck = (value: string | number) => {
+  let thisValue = value ?? 0; // NOTE: null & undefined is 0
+  if (typeof thisValue !== 'number') {
+    thisValue = Number(thisValue);
+
+    // NOTE: NaN Check
+    if (thisValue !== thisValue) {
+      console.error("Error: value is Not a Number");
+      return false;
+    }
+  }
+  
+  // NOTE: Infinity & -Infinity & NaN Check
+  if (!isFinite(thisValue)) {
+    console.error("Error: value is Infinity & -Infinity");
+    return false;
+  }
+  return thisValue;
+}
+
+export const isIntegerCheck = (value: number) => {
+  const numberValue = isNumberCheck(value);
+  if (!Number.isInteger(numberValue)) {
+    console.error("Error: value is Not Integer");
+    return false;
+  }
+  return numberValue;
 }
 
 /*
