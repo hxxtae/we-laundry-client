@@ -22,7 +22,7 @@ function RecordsList() {
           {!loading ?
             <List>
               {productObjs[categoryIdx - 1].products.map((product) => (
-                <RecordsListItem key={product.productId} product={product} />
+                <RecordsListItem key={product.productId} product={product} /> // 수정사항: List 하위의 Item에 CategoryName과 CategoryId를 넘겨준다.
               ))}
             </List> :
             <LoadingBox>

@@ -19,7 +19,7 @@ function RecordsListItem({ product: { productId, productName, price } }: IRecord
       count: 1,
     };
     setLaundry((laundry) => {
-      let chk = false;
+      let chk = false; // NOTE: 주문 목록 중, 해당 품목 중복 여부 Check
       const copyLaundry = laundry.map((obj) => {
         if (obj.productId === productId) {
           chk = true;
