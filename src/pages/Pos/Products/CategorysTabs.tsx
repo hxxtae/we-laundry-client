@@ -1,4 +1,4 @@
-import { faPlus, faChevronLeft, faChevronRight, faGear } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faGear } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useMutation } from 'react-query';
@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { categoryPopupState, menuPopupState, productsApi, productsPopupState } from '../../../global';
 import { IProductObjResponse, ICategoryRequest } from '../../../services/products';
 import { buttonStyle, colors, includes, media } from '../../../styles';
-import { LoadingComponent, Overlay } from '../../../components';
+import { LoadingComponent, Overlay, Pagination } from '../../../components';
 import { usePaging } from '../../../hooks';
 import CategoryPopup from './CategorysPopup';
 import SettingMenu from './SettingMenu';
@@ -30,7 +30,7 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
       ({ id, categoryName }: ICategoryRequest) => productsService.updateCategory({ id, categoryName }) :
       ({ categoryName }: ICategoryRequest) => productsService.createCategory({ categoryName }));
   const { isLoading: delLoading, mutate: delMutate } = useMutation((id: string) => productsService.deleteCategory(id));
-  const { fetchDatas, prevPage, nextPage, pageSort: { ASC } } = usePaging(productObjs, productObjs?.length, 5, 1);
+  const pageObj = usePaging(productObjs, productObjs?.length, 5, 1);
 
   const onAddCategory = () => {
     setCategoryPopup((prev) => ({
@@ -45,15 +45,15 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
     <>
       <TabsGroup>
         <TabList>
-        {fetchDatas?.map((productObj, index) => (
+        {pageObj.fetchDatas?.map((productObj, index) => (
           <Wrapper key={productObj.id}>
             <Tab
               type='button'
-              onClick={() => setCategoryIdx(ASC(index))}
+              onClick={() => setCategoryIdx(pageObj.pageSort.ASC(index))}
               disabled={productsPopup.updatePopup || productsPopup.deletePopup}>
               {productObj.categoryName}
             </Tab>
-            {ASC(index) === categoryIdx &&
+            {pageObj.pageSort.ASC(index) === categoryIdx &&
               <TabLine layoutId='tabline' />}
           </Wrapper>
         ))}
@@ -69,12 +69,7 @@ function CategorysTabs({ productObjs, categoryIdx, setCategoryIdx }: ICategorysT
         </TabList>
 
         <TabControl>
-          <TabMove onClick={prevPage}>
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </TabMove>
-          <TabMove onClick={nextPage}>
-            <FontAwesomeIcon icon={faChevronRight} />
-          </TabMove>
+          <Pagination {...pageObj} noShowPage={true} />
           <TabSetting onClick={() => setMenuPopup((prev) => !prev)} disabled={!productObjs?.length}>
             <FontAwesomeIcon icon={faGear} />
           </TabSetting>
@@ -147,25 +142,9 @@ const TabControl = styled.div`
   ${includes.flexBox()}
 `;
 
-const TabMove = styled.button`
-  ${includes.flexBox()}
-  color: ${(props) => props.theme.textColor};
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-  border-radius: 4px;
-  transition: background-color 200ms ease-in-out;
-  cursor: pointer;
-
-  &:hover,
-  &:active {
-    opacity: .6;
-    background-color: ${(props) => props.theme.borderColor};
-  }
-`;
-
 const TabSetting = styled.button`
   ${includes.flexBox()}
+  flex-shrink: 0;
   color: ${(props) => props.theme.textColor};
   width: 30px;
   height: 30px;
