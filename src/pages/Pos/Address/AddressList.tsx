@@ -1,13 +1,11 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useState } from 'react';
 import '@fortawesome/fontawesome-svg-core';
 import styled from 'styled-components';
 
 import { buttonStyle, colors, includes, media, scroll, toastStyle } from '../../../styles';
-import { DeleteConfirm, LoadingComponent, Overlay } from '../../../components';
+import { DeleteConfirm, LoadingComponent, Overlay, Pagination } from '../../../components';
 import { usePaging, useAddressFetch } from '../../../hooks';
 import { addressRequestState } from '../../../global';
 import { addressApi } from '../../../global/atoms';
@@ -28,15 +26,7 @@ function AddressList({ setUpdateActive }: IAddressList) {
   const { mutate, isLoading: deleteLoading } = useMutation((id: string) => addressService.deleteAdd(id));
   const { loading, reLoading, addDatas } = useAddressFetch();
   const addLoading = loading || reLoading;
-  const {
-    fetchDatas,
-    pageBtnList,
-    clickPageIdx,
-    setPage,
-    nextPage,
-    prevPage,
-    pageSort: { DESC }
-  } = usePaging<IAddressResponse>(addDatas, addDatas?.length, 10, 5);
+  const pageObj = usePaging<IAddressResponse>(addDatas, addDatas?.length, 10, 5);
 
   const onUpdateActive = (id: string, addname: string, addfullname: string) => {
     setData({
@@ -78,9 +68,9 @@ function AddressList({ setUpdateActive }: IAddressList) {
           <Title>생성날짜</Title>
           <Title>설정</Title>
         </Items>
-        {fetchDatas.map((item, idx) => (
+        {pageObj.fetchDatas.map((item, idx) => (
         <Items key={item.id}>
-          <Item>{DESC(idx)}</Item>
+          <Item>{pageObj.pageSort.DESC(idx)}</Item>
           <Item>{item.addname}</Item>
           <Item>{item.addfullname}</Item>
           <Item>{item.createdAt}</Item>
@@ -91,22 +81,7 @@ function AddressList({ setUpdateActive }: IAddressList) {
           </Item>
         </Items>))}
       </List>
-      <PageNation>
-        <PageMove onClick={prevPage}>
-          <FontAwesomeIcon icon={faChevronLeft} size="1x" />
-        </PageMove>
-        {pageBtnList.map((page) => (
-          <Page
-            key={page}
-            chk={clickPageIdx}
-            onClick={() => setPage(page)}>
-            {page}
-          </Page>
-        ))}
-        <PageMove onClick={nextPage}>
-          <FontAwesomeIcon icon={faChevronRight} size="1x" />
-        </PageMove>
-      </PageNation>
+      <Pagination {...pageObj} />
 
       {deletePop &&
         <Overlay>
@@ -244,53 +219,6 @@ const Item = styled.span`
     &:nth-of-type(3) {
       width: 390px;
     }
-  }
-`;
-
-const PageNation = styled.div`
-  ${includes.flexBox()}
-  width: 100%;
-  padding: 10px;
-`;
-
-const Page = styled.button<{chk: number}>`
-  ${includes.flexBox()}
-  color: ${(props) => props.theme.textColor};
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-  border-radius: 4px;
-  transition: background-color 200ms ease-in-out;
-  cursor: pointer;
-
-  &:nth-of-type(${(props) => props.chk + 1}) {
-    background-color: ${(props) => props.theme.borderColor};
-    font-weight: 600;
-  }
-
-  &:last-child {
-    margin-right: 0;
-  }
-
-  &:hover {
-    opacity: .6;
-    background-color: ${(props) => props.theme.borderColor};
-  }
-`;
-
-const PageMove = styled.button`
-  ${includes.flexBox()}
-  color: ${(props) => props.theme.textColor};
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-  border-radius: 4px;
-  transition: background-color 200ms ease-in-out;
-  cursor: pointer;
-
-  &:hover {
-    opacity: .6;
-    background-color: ${(props) => props.theme.borderColor};
   }
 `;
 

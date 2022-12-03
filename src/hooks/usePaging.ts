@@ -22,9 +22,16 @@ export interface IPageing<T> {
  * @param pageBtnPost - 보여질 페이지 번호 버튼 개수
  */
 export function usePaging<T>(datas: T[], dataLen: number, pagePost: number, pageBtnPost: number): IPageing<T> {
+  if (pagePost === 0) {
+    pagePost = 1;
+  }
+  if (pageBtnPost === 0) {
+    pageBtnPost = 1;
+  }
+
   const [currentPage, setCurrentPage] = useState(1); // 선택한 페이지 번호 ex) 1, 2, 3, ... (선택)
   const fetchDatas = fetchDataPost(datas, pagePost, currentPage);
-  const { pageBtnList, pageLen } = pageBtnListFnc(currentPage, dataLen!, pagePost, pageBtnPost);
+  const { pageBtnList, pageLen } = pageBtnListFnc(currentPage, dataLen, pagePost, pageBtnPost);
   const clickPageIdx = (currentPage % pageBtnPost) || pageBtnPost;
 
   const ASC = (num: number) => (((currentPage - 1) * pagePost) + num) + 1;
@@ -60,7 +67,7 @@ export function usePaging<T>(datas: T[], dataLen: number, pagePost: number, page
 function fetchDataPost<T>(datas: T[], pagePost: number, currentPage: number) {
   const indexOfLast = pagePost * currentPage;  // ex) 10, 20, 30
   const indexOfFirst = indexOfLast - pagePost; // ex) 10 - 10 = 0, 20 - 10 = 10, 30 - 10 = 20
-  return datas ? datas.slice(indexOfFirst, indexOfLast) : [];
+  return datas ? datas.slice(indexOfFirst, indexOfLast) : []; // NOTE: slice()는 얕은 복사를 한다.
 }
 
 /**

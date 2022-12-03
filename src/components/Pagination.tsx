@@ -5,23 +5,34 @@ import styled from 'styled-components';
 import { IPageing } from '../hooks';
 import { includes } from '../styles';
 
-function Pagination<Type>({ clickPageIdx, pageBtnList, prevPage, nextPage, setPage }: IPageing<Type>) {
+type IPagination<Type> = IPageing<Type> & { noShowPage?: boolean };
+
+function Pagination<Type>(
+  {
+    clickPageIdx,
+    pageBtnList,
+    prevPage,
+    nextPage,
+    setPage,
+    noShowPage = false
+  }: IPagination<Type>) {
   
   return (
     <PageNation>
       <PageMove onClick={prevPage}>
-        <FontAwesomeIcon icon={faChevronLeft} size="1x" />
+        <FontAwesomeIcon icon={faChevronLeft} />
       </PageMove>
-      {pageBtnList.map((page) => (
-        <Page
-          key={page}
-          chk={clickPageIdx}
-          onClick={() => setPage(page)}>
-          {page}
-        </Page>
-      ))}
+      {noShowPage ||
+        pageBtnList.map((page) => (
+          <Page
+            key={page}
+            chk={clickPageIdx}
+            onClick={() => setPage(page)}>
+            {page}
+          </Page>
+        ))}
       <PageMove onClick={nextPage}>
-        <FontAwesomeIcon icon={faChevronRight} size="1x" />
+        <FontAwesomeIcon icon={faChevronRight} />
       </PageMove>
     </PageNation>
   )
@@ -69,6 +80,10 @@ const PageMove = styled.button`
   border-radius: 4px;
   transition: background-color 200ms ease-in-out;
   cursor: pointer;
+
+  &:last-child {
+    margin-right: 0;
+  }
 
   &:hover {
     opacity: .6;

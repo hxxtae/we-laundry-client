@@ -1,11 +1,10 @@
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 import { buttonStyle, colors, includes, media } from '../../../styles';
 import { IProductObjResponse } from '../../../services/products';
 import { usePaging } from '../../../hooks';
+import { Pagination } from '../../../components';
 
 interface IRecordsListHeader {
   productObjs: IProductObjResponse[];
@@ -14,32 +13,27 @@ interface IRecordsListHeader {
 }
 
 function RecordsListHeader({ productObjs, categoryIdx, setCategoryIdx }: IRecordsListHeader) {
-  const { fetchDatas, prevPage, nextPage, pageSort: { ASC } } = usePaging(productObjs, productObjs?.length, 5, 1);
+  const pageObj = usePaging(productObjs, productObjs?.length, 5, 1);
 
   return (
     <TabsGroup>
       <TabList>
-      {fetchDatas?.map((productObj, index) => (
+      {pageObj.fetchDatas?.map((productObj, index) => (
         <Wrapper key={productObj.id}>
           <Tab
             type='button'
-            onClick={() => setCategoryIdx(ASC(index))}>
+            onClick={() => setCategoryIdx(pageObj.pageSort.ASC(index))}>
             {productObj.categoryName}
           </Tab>
-          {ASC(index) === categoryIdx &&
+          {pageObj.pageSort.ASC(index) === categoryIdx &&
             <TabLine layoutId='headLine' />}
         </Wrapper>
       ))}
       </TabList>
 
-      <TabControl>
-        <TabMove onClick={prevPage}>
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </TabMove>
-        <TabMove onClick={nextPage}>
-          <FontAwesomeIcon icon={faChevronRight} />
-        </TabMove>
-      </TabControl>
+      <PageWrapper>
+        <Pagination {...pageObj} noShowPage={true} />
+      </PageWrapper>
     </TabsGroup>
   )
 }
@@ -79,24 +73,6 @@ const TabLine = styled(motion.div)`
   border-radius: 5px;
 `;
 
-const TabControl = styled.div`
-  ${includes.flexBox()}
+const PageWrapper = styled.div`
+  
 `;
-
-const TabMove = styled.button`
-  ${includes.flexBox()}
-  color: ${(props) => props.theme.textColor};
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-  border-radius: 4px;
-  transition: background-color 200ms ease-in-out;
-  cursor: pointer;
-
-  &:hover,
-  &:active {
-    opacity: .6;
-    background-color: ${(props) => props.theme.borderColor};
-  }
-`;
-
