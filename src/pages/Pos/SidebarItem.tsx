@@ -6,19 +6,19 @@ import { colors, includes, media } from '../../styles';
 
 interface IItem {
   path: string;
-  click: string;
+  clickPath: string;
   name: string;
   children: JSX.Element;
 }
 
-function SidebarItem({ children, click, path, name }: IItem) {
+function SidebarItem({ children, clickPath, path, name }: IItem) {
   const history = useHistory();
 
   return (
-    <Item clicked={click} path={path} onClick={() => history.push(path)}>
+    <Item clicked={clickPath} path={path} onClick={() => history.push(path)}>
       {children}
       <ItemTitle>{name}</ItemTitle>
-      {click === path ?
+      {clickPath === path ?
         <ItemChk key={path} layoutId='side' />
         : null
       }

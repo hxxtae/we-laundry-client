@@ -13,3 +13,4 @@ export { default as KeyboardBox } from './KeyboardBox';
 export { default as DateComponent } from './DateComponent';
 export { default as AddnameSelectList } from './AddnameSelectList';
 export { default as Pagination } from './Pagination';
+export { default as PageRouterTitle } from './PageRouterTitle';

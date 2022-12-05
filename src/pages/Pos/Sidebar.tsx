@@ -19,25 +19,25 @@ function Sidebar() {
       {sideToggle ? (
         <Nav variants={navVariant} initial="init" animate="start" exit="end">
           <List variants={listVariant}>
-            <SidebarItem path={pathStr('records')} name='주문접수' click={sideClick} >
+            <SidebarItem path={pathStr('records')} name='주문접수' clickPath={sideClick} >
               <FontAwesomeIcon icon={faReceipt} size="2x" />
             </SidebarItem>
-            <SidebarItem path={pathStr('history')} name='주문내역' click={sideClick} >
+            <SidebarItem path={pathStr('history')} name='주문내역' clickPath={sideClick} >
               <FontAwesomeIcon icon={faClipboardList} size="2x" />
             </SidebarItem>
-            <SidebarItem path={pathStr('customer')} name='고객관리' click={sideClick} >
+            <SidebarItem path={pathStr('customer')} name='고객관리' clickPath={sideClick} >
               <FontAwesomeIcon icon={faAddressBook} size="2x" />
             </SidebarItem>
-            <SidebarItem path={pathStr('products')} name='품목관리' click={sideClick} >
+            <SidebarItem path={pathStr('products')} name='품목관리' clickPath={sideClick} >
               <FontAwesomeIcon icon={faShirt} size="2x" />
             </SidebarItem>
-            <SidebarItem path={pathStr('address')} name='주소관리' click={sideClick} >
+            <SidebarItem path={pathStr('address')} name='주소관리' clickPath={sideClick} >
               <FontAwesomeIcon icon={faBuilding} size="2x" />
             </SidebarItem>
-            <SidebarItem path={pathStr('sales')} name='매출관리' click={sideClick} >
+            <SidebarItem path={pathStr('sales')} name='매출관리' clickPath={sideClick} >
               <FontAwesomeIcon icon={faChartColumn} size="2x" />
             </SidebarItem>
-            <SidebarItem path={pathStr('pos')} name='영업관리' click={sideClick} >
+            <SidebarItem path={pathStr('pos')} name='영업관리' clickPath={sideClick} >
               <FontAwesomeIcon icon={faPowerOff} size="2x" />
             </SidebarItem>
           </List>
