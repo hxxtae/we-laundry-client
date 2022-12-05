@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import { Background, NotFoundPage } from '../components';
+import { Background, NotFoundPage, PageRouterTitle } from '../components';
 import { pathStr } from './path';
 import LoginLoading from '../pages/Login/LoginLoading';
 
@@ -15,19 +15,23 @@ function UserRouter() {
       <Suspense fallback={<LoginLoading />}>
         <Switch>
           <Route path={pathStr('pos', true)}>
+            <PageRouterTitle />
             <PosContext>
               <UserPosRouter />
             </PosContext>
           </Route>
           <Route exact path={process.env.PUBLIC_URL + '/'}>
+            <PageRouterTitle />
             <PosContext>
               <UserPosRouter />
             </PosContext>
           </Route>
           <Route path={pathStr('board', true)}>
+            <PageRouterTitle />
             <BoardContext />
           </Route>
           <Route path={"*"}>
+            <PageRouterTitle />
             <Background>
               <NotFoundPage />
             </Background>
