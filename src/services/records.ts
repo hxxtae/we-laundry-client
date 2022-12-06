@@ -3,6 +3,8 @@ import HttpClient from './http';
 
 // 세탁 주문 object
 export interface IRecordsOflaundry {
+  categoryId: string;
+  categoryName: string;
   productId: string;
   productName: string;
   count: number;

@@ -5,7 +5,8 @@ import styled from 'styled-components';
 
 import { sidebarClickState } from '../../../global/atoms';
 import { includes, media } from '../../../styles';
-import ProductSale from './ProductSale';
+import { SalesContext } from './SalesContext';
+
 
 function Sales() {
   const setSideClick = useSetRecoilState(sidebarClickState);
@@ -17,7 +18,7 @@ function Sales() {
 
   return (
     <Wrapper>
-      <ProductSale />
+      <SalesContext />
     </Wrapper>
   )
 }
@@ -26,8 +27,6 @@ export default Sales;
 
 const Wrapper = styled.div`
   position: relative;
-  ${includes.flexBox('flex-start', 'flex-start')}
-  align-items: stretch;
   width: 100%;
 
   @media ${media.pc_l} {

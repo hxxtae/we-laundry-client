@@ -1,10 +1,8 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import styled from 'styled-components';
 
-import { IProductStats } from '../../../services/sales';
-import { colors, media } from '../../../styles';
-import { sortKinds } from '../../../hooks';
+import styled from 'styled-components';
+import { buttonStyle, colors, includes, media } from '../../../../../styles';
 
 ChartJS.register(
   CategoryScale,
@@ -15,23 +13,20 @@ ChartJS.register(
   Legend
 );
 
-interface IProductSaleChart {
-  chartData: IProductStats[];
-  sortKind: sortKinds;
-}
-
-function ProductSaleChart({ chartData, sortKind }: IProductSaleChart) {
-  const chartStatsData = chartData.map((data) => data[sortKind]);
-  const chartStatsLabel = chartData.map((data) => data.productName);
-
+function CategorySaleChart() {
   return (
-    <Wrapper>
-      <Bar data={initChart(chartStatsLabel, chartStatsData)} options={options} />
-    </Wrapper>
+    <div></div>
+    // <Wrapper>
+    //   <ListControl>
+    //     <Tab type='button' onClick={() => setSortKind('count')}>{'누적 개수'}</Tab>
+    //     <Tab type='button' onClick={() => setSortKind('price')}>{'누적 금액'}</Tab>
+    //   </ListControl>
+    //   <Bar data={initChart(chartStatsLabel, chartStatsData)} options={options} />
+    // </Wrapper>
   )
 }
 
-export default ProductSaleChart;
+export default CategorySaleChart;
 
 export const initChart = (labels: string[], data: number[]) => ({
   labels: [...labels],
@@ -44,7 +39,6 @@ export const initChart = (labels: string[], data: number[]) => ({
         colors.chartBlue(0.5).blue3,
         colors.chartBlue(0.5).blue4,
         colors.chartBlue(0.5).blue5,
-        colors.chartBlue(0.5).blue6,
       ],
       borderColor: [
         colors.chartBlue().blue1,
@@ -52,7 +46,6 @@ export const initChart = (labels: string[], data: number[]) => ({
         colors.chartBlue().blue3,
         colors.chartBlue().blue4,
         colors.chartBlue().blue5,
-        colors.chartBlue().blue6,
       ],
       borderWidth: 2,
       borderRadius: 5,
@@ -73,10 +66,25 @@ const Wrapper = styled.div`
   position: relative;
   width: 400px;
   right: 0px;
+  ${includes.flexBox('flex-end', 'space-between')};
+  flex-direction: column;
   
 
   @media ${media.pc_s} {
     width: 450px;
     right: 20px;
+  }
+`;
+
+const ListControl = styled.div`
+  text-align: right;
+  margin-bottom: auto;
+`;
+
+const Tab = styled.button`
+  ${buttonStyle.primary()}
+
+  &:last-child {
+    margin-left: 5px;
   }
 `;

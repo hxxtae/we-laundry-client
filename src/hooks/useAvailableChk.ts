@@ -1,4 +1,4 @@
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useLayoutEffect, useState } from 'react';
 
 import { recordReceiptExeState, recordRequestState } from '../global';
@@ -14,7 +14,7 @@ export const useAvailableChk = ({ cusDatas }: IAvailableChk) => {
   const setRecordState = useSetRecoilState(recordRequestState);
 
   useLayoutEffect(() => {
-    const cusData = cusDatas?.length ?
+    const customerObj = cusDatas?.length ?
       {
         addid: cusDatas[0].addid,
         cusid: cusDatas[0].id,
@@ -31,9 +31,9 @@ export const useAvailableChk = ({ cusDatas }: IAvailableChk) => {
         addfullname: '',
       };
     
-    setRecordState((item) => ({
-      ...item,
-      ...cusData,
+    setRecordState((prev) => ({
+      ...prev,
+      ...customerObj,
     }));
 
     if (cusDatas?.length) {
