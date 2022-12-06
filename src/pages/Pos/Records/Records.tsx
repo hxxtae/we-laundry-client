@@ -8,8 +8,8 @@ import { includes, media } from '../../../styles';
 import { useResetState } from '../../../hooks';
 import OpenAndClose from '../OpenAndClose/OpenAndClose';
 import RecordsForm from './RecordsForm';
-import RecordsList from './RecordsList';
 import RecordsOrder from './RecordsOrder';
+import RecordsListContext from './RecordsListContext';
 
 function Records() {
   const open = useRecoilValue(openState);
@@ -28,7 +28,7 @@ function Records() {
         <Wrapper>
           <ContextBox>
             <RecordsForm />
-            <RecordsList />
+            <RecordsListContext />
           </ContextBox>
           <RecordsOrder />
         </Wrapper> :

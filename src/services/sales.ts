@@ -2,6 +2,8 @@ import { AxiosResponse } from 'axios';
 import HttpClient from './http';
 
 export interface IProductStats {
+  categoryId: string;
+  categoryName: string;
   productId: string;
   productName: string;
   count: number;
