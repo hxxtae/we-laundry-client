@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
+import { LoadingItem } from '../../../../../components';
 import { useProductObjFetch } from '../../../../../hooks';
 import { IProductStats } from '../../../../../services/sales';
 
@@ -44,7 +45,7 @@ function CategorySale({ productStats }: ICategorySale) {
   return (
     <Section>
       <StatsGroup>
-        {loading || 
+        {!loading ? 
           <>
             <CategorySaleListContext
             categoryIdx={categoryIdx}
@@ -54,7 +55,7 @@ function CategorySale({ productStats }: ICategorySale) {
             productStats={dataSortPriceAndCount()}
             sortKind={sortKind} />
             <CategorySaleChart />
-          </>}
+          </> : <LoadingItem />}
       </StatsGroup>
     </Section>
   )
