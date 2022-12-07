@@ -1,15 +1,15 @@
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { RecoilRoot } from 'recoil';
-import { createGlobalStyle } from 'styled-components';
-import { reset } from 'styled-reset';
-import ReactDOM from 'react-dom/client';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { createGlobalStyle } from 'styled-components';
 import { ToastContainer } from 'react-toastify';
+import ReactDOM from 'react-dom/client';
+import { reset } from 'styled-reset';
+import { RecoilRoot } from 'recoil';
 import "react-toastify/dist/ReactToastify.css";
 
-import App from './App';
 import { Suspense } from 'react';
 import LoginLoading from './pages/Login/LoginLoading';
+import App from './App';
 
 const client = new QueryClient();
 
@@ -52,7 +52,6 @@ const GlobalStyled = createGlobalStyle`
       outline: none;
     }
   }
-  
 `;
 
 const root = ReactDOM.createRoot(

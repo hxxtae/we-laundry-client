@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
@@ -8,18 +7,13 @@ import { toastStyle } from '../../styles'
 import { queryKeys } from '../../util'
 import { AxiosResponse } from 'axios'
 
-// export type sortKinds = 'count' | 'price';
-
 interface IProductSaleFetch {
   loading: boolean;
   productStats: IProductStats[];
-  // sortKind: sortKinds;
-  // setSortKind: React.Dispatch<React.SetStateAction<sortKinds>>;
 }
 
 export const useProductSaleFetch = (): IProductSaleFetch => {
   const salesService = useRecoilValue(salesApi);
-  // const [sortKind, setSortKind] = useState<sortKinds>('count');
 
   const {
     isLoading,
@@ -41,7 +35,6 @@ export const useProductSaleFetch = (): IProductSaleFetch => {
   });
 
   const loading = isLoading || isFetching;
-  // const totalCountAndPriceSort = dataSortCountAndPrice(sortKind, data?.data);
 
   return { loading, productStats: data! };
 }
