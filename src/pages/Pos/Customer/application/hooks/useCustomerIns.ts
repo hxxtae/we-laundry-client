@@ -5,9 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { customerApi } from '../../../../../global';
 import { toastStyle } from '../../../../../styles';
 import { queryKeys } from '../../../../../util';
-
 import { CustomerDTO } from '../interface';
-import { useCustomerResetAtom } from './useCustomerResetAtom';
 
 interface ICustomerIns {
   isInsLoading: boolean;
