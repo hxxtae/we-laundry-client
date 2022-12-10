@@ -1,9 +1,10 @@
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useCallback } from 'react'
 import styled from 'styled-components';
-import { IProductStats } from '../../../../../services/sales';
 
 import { colors, includes, media, scroll } from '../../../../../styles';
+import { IProductStats } from '../../../../../services/sales';
 import { sortKinds } from '../SalesContext';
 
 interface ICategorySaleList {
@@ -12,6 +13,15 @@ interface ICategorySaleList {
 }
 
 function CategorySaleList({ productStats, sortKind }: ICategorySaleList) {
+  const countFilter = useCallback((count: number) => {
+    if (count < 10_000) return count;
+    const showMillion = Math.floor((count * 100) / 10_000) / 100;
+    // NOTE: 1만 단위로 뒤에서 부터 잘라서(100의 자리부터) 보여준다.
+    // Math.floor((count / 10_000) * 100) / 100 -> 나눗셈으로 소숫점에서 시작하면
+    // count 11300은 1.13이 아닌 1.12가 된다.
+    return `${showMillion}m`;
+  }, []);
+
   return (
     <List>
       {productStats?.map((stats, index) => (
@@ -21,7 +31,7 @@ function CategorySaleList({ productStats, sortKind }: ICategorySaleList) {
             {stats.productName}
             {index === 0 && <FontAwesomeIcon icon={faStar} />}
           </span>
-          <span>{`${stats.count}`}</span>
+          <span>{countFilter(stats.count)}</span>
           <span>{`${stats.price.toLocaleString()}`}</span>
         </Items>            
       ))}
@@ -101,7 +111,7 @@ const Items = styled.li<{chk: number, kind: sortKinds}>`
   }
 
   span:nth-child(4) {
-    width: 70px;
+    width: 100px;
     font-size: 15px;
     text-align: right;
     ${({ kind }) => kind === 'price' && `

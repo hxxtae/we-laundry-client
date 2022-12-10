@@ -27,6 +27,7 @@ function CategorySaleTab({ categoryObjs, categoryIdx, onClickCategoryTab }: ICat
 export default CategorySaleTab;
 
 const CategoryTabs = styled.ul`
+  max-width: 50%;
   ${includes.flexBox('center', 'flex-start')};
   ${({ theme }) => scroll.custom(0, theme.bgColorSub, theme.textColor)};
   overflow-x: scroll;
