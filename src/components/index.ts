@@ -4,6 +4,7 @@ export { default as ErrorMessage } from './ErrorMessage';
 export { default as InputTitles } from './InputTitles';
 export { default as LoadingComponent } from './Loadings/LoadingComponent';
 export { default as LoadingItem } from './Loadings/LoadingItem';
+export { default as LoadingButtonItem } from './Loadings/LoadingButtonItem';
 export { default as LoadingLogo } from './Loadings/LoadingLogo';
 export { default as NotFoundPage } from './NotFoundPage';
 export { default as Overlay } from './Overlay';
