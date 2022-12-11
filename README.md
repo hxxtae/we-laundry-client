@@ -43,6 +43,7 @@
 
 **1. 어떤 애플리케이션?**
 - 기존 서비스업, 외식업에서 사용되는 포스를 바탕으로 제작한 세탁소 전용 포스 웹 애플리케이션 입니다.
+- 이전 SSR 방식의 `믿음 세탁` 포스 웹 애플리케이션을 바탕으로 새롭게 개발되었습니다.
 
 <br>
 
@@ -66,19 +67,21 @@
 
 - [Stack](#stack)
 - [RESTful Api](#restful-api)
-- [Auth Confirm](#auth-confirm)
+- [Authorization](#authorization)
 - [State Management](#state-management)
 - [Theme](#theme)
 - [Router](#router)
 - [Page](#page)
-  1. [로그인 & 회원가입 page](#1-로그인-페이지login-page--회원가입-패이지signup-page)
-  2. [포스 메인 page](#2-포스-메인-페이지posonandoff-page)
-  3. [주소 관리 page](#3-주소-관리-페이지address-page)
-  4. [고객 관리 page](#4-고객-관리-페이지customer-page)
-  5. [품목 관리 page](#5-품목-관리-페이지products-page)
-  6. [주문 접수 page](#6-주문-접수-페이지records-page)
-  7. [주문 조회 page](#7-주문-조회-페이지history-page)
-  8. [매출 관리 page](#8-매출-관리-페이지sales-page_진행중)
+  1. [로그인 page](#1-로그인-페이지login-page)
+  2. [회원가입 page](#2-회원가입-패이지signup-page)
+  3. [포스 메인 page](#3-포스-메인-페이지posonandoff-page)
+  4. [주소 관리 page](#4-주소-관리-페이지address-page)
+  5. [고객 관리 page](#5-고객-관리-페이지customer-page)
+  6. [품목 관리 page](#6-품목-관리-페이지products-page)
+  7. [주문 접수 page](#7-주문-접수-페이지records-page)
+  8. [주문 조회 page](#8-주문-조회-페이지history-page)
+  9. [매출 관리 page](#9-매출-관리-페이지sales-page)
+- [Deploy](#deploy)
 - [License](#license)
 
 <br>
@@ -155,7 +158,7 @@ POST /sale - Create a new sale
 
 <br>
 
-## Auth Confirm
+## Authorization
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/79623316/184595947-9717c689-8d63-4397-8200-984bfa8f0545.PNG" style="width: 800px" >
@@ -200,12 +203,18 @@ export const isAuth = async (req, res, next) => {
   )
 }
 ```
+### 왜 인증 절차가 필요한가?
+
+- 각 세탁소별 포스기를 이용하는 사자님들의 맞춤형 데이터를 제공하고 
+고객, 품목, 주소, 매출 등 각 게게별 고유한 정보를 처리하기 위해서 입니다.
+
+<br>
+
 ### 코드 설명과 이유
 
 1. CORS 작동방식 중 `Credentialed Request` 방식을 사용하여 브라우저 요청 헤더에 쿠키를 포함하여 서버단에서 `JWT` 토큰을 검증하는 코드입니다.
 2. `JWT(JSON Web Token)` 은(는) JSON 포맷을 이용하여 사용자에 대한 속성을 저장하는 Claim 기반의 WebToken입니다.
 3. `토큰-기반-인증` 시스템은 인증 받은 사용자들에게 토큰을 발급하고, 서버에 요청할 때마다 `토큰(JWT)`에 보관된 사용자 인증 정보를 검증하기 때문에, `서버-기반-인증` 방식 처럼 세션ID 토큰을 검증하기 위해 서버의 리소스를 많이 소모할 필요가 없습니다.
-
 
 <br>
 
@@ -365,47 +374,61 @@ export default ThemeButton;
 
 ## Page
 
-### 1. 로그인 페이지(login page) / 회원가입 패이지(signup page)
-![login](https://user-images.githubusercontent.com/79623316/175766234-eadafa94-ad69-4780-a052-c2dea289ba21.PNG)
+### 1. 로그인 페이지(login page)
+![login](https://user-images.githubusercontent.com/79623316/206898784-c25a53b4-d0a8-4406-bf8d-240d10203c1d.jpg)
+
+<br>
+
+### 2. 회원가입 패이지(signup page)
+
 ![signup](https://user-images.githubusercontent.com/79623316/175767125-584dcdb1-2359-487f-a947-53ba72270830.PNG)
 
 <br>
 
-### 2. 포스 메인 페이지(posOnAndOff page)
+### 3. 포스 메인 페이지(posOnAndOff page)
 ![main](https://user-images.githubusercontent.com/79623316/175766846-8e868b5c-db6a-43a5-ae9c-bab8339c3b8e.PNG)
 
 <br>
 
-### 3. 주소 관리 페이지(address page)
+### 4. 주소 관리 페이지(address page)
 ![address](https://user-images.githubusercontent.com/79623316/175766955-51daf465-d0b5-40ee-8acc-388e9afa55a6.PNG)
 ![address_addfullname](https://user-images.githubusercontent.com/79623316/175766961-93c4b8a5-9719-43c4-8f1c-0cb4763988f6.PNG)
 
 <br>
 
-### 4. 고객 관리 페이지(customer page)
+### 5. 고객 관리 페이지(customer page)
 ![customer](https://user-images.githubusercontent.com/79623316/175766940-bd6e2760-0d35-415f-960a-efb7a0e9d81b.PNG)
 
 <br>
 
-### 5. 품목 관리 페이지(products page)
-![products](https://user-images.githubusercontent.com/79623316/175766950-f16f9e95-6370-4df9-b63f-4aab44f0937f.PNG)
+### 6. 품목 관리 페이지(products page)
+![products](https://user-images.githubusercontent.com/79623316/206899279-219ee357-4254-48ad-bcc0-2ea0a19ceb47.jpg)
 
 <br>
 
-### 6. 주문 접수 페이지(records page)
-![record](https://user-images.githubusercontent.com/79623316/175766868-c6217ba4-f049-468e-8e4b-6b3cdf0a8b5f.PNG)
-![record_receipt](https://user-images.githubusercontent.com/79623316/175766892-0caa73bf-5ae0-46ab-a9b5-aac05f8a09dd.PNG)
-![record_success](https://user-images.githubusercontent.com/79623316/175766907-d400950f-09a7-46cd-9228-d5854c56f1e9.PNG)
+### 7. 주문 접수 페이지(records page)
+![record_1](https://user-images.githubusercontent.com/79623316/206899363-9c25ff51-d244-41e8-a0c1-fc9f65a0c1ed.jpg)
+![record_2](https://user-images.githubusercontent.com/79623316/206899365-8d71201a-5634-43d9-934b-22eaa1748d26.jpg)
+![record_3](https://user-images.githubusercontent.com/79623316/206899366-93517063-5e7e-459c-b9bd-2ef9b48bfcb0.jpg)
 
 <br>
 
-### 7. 주문 조회 페이지(history page)
-![history](https://user-images.githubusercontent.com/79623316/175766922-260c2047-8eeb-4056-87a2-dfacf2cfa6c0.PNG)
+### 8. 주문 조회 페이지(history page)
+![history](https://user-images.githubusercontent.com/79623316/206899402-9067f884-a0ea-477b-8a07-3a889d09d77b.jpg)
 
 <br>
 
-### 8. 매출 관리 페이지(sales page)_진행중
-![sale](https://user-images.githubusercontent.com/79623316/183927294-6867463a-c8c8-476d-b0dc-8cd446128075.PNG)
+### 9. 매출 관리 페이지(sales page)
+![sales](https://user-images.githubusercontent.com/79623316/206899421-a161063f-7a97-4eab-9662-4e993a840cb9.jpg)
+
+<br>
+
+## Deploy
+
+| Client (netlify) | Server (koyeb) |
+| :--------------: | :------------: |
+| ![netlify]       | ![koyeb]       |
+
 
 <br>
 
@@ -439,8 +462,9 @@ This project is licensed under the APACHE-2.0 License.
 [darkTheme]: https://user-images.githubusercontent.com/79623316/184606050-84cbe6c3-5be8-4e55-8064-980ad0839733.PNG
 [lightTheme]: https://user-images.githubusercontent.com/79623316/184606246-3deadf0d-57b1-422b-ac41-25bc88d4010e.PNG
 
-
-
+<!-- Deploy Icon -->
+[netlify]: https://user-images.githubusercontent.com/79623316/206897886-4a18e242-5282-4d5b-a0cc-795b645f6132.svg
+[koyeb]: https://user-images.githubusercontent.com/79623316/206897918-e801bc16-da50-4b46-9251-0dd951f32d5f.svg
 
 
 
