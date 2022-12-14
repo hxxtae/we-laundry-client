@@ -33,6 +33,4 @@ const List = styled.ul`
   grid-template-columns: repeat(5, 1fr);
   gap: 5px;
   ${(props) => scroll.custom(8, props.theme.borderColorSub, props.theme.textColor)}
-  overflow-y: auto;
-  overflow-x: hidden;
 `;
