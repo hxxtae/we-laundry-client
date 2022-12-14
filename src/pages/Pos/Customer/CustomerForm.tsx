@@ -28,6 +28,7 @@ function CustomerForm() {
       isInsLoading || mutateIns(data, {
         onSuccess: () => {
           method.reset();
+          resetCustomerRequest();
         },
       });
     }
@@ -35,13 +36,13 @@ function CustomerForm() {
       isUpdLoading || mutateUpd(data, {
         onSuccess: () => {
           method.reset();
+          resetCustomerRequest();
         },
       });
     }
     // NOTE: input of 'dong' and 'ho' keyboardBox close function.
     childDongRef.current?.selectClose();
     childHoRef.current?.selectClose();
-    resetCustomerRequest();
   };
 
   const onUpdateCancel = () => {

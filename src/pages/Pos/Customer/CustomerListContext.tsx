@@ -1,5 +1,5 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import '@fortawesome/fontawesome-svg-core';
 
@@ -45,6 +45,10 @@ function CustomerListContext() {
     isDelLoading || mutateDel(id);
   };
 
+  const onPageReset = useCallback(() => {
+    pageObj.setPage(1);
+  }, []);
+
   return (
     <Wrapper>
       <CustomerListTop customerDataLen={customerDatas?.length} onSearchActive={onSearchActive} />
@@ -55,7 +59,7 @@ function CustomerListContext() {
         onDeleteActive={onDeleteActive} />
       <Pagination {...pageObj} />
 
-      {searchPopup && <CustomerSearch />}
+      {searchPopup && <CustomerSearch onPageReset={onPageReset} />}
       {deletePopup &&
         <Overlay>
           <DeleteConfirm
