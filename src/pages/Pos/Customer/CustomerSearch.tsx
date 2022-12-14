@@ -10,7 +10,11 @@ import { CustomerDTO } from './application/interface';
 import { customerSearchState, searchState } from './application/atom';
 import { CustomerAddname, CustomerDong, CustomerHo } from './CustomerInputs';
 
-function CustomerSearch() {
+interface ICustomerSearch {
+  onPageReset: () => void;
+}
+
+function CustomerSearch({ onPageReset }: ICustomerSearch) {
   const setData = useSetRecoilState(customerSearchState);
   const [searchPop, setSearchPop] = useRecoilState(searchState);
   const method = useForm<CustomerDTO.ICustomerSearchRequest>();
@@ -18,6 +22,7 @@ function CustomerSearch() {
   const onSearch = ({addname, dong, ho}: CustomerDTO.ICustomerSearchRequest) => {
     setData({ addname, dong, ho });
     setSearchPop(false);
+    onPageReset();
   }
 
   return (

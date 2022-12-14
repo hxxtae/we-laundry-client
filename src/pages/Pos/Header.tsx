@@ -8,8 +8,9 @@ import '@fortawesome/fontawesome-svg-core';
 import styled from 'styled-components';
 
 import { authApi, openState, sidebarState, userState } from '../../global/atoms';
-import { colors, dragging, includes, media } from '../../styles';
+import { colors, dragging, includes, media, toastStyle } from '../../styles';
 import { useCustomDate, useResetState } from '../../hooks';
+import { LoadingComponent, Overlay } from '../../components';
 
 function Header() {
   const authService = useRecoilValue(authApi);
@@ -32,6 +33,9 @@ function Header() {
           client.clear();
           history.push('/');
         },
+        onError: () => {
+          toastStyle.error('로그아웃에 실패하였습니다, 다시 시도해주세요');
+        }
       });
     }
   };
@@ -63,6 +67,11 @@ function Header() {
           {toClock}
         </ToClock>
       </RightControl>
+
+      {isLoading &&
+        <Overlay>
+          <LoadingComponent loadingMessage='로그아웃 중 입니다...' />
+        </Overlay>}
     </HeaderSection>
   )
 }

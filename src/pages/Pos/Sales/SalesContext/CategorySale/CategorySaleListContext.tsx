@@ -59,6 +59,13 @@ const ListGroup = styled.div`
     font-size: 14px;
     font-weight: 600;
     color: ${({ theme }) => theme.textColor};
+
+    &:after {
+      content: '(단위: 원)';
+      font-size: 11px;
+      color: ${({ theme }) => theme.borderColorSub};
+      margin-left: 7px;
+    }
   `;
 
 const Wrapper = styled.nav`

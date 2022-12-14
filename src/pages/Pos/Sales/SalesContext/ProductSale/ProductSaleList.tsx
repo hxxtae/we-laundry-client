@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { useCallback } from 'react';
 import styled from 'styled-components';
 
 import { colors, includes, media, scroll } from '../../../../../styles';
@@ -12,6 +13,15 @@ interface IProductSaleList {
 }
 
 function ProductSaleList({ totalCountAndPriceSort, sortKind }: IProductSaleList) {
+  const countFilter = useCallback((count: number) => {
+    if (count < 10_000) return count;
+    const showMillion = Math.floor((count * 100) / 10_000) / 100;
+    // NOTE: 1만 단위로 뒤에서 부터 잘라서(100의 자리부터) 보여준다.
+    // Math.floor((count / 10_000) * 100) / 100 -> 나눗셈으로 소숫점에서 시작하면
+    // count 11300은 1.13이 아닌 1.12가 된다.
+    return `${showMillion}만`;
+  }, []);
+
   return (
     <List>
       {totalCountAndPriceSort?.map((stats, index) => (
@@ -21,7 +31,7 @@ function ProductSaleList({ totalCountAndPriceSort, sortKind }: IProductSaleList)
             {stats.productName}
             {index === 0 && <FontAwesomeIcon icon={faStar} />}
           </span>
-          <span>{`${stats.count}`}</span>
+          <span>{countFilter(stats.count)}</span>
           <span>{`${stats.price.toLocaleString()}`}</span>
         </Items>            
       ))}
@@ -32,8 +42,9 @@ function ProductSaleList({ totalCountAndPriceSort, sortKind }: IProductSaleList)
 export default ProductSaleList;
 
 const List = styled.ul`
-  ${includes.flexBox('flex-start', 'flex-start')}
-  ${({ theme }) => scroll.custom(5, theme.borderColorSub, theme.textColor)}
+  position: relative;
+  ${includes.flexBox('flex-start', 'flex-start')};
+  ${({ theme }) => scroll.custom(5, theme.borderColorSub, theme.textColor)};
   flex-direction: column;
   border-top: 1px solid ${({ theme }) => theme.borderColor};
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
@@ -47,8 +58,15 @@ const List = styled.ul`
   }
 `;
 
+const Info = styled.p`
+  position: absolute;
+  top: -20px;
+  right: 0;
+  color: ${({ theme }) => theme.textColor};  
+`;
+
 const Items = styled.li<{chk: number, kind: sortKinds}>`
-  ${includes.flexBox('center', 'flex-start')}
+  ${includes.flexBox('center', 'flex-start')};
   width: 100%;
   padding: 10px;
   margin-bottom: 5px;
@@ -101,7 +119,7 @@ const Items = styled.li<{chk: number, kind: sortKinds}>`
   }
 
   span:nth-child(4) {
-    width: 70px;
+    width: 100px;
     font-size: 15px;
     text-align: right;
     ${({ kind }) => kind === 'price' && `

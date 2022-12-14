@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { dragging, includes, media } from '../../../styles';
+import { dragging, includes, media, scroll } from '../../../styles';
 import { useProductObjFetch } from '../../../hooks';
 import { LoadingItem } from '../../../components';
 import RecordsListHeader from './RecordsListHeader';
@@ -45,6 +45,9 @@ const Wrapper = styled.div`
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 4px;
   background-color: ${(props) => props.theme.bgColor};
+  ${(props) => scroll.custom(8, props.theme.borderColorSub, props.theme.textColor)}
+  overflow-y: scroll;
+  overflow-x: hidden;
   transition: background-color border-color 200ms ease-in-out;
 
   @media ${media.pc_s} {

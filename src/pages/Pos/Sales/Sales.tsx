@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { sidebarClickState } from '../../../global/atoms';
-import { includes, media } from '../../../styles';
+import { media } from '../../../styles';
 import { SalesContext } from './SalesContext';
 
 

@@ -2,12 +2,14 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useMutation } from 'react-query';
+import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import { pathStr } from '../../routers/path';
 import { authApi, userState } from '../../global';
 import { buttonStyle, includes } from '../../styles';
 import { LoginPassword, LoginUserName } from './LoginInputs';
+import { LoadingButtonItem } from '../../components';
 
 interface ILoginForm {
   username: string;
@@ -16,6 +18,7 @@ interface ILoginForm {
 
 function LoginForm() {
   const history = useHistory();
+  const [interviewer, setInterviewer] = useState(false);
   const authService = useRecoilValue(authApi);
   const setUser = useSetRecoilState(userState);
   const method = useForm<ILoginForm>();
@@ -23,6 +26,7 @@ function LoginForm() {
 
   const onSubmit = ({ username, password }: ILoginForm) => {
     const data = { username, password };
+    setInterviewer(false);
     isLoading || mutate(data, {
       onSuccess: () => {
         method.setValue('username', '');
@@ -39,6 +43,7 @@ function LoginForm() {
 
   const onInterviewerSubmit = () => {
     const data = { username: process.env.REACT_APP_INTERVIEWER_ID!, password: process.env.REACT_APP_INTERVIEWER_PW! };
+    setInterviewer(true);
     isLoading || mutate(data, {
       onSuccess: () => {
         history.push(pathStr('pos'));
@@ -54,16 +59,21 @@ function LoginForm() {
     history.push(pathStr('signup'));
   }
 
+  const showLoading = useCallback((text: string, thisBtn: boolean) => {
+    if (interviewer !== thisBtn) return text;
+    return isLoading ? <><LoadingButtonItem />{text}</> : text
+  }, [isLoading, interviewer]);
+
   return (
     <FormProvider {...method}>
       <Form onSubmit={method.handleSubmit(onSubmit)}>
         <LoginUserName />
         <LoginPassword />
         <ButtonBox>
-          <Submit interviewer={false}>{"시작하기"}</Submit>
+          <Submit interviewer={false}>{showLoading("시작하기", false)}</Submit>
           <Line aria-hidden />
           <Button type='button' onClick={onSingup}>{"가입하기"}</Button>
-          <Submit type='button' interviewer={true} onClick={onInterviewerSubmit}>{"둘러보기"}</Submit>
+          <Submit type='button' interviewer={true} onClick={onInterviewerSubmit}>{showLoading("둘러보기", true)}</Submit>
         </ButtonBox>
       </Form>
     </FormProvider>
