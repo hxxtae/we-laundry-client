@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { dateToString } from '../components/DateComponent';
 import HttpClient from './http';
 
 // 세탁 주문 object
@@ -80,6 +81,7 @@ export default class RecordsService implements IRecordsService {
     const data = await this.http.fetch('/records', {
       method: 'POST',
       body: JSON.stringify({
+        recordDate: dateToString(),
         recordCount,
         recordPrice,
         cusid,

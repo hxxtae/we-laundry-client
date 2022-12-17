@@ -29,7 +29,7 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
   const [sumRepair, setSumRepair] = useState({ price: 0, count: 0 });
   const [receiptOkAct, setReceiptOkAct] = useState(false);
   const client = useQueryClient();
-  const nowDate = dateToString(new Date());
+  const nowDate = dateToString();
   
   const { isLoading, mutate } = useMutation((_recordState: IRecordRequest) => recordsService.createRecord(_recordState));
 

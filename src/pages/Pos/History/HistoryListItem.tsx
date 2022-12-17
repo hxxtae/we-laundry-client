@@ -51,7 +51,7 @@ function HistoryListItem({ recordObjs, recordObjRecordDate, recordObjIndex, onCl
   return (
     <ItemBox>
       <DateItem>
-        <span>{recordObjRecordDate}</span>
+        <span>{new Date(recordObjRecordDate).toLocaleDateString()}</span>
         <span>{`(${itemDay(recordObjRecordDate)})`}</span>
       </DateItem>
       {recordObjs.slice(recordObjIndex).map((obj) => (

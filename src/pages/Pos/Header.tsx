@@ -25,8 +25,9 @@ function Header() {
   const { isLoading, mutate } = useMutation(() => authService.logout());
 
   const onLogout = () => {
+    if (isLoading) return;
     if (window.confirm('로그아웃 하시겠습니까?')) {
-      isLoading || mutate(undefined, {
+      mutate(undefined, {
         onSuccess: () => {
           setUser(undefined);
           allStateReset();

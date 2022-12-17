@@ -41,7 +41,7 @@ function HistoryDetails() {
           client.invalidateQueries(queryKeys.records.list());
           return;
         }
-        const formatDate = dateToString(new Date(recordDate));
+        const formatDate = dateToString(recordDate);
         client.invalidateQueries(queryKeys.records.listDate(formatDate));
         client.invalidateQueries(queryKeys.records.listDong(addname, dong));
         client.invalidateQueries(queryKeys.sale.statsOfProduct());
