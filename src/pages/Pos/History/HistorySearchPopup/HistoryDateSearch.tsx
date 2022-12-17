@@ -15,7 +15,7 @@ interface IHistoryDateSearch {
 }
 
 function HistoryDateSearch({ setDateActive, setSearchObj, searchObj }: IHistoryDateSearch) {
-  const [searchDate, setSearchDate] = useState(searchObj.recordDate || dateToString(new Date()));
+  const [searchDate, setSearchDate] = useState(dateToString(searchObj.recordDate));
 
   const onSearch = () => {
     setSearchObj(prev => ({

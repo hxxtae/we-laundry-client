@@ -26,6 +26,7 @@ export const recordRequestState = atom<IRecordRequest>({
   key: 'recordRequest',
   default: {
     id: '',
+    recordDate: '',
     recordCount: 0,
     recordPrice: 0,
     cusid: '',
