@@ -14,7 +14,7 @@ import HistoryCustomerSearch from './HistorySearchPopup/HistoryCustomerSearch';
 
 function HistoryList() {
   const [searchObj, setSearchObj] = useState({
-    recordDate: dateToString(new Date()),
+    recordDate: dateToString(),
     addname: '',
     dong: '',
     ho: ''

@@ -28,8 +28,13 @@ interface IDateComponent {
   setThisDate: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const dateToString = (date: Date) => {
-  return date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+export const dateToString = (date?: string) => {
+  if (date) {
+    const dateThis = new Date(date);
+    return dateThis.getFullYear() + '-' + (dateThis.getMonth() + 1).toString().padStart(2, '0') + '-' + dateThis.getDate().toString().padStart(2, '0');
+  }
+  const dateObj = new Date();
+  return dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1).toString().padStart(2, '0') + '-' + dateObj.getDate().toString().padStart(2, '0');
 }
 
 function DateComponent({ thisDate, setThisDate }: IDateComponent) {
@@ -57,7 +62,7 @@ function DateComponent({ thisDate, setThisDate }: IDateComponent) {
         dateFormat="yyyy-MM-dd"
         autoFocus
         selected={new Date(thisDate)}
-        onChange={(date: Date) => setThisDate(dateToString(date))}
+        onChange={(date: Date) => setThisDate(dateToString(date.toLocaleDateString()))}
         maxDate={new Date()}
         todayButton={"Today"}
         popperModifiers={{ // 화면을 벗어나지 않도록 하는 설정
