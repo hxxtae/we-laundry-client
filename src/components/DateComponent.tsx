@@ -62,7 +62,7 @@ function DateComponent({ thisDate, setThisDate }: IDateComponent) {
         dateFormat="yyyy-MM-dd"
         autoFocus
         selected={new Date(thisDate)}
-        onChange={(date: Date) => setThisDate(dateToString(date.toLocaleDateString()))}
+        onChange={(date: Date) => setThisDate(dateToString(new Date(date).toLocaleDateString()))}
         maxDate={new Date()}
         todayButton={"Today"}
         popperModifiers={{ // 화면을 벗어나지 않도록 하는 설정
