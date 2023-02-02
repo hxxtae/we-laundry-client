@@ -28,10 +28,12 @@ function ProductSaleChart({ totalCountAndPriceSort, sortKind, setSortKind }: IPr
   return (
     <Wrapper>
       <Tabs>
-        <Tab type='button' onClick={() => setSortKind('count')}>{'누적 개수'}</Tab>
-        <Tab type='button' onClick={() => setSortKind('price')}>{'누적 금액'}</Tab>
+        <Tab type='button' onClick={() => setSortKind('count')} state={sortKind === 'count'}>{'누적 개수'}</Tab>
+        <Tab type='button' onClick={() => setSortKind('price')} state={sortKind === 'price'}>{'누적 금액'}</Tab>
       </Tabs>
-      <Bar data={initChart(chartStatsLabel, chartStatsData)} options={options} />
+      <Chart>
+        <Bar data={initChart(chartStatsLabel, chartStatsData)} options={options} />
+      </Chart>
     </Wrapper>
   )
 }
@@ -73,16 +75,12 @@ export const options = {
 };
 
 const Wrapper = styled.div`
-  position: relative;
   width: 400px;
-  right: 0px;
   ${includes.flexBox('flex-end', 'space-between')};
   flex-direction: column;
   
-
   @media ${media.pc_s} {
     width: 450px;
-    right: 20px;
   }
 `;
 
@@ -91,10 +89,20 @@ const Tabs = styled.div`
   margin-bottom: auto;
 `;
 
-const Tab = styled.button`
+const Tab = styled.button<{state: boolean}>`
   ${buttonStyle.primary()}
+  background-color: ${({ state }) => state ? colors.blue : colors.borderDark};
 
   &:last-child {
     margin-left: 5px;
+  }
+`;
+
+const Chart = styled.div`
+  position: relative;
+  width: 100%;
+
+  @media ${media.pc_s} {
+    right: 22px;
   }
 `;

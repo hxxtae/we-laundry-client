@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { IProductObjResponse } from '../../../../../services/products';
 import { IProductStats } from '../../../../../services/sales';
 
-import { buttonStyle, includes, media } from '../../../../../styles';
+import { buttonStyle, colors, includes, media } from '../../../../../styles';
 import { sortKinds } from '../SalesContext';
 import CategorySaleList from './CategorySaleList';
 import CategorySaleTab from './CategorySaleTab';
@@ -22,8 +22,8 @@ function CategorySaleListContext({ categoryIdx, onClickCategoryTab, onClickCount
       <Wrapper>
         <Title>{'카테고리별 품목 통계'}</Title>
         <Tabs>
-          <Tab type='button' onClick={() => onClickCountAndPriceTab('count')}>{'누적 개수'}</Tab>
-          <Tab type='button' onClick={() => onClickCountAndPriceTab('price')}>{'누적 금액'}</Tab>
+          <Tab type='button' onClick={() => onClickCountAndPriceTab('count')} state={sortKind === 'count'}>{'누적 개수'}</Tab>
+          <Tab type='button' onClick={() => onClickCountAndPriceTab('price')} state={sortKind === 'price'}>{'누적 금액'}</Tab>
         </Tabs>
       </Wrapper>
       <CategorySaleTab
@@ -73,12 +73,12 @@ const Wrapper = styled.nav`
 `;
 
 const Tabs = styled.div`
-  text-align: right;
   margin-bottom: auto;
 `;
 
-const Tab = styled.button`
+const Tab = styled.button<{ state: boolean }>`
   ${buttonStyle.primary()}
+  background-color: ${({ state }) => state ? colors.blue : colors.borderDark};
 
   &:last-child {
     margin-left: 5px;
