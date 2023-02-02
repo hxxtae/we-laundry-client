@@ -1,4 +1,4 @@
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faClipboard, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback } from 'react'
 import styled from 'styled-components';
@@ -13,14 +13,24 @@ interface ICategorySaleList {
 }
 
 function CategorySaleList({ productStats, sortKind }: ICategorySaleList) {
+  
   const countFilter = useCallback((count: number) => {
     if (count < 10_000) return count;
     const showMillion = Math.floor((count * 100) / 10_000) / 100;
-    // NOTE: 1만 단위로 뒤에서 부터 잘라서(100의 자리부터) 보여준다.
-    // Math.floor((count / 10_000) * 100) / 100 -> 나눗셈으로 소숫점에서 시작하면
-    // count 11300은 1.13이 아닌 1.12가 된다.
     return `${showMillion}m`;
+    // NOTE: 1만 단위로 뒤에서 부터 잘라서(100의 자리부터) 보여준다.
+    //   Math.floor((count / 10_000) * 100) / 100 -> 나눗셈으로 소숫점에서 시작하면
+    //   count 11300은 1.13이 아닌 1.12가 되어버리기 때문이다.
   }, []);
+
+  const notFoundItems = (productStats: IProductStats[] = []) => {
+    return !productStats?.length && (
+      <NotFound>
+        <FontAwesomeIcon icon={faClipboard} />
+        <span>{'(통계 내역 없음)'}</span>
+      </NotFound>
+    )
+  }
 
   return (
     <List>
@@ -33,8 +43,9 @@ function CategorySaleList({ productStats, sortKind }: ICategorySaleList) {
           </span>
           <span>{countFilter(stats.count)}</span>
           <span>{`${stats.price.toLocaleString()}`}</span>
-        </Items>            
+        </Items>
       ))}
+      {notFoundItems(productStats)}
     </List>
   )
 }
@@ -131,5 +142,28 @@ const Items = styled.li<{chk: number, kind: sortKinds}>`
 
   @media ${media.pc_s} {
     font-size: 14px;
+  }
+`;
+
+const NotFound = styled.p`
+  align-self: center;
+  margin: auto 0;
+  ${includes.flexBox()}
+  flex-direction: column;
+  gap: 10px;
+
+  span, svg {
+    color: ${({ theme }) => theme.textColor};
+    font-size: 14px;
+  }
+
+  svg {
+      font-size: 20px;
+    }
+
+  @media ${media.pc_s} {
+    svg {
+      font-size: 30px;
+    }
   }
 `;
