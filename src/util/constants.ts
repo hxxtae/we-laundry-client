@@ -61,23 +61,5 @@ export const isIntegerCheck = (value: number) => {
   public
 =============================
 */
-export interface IloginKey {
-  id: number;
-  path: string;
-}
 
-export const loginImg: IloginKey[] = [
-  {
-    id: 1,
-    path: `${process.env.PUBLIC_URL}/assets/img/img_login.jpg`,
-  },
-  {
-    id: 2,
-    path: `${process.env.PUBLIC_URL}/assets/img/img_login3.jpg`,
-  },
-  {
-    id: 3,
-    path: `${process.env.PUBLIC_URL}/assets/img/img_login4.jpg`,
-  },
-];
 

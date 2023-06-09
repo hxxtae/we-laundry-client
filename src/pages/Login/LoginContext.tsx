@@ -3,8 +3,27 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { includes, media } from '../../styles';
-import { loginImg } from '../../util';
 import { Background, Containers } from '../../components';
+
+export interface IloginKey {
+  id: number;
+  path: string;
+}
+
+export const loginImg: IloginKey[] = [
+  {
+    id: 1,
+    path: `${process.env.PUBLIC_URL}/assets/img/img_login.jpg`,
+  },
+  {
+    id: 2,
+    path: `${process.env.PUBLIC_URL}/assets/img/img_login3.jpg`,
+  },
+  {
+    id: 3,
+    path: `${process.env.PUBLIC_URL}/assets/img/img_login4.jpg`,
+  },
+];
 
 interface ILoginContext {
   children: JSX.Element;
@@ -12,10 +31,8 @@ interface ILoginContext {
 
 function LoginContext({ children }: ILoginContext) {
   const [imgPaths] = useState([...loginImg]);
-
   const [next, setNext] = useState(1);
   const opcityStart: React.MutableRefObject<any> = useRef(null);
-
   const imgPathProps = imgPaths.find((imgPath) => imgPath.id === next);
 
   useEffect(() => {
@@ -24,8 +41,15 @@ function LoginContext({ children }: ILoginContext) {
         return 1;
       }
       return prev + 1;
-    }), 10000);
+    }), 5000);
+
+    // --- Image Preload
+    const img = new Image();
+    img.src = `${process.env.PUBLIC_URL}/assets/img/img_login3.jpg`;
+    img.src = `${process.env.PUBLIC_URL}/assets/img/img_login4.jpg`;
+
     return () => clearInterval(opcityStart.current);
+    
   }, [imgPaths]);
 
   return (
