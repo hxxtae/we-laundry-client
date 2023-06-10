@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useFormContext } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 import { useState } from 'react';
@@ -16,7 +14,8 @@ interface ICategoryConfirmList {
 
 function CategoryConfirmList({ onDelete }: ICategoryConfirmList) {
   const { productObjs } = useProductObjFetch();
-  const [deleteId, setDeleteId] = useState('');
+  const [choiceId, setChoiceId] = useState('');
+  const [choiceName, setChoiceName] = useState('');
   const [deleteConfirmPopup, setDeleteConfirmPopup] = useState(false);
   const categoryPopup = useRecoilValue(categoryPopupState);
   const { setValue } = useFormContext();
@@ -25,11 +24,13 @@ function CategoryConfirmList({ onDelete }: ICategoryConfirmList) {
     if (categoryPopup.updatePopup) {
       setValue('id', id);
       setValue('categoryName', name);
-      setDeleteId(id);
+      setChoiceId(id);
+      setChoiceName(name)
     }
     if (categoryPopup.deletePopup) {
       setDeleteConfirmPopup(true);
-      setDeleteId(id);
+      setChoiceId(id);
+      setChoiceName(name);
     }
   }
   
@@ -37,16 +38,14 @@ function CategoryConfirmList({ onDelete }: ICategoryConfirmList) {
     <>
       <List>
         <Title>
-          {categoryPopup.updatePopup ? '변경할 ' : categoryPopup.deletePopup ? '삭제할 ' : ''} {'카테고리를 선택해 주세요.'}
+          {categoryPopup.updatePopup ? '변경 할 ' : categoryPopup.deletePopup ? '삭제 할 ' : ''} {'카테고리를 선택해 주세요.'}
         </Title>
         {productObjs?.map((productObj) => (
           <Item
             key={productObj.id}
+            choice={productObj.id === choiceId}
+            divide={categoryPopup.updatePopup ? 1 : 2}
             onClick={() => onItemClick(productObj.id, productObj.categoryName)}>
-            {productObj.id === deleteId &&
-              <Check>
-                <FontAwesomeIcon icon={faCheckCircle} />
-              </Check>}
             <Name>{productObj.categoryName}</Name>
           </Item>
         ))}
@@ -54,7 +53,7 @@ function CategoryConfirmList({ onDelete }: ICategoryConfirmList) {
 
       {deleteConfirmPopup && 
         <Overlay>
-          <DeleteConfirm deleteId={deleteId} onDelete={onDelete} setDeletePop={setDeleteConfirmPopup} />
+          <DeleteConfirm deleteId={choiceId} onDelete={onDelete} setDeletePop={setDeleteConfirmPopup} content={choiceName} />
         </Overlay>}
     </>
   )
@@ -70,6 +69,7 @@ const Title = styled.p`
   text-align: center;
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
+  z-index: 1;
 `;
 
 const List = styled.ul`
@@ -84,14 +84,13 @@ const List = styled.ul`
   ${(props) => scroll.custom(8, props.theme.borderColorSub, props.theme.textColor)}
 `;
 
-const Item = styled.li`
+const Item = styled.li<{choice: boolean, divide: number}>`
   ${includes.flexBox()}
-  position: relative;
   flex-shrink: 0;
   width: 100%;
   height: 35px;
   margin: 5px 0;
-  border: 1px solid ${(props) => props.theme.borderColor};
+  border: 1px solid ${({theme, choice, divide}) => !choice ? theme.borderColor : divide === 1 ? colors.green : colors.red};
   border-radius: 4px;
   background-color: ${(props) => props.theme.bgColorSub};
   transition: background-color 200ms ease-in-out;
@@ -101,13 +100,6 @@ const Item = styled.li`
     background-color: ${(props) => props.theme.inputColor};
   }
 `;
-
-const Check = styled.span`
-  position: absolute;
-  right: 30px;
-  color: ${colors.green};
-  transition: color 200ms ease-in-out;
-`
 
 const Name = styled.span`
   color: ${(props) => props.theme.textColor};

@@ -36,7 +36,7 @@ function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setC
       return;
     }
 
-    /* update */
+    /* Products Update */
     if (productsPopup.updatePopup) {
       const { productId, index } = productState;
       
@@ -56,7 +56,7 @@ function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setC
       return;
     }
 
-    /* create */
+    /* Products Create */
     const data = { id, productName, price: integerPrice };
     insMutate(data, {
       onSuccess: () => {
@@ -69,7 +69,7 @@ function ProductsPopup({ categoryId, categoryName, copyProducts, insMutate, setC
         toastStyle.success('품목이 추가되었습니다.');
       },
       onError: (error: any) => {
-        console.log('--Product Create Error--');
+        console.error('--Product Create Error--');
         toastStyle.error(error.message);
       }
     });
@@ -147,7 +147,7 @@ const Title = styled.h2`
 `;
 
 const Submit = styled.button`
-  ${buttonStyle.primary()}
+  ${buttonStyle.open()}
   margin-top: 50px;
   width: 100px;
 `;
