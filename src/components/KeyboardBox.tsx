@@ -4,7 +4,7 @@ import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FieldValues, UseFormSetValue } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useRef } from 'react';
 
 import { dragging, includes } from '../styles';
 
@@ -15,28 +15,28 @@ interface IKeyboardBox {
 }
 
 function KeyboardBox({ setValue, name, value }: IKeyboardBox) {
-  const [comStrNum, setComStrNum] = useState(value);
+  const keys = useRef(value);
   const keyPad = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const onClick = (num: string) => {
-    setComStrNum((prev) => {
-      setValue(name, prev + num);
-      return prev + num;
-    })
+    const newKeys = [...keys.current];
+    newKeys.push(num);
+    const result = newKeys.join('');
+    setValue(name, result);
+    keys.current = result;
   }
 
   const onClean = () => {
-    setComStrNum('');
     setValue(name, '');
+    keys.current = '';
   }
 
   const onErase = () => {
-    setComStrNum((prev) => {
-      const arr = prev.toString().split('');
-      arr.pop();
-      setValue(name, arr.join(''));
-      return arr.join('');
-    });
+    const newKeys = [...keys.current];
+    newKeys.pop();
+    const result = newKeys.join('');
+    setValue(name, result);
+    keys.current = result;
   }
 
   return (
