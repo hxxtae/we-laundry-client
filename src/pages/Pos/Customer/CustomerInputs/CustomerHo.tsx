@@ -11,7 +11,7 @@ interface ICustomerHo {
   searchActive: boolean;
 }
 
-function CustomerHo({ searchActive }: ICustomerHo, ref: any) {
+function CustomerHo({ searchActive }: ICustomerHo, ref?: any) {
   const [selectAct, setSelectAct] = useState(false);
   const { register, formState: { errors }, setValue, getValues } = useFormContext();
 
@@ -20,7 +20,7 @@ function CustomerHo({ searchActive }: ICustomerHo, ref: any) {
     maxLength: { value: 5, message: inputMessage.maxLen(5) },
     minLength: { value: 1, message: inputMessage.minLen(1) },
     pattern: { value: regexrObj.notSpaceAndSpecial, message: "숫자만 입력가능합니다." },
-})
+  })
 
   useImperativeHandle(ref, () => ({
     selectClose: () => {

@@ -1,7 +1,7 @@
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { buttonStyle, includes } from '../../../styles';
@@ -16,7 +16,7 @@ interface ICustomerSearch {
 
 function CustomerSearch({ onPageReset }: ICustomerSearch) {
   const setData = useSetRecoilState(customerSearchState);
-  const [searchPop, setSearchPop] = useRecoilState(searchState);
+  const setSearchPop = useSetRecoilState(searchState);
   const method = useForm<CustomerDTO.ICustomerSearchRequest>();
 
   const onSearch = ({addname, dong, ho}: CustomerDTO.ICustomerSearchRequest) => {
@@ -32,9 +32,9 @@ function CustomerSearch({ onPageReset }: ICustomerSearch) {
       </Close>
       <FormProvider {...method} >
         <InputGroup onSubmit={method.handleSubmit(onSearch)}>
-          <CustomerAddname />
-          <CustomerDong searchActive={searchPop} />
-          <CustomerHo searchActive={searchPop} />
+          <CustomerAddname searchActive={true} />
+          <CustomerDong searchActive={true} />
+          <CustomerHo searchActive={true} />
           <SubmitButton>{'조회'}</SubmitButton>
         </InputGroup>
       </FormProvider>

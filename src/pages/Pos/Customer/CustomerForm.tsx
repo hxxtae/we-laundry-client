@@ -19,6 +19,7 @@ function CustomerForm() {
   const { isUpdLoading, mutateUpd } = useCustomerUpd();
   const method = useForm<CustomerDTO.ICustomerForm>();
   // NOTE: input of 'dong' and 'ho' reference object.
+  const childAddnameRef = useRef<{ selectClose: () => void }>();
   const childDongRef = useRef<{ selectClose: () => void }>();
   const childHoRef = useRef<{ selectClose: () => void }>();
 
@@ -40,10 +41,15 @@ function CustomerForm() {
         },
       });
     }
-    // NOTE: input of 'dong' and 'ho' keyboardBox close function.
+    onCloseKeyboardBox();
+  };
+
+  const onCloseKeyboardBox = () => {
+    // NOTE: input of 'addname' & 'dong' & 'ho' keyboardBox close function.
+    childAddnameRef.current?.selectClose();
     childDongRef.current?.selectClose();
     childHoRef.current?.selectClose();
-  };
+  }
 
   const onUpdateCancel = () => {
     method.reset();
@@ -56,13 +62,14 @@ function CustomerForm() {
     method.setValue('addname', customerObj.addname);
     method.setValue('dong', customerObj.dong);
     method.setValue('ho', customerObj.ho);
+    onCloseKeyboardBox();
   }, [customerObj]);
 
   return (
     <>
       <FormProvider {...method} >
         <InputGroup onSubmit={method.handleSubmit(onSubmit)}>
-          <CustomerAddname />
+          <CustomerAddname ref={childAddnameRef} searchActive={false} />
           <CustomerDong ref={childDongRef} searchActive={false} />
           <CustomerHo ref={childHoRef} searchActive={false} />
           <ButtonBox>
