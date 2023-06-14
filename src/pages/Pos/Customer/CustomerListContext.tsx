@@ -45,6 +45,11 @@ function CustomerListContext() {
     isDelLoading || mutateDel(id);
   };
 
+  const onDeleteContent = (id: string, datas: CustomerDTO.ICustomerResponse[]): string => {
+    const info = datas.find(data => data.id === id);
+    return `${info?.addname} ${info?.dong} - ${info?.ho}`;
+  }
+
   const onPageReset = useCallback(() => {
     pageObj.setPage(1);
   }, []);
@@ -66,7 +71,9 @@ function CustomerListContext() {
             deleteId={deleteId}
             onDelete={onDelete}
             setDeletePop={setDeletePopup}
-            loading={isDelLoading} />
+            loading={isDelLoading}
+            content={onDeleteContent(deleteId, pageObj.fetchDatas)}
+          />
         </Overlay>}
       {(cusLoading || isDelLoading) && 
       <Overlay>
