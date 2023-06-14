@@ -39,6 +39,7 @@ export interface ICustomerSearchRequest {
 }
 
 interface ICustomerService {
+  fetchAllCus: () => Promise<AxiosResponse>;
   searchFetchCus: ({ addname, dong, ho }: ICustomerSearchRequest) => Promise<AxiosResponse>;
   createCus: ({ addid, addname, addfullname, name, dong, ho }: ICustomerCreateRequest) => Promise<AxiosResponse>;
   updateCus: ({ id, addid, addname, addfullname, name, dong, ho }: ICustoemrUpdateRequest) => Promise<AxiosResponse>;
@@ -48,6 +49,13 @@ interface ICustomerService {
 export default class CustomerService implements ICustomerService {
   constructor(private http: HttpClient) {
     this.http = http;
+  }
+
+  async fetchAllCus(): Promise<AxiosResponse>  {
+    const data = await this.http.fetch('/customer/all', {
+      method: 'GET',
+    });
+    return data;
   }
 
   async searchFetchCus({ addname, dong, ho }: ICustomerSearchRequest): Promise<AxiosResponse> {
