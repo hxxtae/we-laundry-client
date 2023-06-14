@@ -11,7 +11,7 @@ interface ICustomerDong {
   searchActive: boolean;
 }
 
-function CustomerDong({ searchActive }: ICustomerDong, ref: any) {
+function CustomerDong({ searchActive }: ICustomerDong, ref?: any) {
   const [selectAct, setSelectAct] = useState(false);
   const { register, formState: { errors }, setValue, getValues, watch } = useFormContext();
 

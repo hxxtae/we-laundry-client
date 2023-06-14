@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormContext } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { useSetRecoilState } from 'recoil';
-import { useState } from 'react';
+import { useState, useImperativeHandle, forwardRef } from 'react';
 import styled from 'styled-components';
 
 import { AddnameSelectList, ErrorMessage, InputTitles } from '../../../../components';
@@ -11,15 +11,18 @@ import { buttonStyle, colors, includes, inputStyle } from '../../../../styles';
 import { inputMessage, queryKeys } from '../../../../util';
 import { customerRequestState } from '../application/atom';
 
+interface ICustomerAddname {
+  searchActive: boolean;
+}
 
-function CustomerAddname() {
+function CustomerAddname({ searchActive }: ICustomerAddname, ref?: any) {
   const [selectAct, setSelectAct] = useState(false);
   const setCustomerObj = useSetRecoilState(customerRequestState);
-  const { register, formState: { errors }, setValue } = useFormContext();
+  const { register, formState: { errors }, setValue, watch } = useFormContext();
   const client = useQueryClient();
 
   const inputProp = register('addname', {
-    required: inputMessage.required,
+    required: !searchActive || watch('dong') || watch('ho') ? inputMessage.required : false,
   });
 
   const onSelectClick = (addid: string, addname: string, addfullname: string) => {
@@ -36,6 +39,12 @@ function CustomerAddname() {
   const onRefetch = () => {
     client.invalidateQueries(queryKeys.address.all);
   }
+
+  useImperativeHandle(ref, () => ({
+    selectClose: () => {
+      setSelectAct(false);
+    },
+  }), []);
 
   return (
     <InputBox>
@@ -60,7 +69,7 @@ function CustomerAddname() {
   )
 }
 
-export default CustomerAddname;
+export default forwardRef(CustomerAddname);
 
 const InputBox = styled.div`
   flex-grow: 1;
