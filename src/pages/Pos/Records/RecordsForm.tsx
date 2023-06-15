@@ -87,7 +87,7 @@ const Available = styled.div<{chk: boolean}>`
   left: 78px;
   ${includes.flexBox('center', 'space-between')}
   font-size: 10px;
-  color: ${(props) => props.chk ? colors.green : colors.red};
+  color: ${(props) => props.chk ? colors.lightGreen : colors.red};
 
   @media ${media.pc_s} {
     top: 20px;

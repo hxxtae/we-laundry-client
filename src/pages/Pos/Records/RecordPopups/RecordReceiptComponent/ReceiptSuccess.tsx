@@ -101,7 +101,7 @@ const TitleBox = styled.div`
 
   svg:first-child {
     font-size: 22px;
-    color: ${colors.green};
+    color: ${colors.lightGreen};
   }
 
   @media ${media.pc_s} {
@@ -115,7 +115,7 @@ const Title = styled.h2`
   padding: 10px 0;
   font-size: 18px;
   font-weight: 600;
-  color: ${colors.green};
+  color: ${colors.lightGreen};
 
   @media ${media.pc_s} {
     padding: 15px 0;

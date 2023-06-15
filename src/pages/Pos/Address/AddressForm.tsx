@@ -105,9 +105,9 @@ const InputGroup = styled.form`
   width: 100%;
   margin-bottom: 10px;
   padding: 20px;
-  border: 1px solid ${(props) => props.theme.borderColor};
+  border: 1px solid ${(props) => props.theme.borderColorFocus};
   border-radius: 4px;
-  background-color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.bgColorFocus};
   transition: background-color border-color 200ms ease-in-out;
 `;
 
@@ -117,7 +117,7 @@ const ButtonBox = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  ${buttonStyle.primary()}
+  ${buttonStyle.open()}
   width: 80px;
   height: 100%;
 `;

@@ -90,7 +90,7 @@ const Item = styled.li<{choice: boolean, divide: number}>`
   width: 100%;
   height: 35px;
   margin: 5px 0;
-  border: 1px solid ${({theme, choice, divide}) => !choice ? theme.borderColor : divide === 1 ? colors.green : colors.red};
+  border: 1px solid ${({theme, choice, divide}) => !choice ? theme.borderColor : divide === 1 ? colors.lightGreen : colors.red};
   border-radius: 4px;
   background-color: ${(props) => props.theme.bgColorSub};
   transition: background-color 200ms ease-in-out;

@@ -54,7 +54,7 @@ export const buttonStyle = {
     transition: background-color 200ms ease-in-out;
 
     &:not(:disabled):hover {
-      background-color: ${chk ? colors.greenDark : colors.blueDark};
+      background-color: ${chk ? colors.greenBlur : colors.blueLight};
     }
   `,
 
@@ -77,7 +77,7 @@ export const buttonStyle = {
     transition: background-color 200ms ease-in-out;
 
     &:not(:disabled):hover {
-      background-color: ${colors.blueLight};
+      background-color: ${colors.blueGray};
     }
   `,
 
@@ -88,7 +88,7 @@ export const buttonStyle = {
     transition: background-color 200ms ease-in-out;
 
     &:not(:disabled):hover {
-      background-color: ${colors.greenDark};
+      background-color: ${colors.greenBlur};
     }
   `,
 
