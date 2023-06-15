@@ -125,8 +125,8 @@ const StateIcon = styled(motion.div)<{state: string}>`
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: ${(props) => props.state === 'true' ? colors.green : colors.red};
-  box-shadow: 0 0 10px ${(props) => props.state === 'true' ? colors.green : colors.red};
+  background-color: ${(props) => props.state === 'true' ? colors.lightGreen : colors.red};
+  box-shadow: 0 0 10px ${(props) => props.state === 'true' ? colors.lightGreen : colors.red};
 `;
 
 const StateText = styled(motion.span)`

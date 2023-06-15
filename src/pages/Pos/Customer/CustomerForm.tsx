@@ -18,7 +18,7 @@ function CustomerForm() {
   const { isInsLoading, mutateIns } = useCustomerIns();
   const { isUpdLoading, mutateUpd } = useCustomerUpd();
   const method = useForm<CustomerDTO.ICustomerForm>();
-  // NOTE: input of 'dong' and 'ho' reference object.
+  // NOTE: input of 'addname' & 'dong' & 'ho' reference object.
   const childAddnameRef = useRef<{ selectClose: () => void }>();
   const childDongRef = useRef<{ selectClose: () => void }>();
   const childHoRef = useRef<{ selectClose: () => void }>();
@@ -97,11 +97,11 @@ export default CustomerForm;
 const InputGroup = styled.form`
   ${includes.flexBox('flex-end', 'flex-start')}
   width: 100%;
-  border: 1px solid ${(props) => props.theme.borderColor};
+  border: 1px solid ${(props) => props.theme.borderColorFocus};
   padding: 20px;
   border-radius: 4px;
   margin-bottom: 10px;
-  background-color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.bgColorFocus};
   transition: background-color border-color 200ms ease-in-out;
 `;
 
@@ -111,13 +111,13 @@ const ButtonBox = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  ${buttonStyle.primary()}
+  ${buttonStyle.open()}
   width: 80px;
   height: 100%;
 `;
 
 const ResetButton = styled.button`
-  ${buttonStyle.secondary}
+  ${buttonStyle.secondary()}
   width: 80px;
   height: 100%;
   margin-right: 5px;

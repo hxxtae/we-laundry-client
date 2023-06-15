@@ -48,7 +48,7 @@ const Items = styled.li`
   }
 
   &:hover {
-    background-color: ${(props) => props.theme.borderColor};
+    background-color: ${(props) => props.theme.bgColorHover};
   }
 `;
 

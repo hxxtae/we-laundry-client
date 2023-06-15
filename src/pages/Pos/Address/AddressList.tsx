@@ -135,7 +135,7 @@ const Items = styled.li`
   border-bottom: 1px solid ${(props) => props.theme.borderColor};
 
   &:not(:first-child):hover {
-    background-color: ${(props) => props.theme.borderColor};
+    background-color: ${(props) => props.theme.bgColorHover};
   }
 
   &:first-child {
