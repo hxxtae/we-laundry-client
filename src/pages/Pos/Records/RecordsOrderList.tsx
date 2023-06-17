@@ -1,5 +1,4 @@
 import { useRecoilValue } from 'recoil';
-import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { colors, dragging, includes, line, media, scroll } from '../../../styles';
@@ -7,41 +6,12 @@ import { recordLaundryState, recordRepairState } from '../../../global';
 
 interface IRecordsOrderList {
   clickItems: string[];
-  setClickItems: React.Dispatch<React.SetStateAction<string[]>>;
-  setTotalPay: React.Dispatch<React.SetStateAction<{price: number, count: number}>>;
+  onClickItem: (id: string) => void;
 }
 
-function RecordsOrderList({ clickItems, setClickItems, setTotalPay }: IRecordsOrderList) {
+function RecordsOrderList({ clickItems, onClickItem }: IRecordsOrderList) {
   const laundry = useRecoilValue(recordLaundryState);
   const repair = useRecoilValue(recordRepairState);
-
-  const onClickItem = (itemId: string) => {
-    setClickItems((prevItems) => {
-      const copyItems = [...prevItems];
-      const index = copyItems.indexOf(itemId);
-      if (index !== -1) {
-        copyItems.splice(index, 1);
-      } else {
-        copyItems.push(itemId);
-      }
-      return copyItems;
-    });
-  }
-
-  useEffect(() => {
-    setTotalPay(() => {
-      const recordArray = [...laundry, ...repair];
-      const payObj = recordArray.reduce((prev, curr) => ({
-        count: (prev.count + curr.count),
-        price: (prev.price + curr.price),
-      }), {price: 0, count: 0});
-
-      return {
-        price: payObj.price,
-        count: payObj.count,
-      };
-    });
-  }, [laundry, repair]);
 
   return (
     <OrderList>
