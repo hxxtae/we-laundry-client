@@ -36,17 +36,16 @@ function LoginContext({ children }: ILoginContext) {
   const imgPathProps = imgPaths.find((imgPath) => imgPath.id === next);
 
   useEffect(() => {
+    // --- Image Preload
+    const img = new Image();
+    loginImg.forEach((obj) => img.src = obj.path);
+
     opcityStart.current = setInterval(() => setNext((prev) => {
       if (prev === imgPaths.length) {
         return 1;
       }
       return prev + 1;
     }), 5000);
-
-    // --- Image Preload
-    const img = new Image();
-    img.src = `${process.env.PUBLIC_URL}/assets/img/img_login3.jpg`;
-    img.src = `${process.env.PUBLIC_URL}/assets/img/img_login4.jpg`;
 
     return () => clearInterval(opcityStart.current);
     

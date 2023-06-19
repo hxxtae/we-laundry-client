@@ -77,7 +77,7 @@ const ReceiptItem = styled.li`
   strong {
     font-size: 12px;
     font-weight: 600;
-    background-color: ${colors.green};
+    background-color: ${colors.lightGreen};
     color: ${colors.white};
     border-radius: 3px;
     padding: 3px 8px;

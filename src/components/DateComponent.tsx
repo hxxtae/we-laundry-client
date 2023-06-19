@@ -95,7 +95,7 @@ const Wrapper = styled.div`
 
     @media ${media.pc_s} {
       top: -172px !important; 
-      left: 275px !important;
+      left: 282px !important;
     }
   }
 

@@ -7,18 +7,20 @@ import { buttonStyle, dragging, includes, media, scroll } from '../../../styles'
 import { useHistoryFetch } from '../../../hooks';
 import { LoadingComponent, Overlay } from '../../../components';
 import { dateToString } from '../../../components/DateComponent';
-import { IRecordObjResponse } from '../../../services/records';
+import { IRecordObjResponse, IRecordSearchRequest } from '../../../services/records';
 import HistoryListItem from './HistoryListItem';
 import HistoryDateSearch from './HistorySearchPopup/HistoryDateSearch';
 import HistoryCustomerSearch from './HistorySearchPopup/HistoryCustomerSearch';
 
 function HistoryList() {
-  const [searchObj, setSearchObj] = useState({
+  const [searchObj, setSearchObj] = useState<IRecordSearchRequest>({
     recordDate: dateToString(),
+    recordDateKind: '1m',
     addname: '',
     dong: '',
-    ho: ''
+    ho: '',
   });
+  console.log(searchObj);
   const [dateActive, setDateActive] = useState(false);
   const [customerActive, setCustomerActive] = useState(false);
   const [clickId, setClickId] = useState('');

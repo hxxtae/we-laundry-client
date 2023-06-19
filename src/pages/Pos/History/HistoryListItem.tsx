@@ -185,7 +185,7 @@ const RepairChk = styled.p`
   width: 40px;
   height: 20px;
   border-radius: 4px;
-  background-color: ${colors.green};
+  background-color: ${colors.lightGreen};
   font-weight: 600;
   color: ${colors.white};
 `;
