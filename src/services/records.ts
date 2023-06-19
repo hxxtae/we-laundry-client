@@ -55,6 +55,7 @@ export interface IRecordRequest {
 
 export interface IRecordSearchRequestByDate {
   recordDate: string;
+  recordDateKind: '1d' | '7d' | '1m';
 }
 
 export interface IRecordSearchRequestByAdd {
@@ -67,7 +68,7 @@ export type IRecordSearchRequest = IRecordSearchRequestByDate & IRecordSearchReq
 
 interface IRecordsService {
   createRecord: ({ recordCount, recordPrice, cusid, addid, addname, dong, ho, addfullname, laundry, repair }: IRecordRequest) => Promise<AxiosResponse>;
-  searchRecordByDate: (recordDate: string) => Promise<AxiosResponse>;
+  searchRecordByDate: (startDate: string, endDate: string) => Promise<AxiosResponse>;
   searchRecordByCustomer: ({ addname, dong, ho }: IRecordSearchRequestByAdd) => Promise<AxiosResponse>;
   deleteRecord: (id: string) => Promise<AxiosResponse>;
 }
@@ -97,8 +98,8 @@ export default class RecordsService implements IRecordsService {
     return data;
   }
 
-  async searchRecordByDate(recordDate: string) {
-    const data = this.http.fetch(`/records/${recordDate}`, {
+  async searchRecordByDate(startDate: string, endDate: string) {
+    const data = this.http.fetch(`/records/date/?startDate=${startDate}&endDate=${endDate}`, {
       method: 'GET',
     });
     return data;
