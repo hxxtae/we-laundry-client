@@ -1,7 +1,7 @@
 import { faMinus, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRecoilState } from 'recoil';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { recordLaundryState, recordRepairState, recordRequestState } from '../../../global';
@@ -20,6 +20,20 @@ function RecordsOrder() {
   const [totalPay, setTotalPay] = useState({ price: 0, count: 0 });
   const [repairAct, setRepairAct] = useState(false);
   const [receiptAct, setReceiptAct] = useState(false);
+
+  const onClickItem = (itemId: string) => {
+    setClickItems((prevItems) => {
+      const copyItems = [...prevItems];
+      const index = copyItems.indexOf(itemId);
+      if (index !== -1) {
+        copyItems.splice(index, 1);
+      } else {
+        copyItems.push(itemId);
+      }
+      return copyItems;
+    });
+  }
+
   const onAddNDelLaundry = useAddNDelOfRecord(setLaundry, clickItems, setClickItems);
   const onAddNDelRepair = useAddNDelOfRecord(setRepair, clickItems, setClickItems);
   const onAllRemoveLaundry = useAllDelOfRecord(setLaundry, clickItems, setClickItems);
@@ -53,6 +67,21 @@ function RecordsOrder() {
     setReceiptAct(true);
   }
 
+  useEffect(() => {
+    setTotalPay(() => {
+      const recordArray = [...laundry, ...repair];
+      const payObj = recordArray.reduce((prev, curr) => ({
+        count: (prev.count + curr.count),
+        price: (prev.price + curr.price),
+      }), {price: 0, count: 0});
+
+      return {
+        price: payObj.price,
+        count: payObj.count,
+      };
+    });
+  }, [laundry, repair]);
+
   return (
     <>
       <Wrapper>
@@ -75,8 +104,7 @@ function RecordsOrder() {
 
         <RecordsOrderList
           clickItems={clickItems}
-          setClickItems={setClickItems}
-          setTotalPay={setTotalPay} />
+          onClickItem={onClickItem} />
 
         <Bottom>
           <PaymentButton

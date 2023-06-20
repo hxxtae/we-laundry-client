@@ -65,7 +65,7 @@ const Card = styled.div<{ updActive: boolean, delActive: boolean }>`
   background-color: ${(props) => props.theme.inputColor};
   border-radius: 4px;
   border: 1px solid ${(props) =>
-    (props.updActive === true) ? colors.green :
+    (props.updActive === true) ? colors.lightGreen :
       (props.delActive === true) ? colors.red :
         props.theme.borderColor };
   transition: border-color 200ms ease-in-out;

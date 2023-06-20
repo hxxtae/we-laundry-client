@@ -20,7 +20,8 @@ export const queryKeys = {
   records: {
     all: ['/records'] as const,
     list: () => [...queryKeys.records.all, 'list'] as const,
-    listDate: (date: string) => [...queryKeys.records.list(), date] as const,
+    listDateNow: (startDate: string) => [...queryKeys.records.list(), startDate] as const,
+    listDate: (startDate: string, endDate: string) => [...queryKeys.records.list(), startDate, endDate] as const,
     listDong: (addname: string, dong: string) => [...queryKeys.records.list(), `${addname}`, `${dong}`] as const,
     listDongHo: (addname: string, dong: string, ho?: string) => [...queryKeys.records.list(), `${addname}`, `${dong}`, `${ho}`] as const,
   },

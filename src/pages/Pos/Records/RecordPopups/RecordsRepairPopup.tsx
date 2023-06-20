@@ -87,7 +87,7 @@ const Close = styled.button`
 `;
 
 const Submit = styled.button`
-  ${buttonStyle.primary()}
+  ${buttonStyle.open()}
   margin-top: 50px;
   width: 100px;
 `;

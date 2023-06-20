@@ -6,6 +6,7 @@ import { recordRequestState, recordsApi } from '../../global';
 import { toastStyle } from '../../styles';
 import { queryKeys } from '../../util';
 import { useEffect } from 'react';
+import { dateToString } from '../../components/DateComponent';
 
 interface IHistoryFetch {
   historyLoading: boolean;
@@ -13,21 +14,44 @@ interface IHistoryFetch {
   historyDatas: IRecordObjResponse[];
 }
 
-export const useHistoryFetch = ({ recordDate, addname, dong, ho }: IRecordSearchRequest): IHistoryFetch => {
+export const useHistoryFetch = ({ recordDate: startDate, recordDateKind, addname, dong, ho }: IRecordSearchRequest): IHistoryFetch => {
   const recordsService = useRecoilValue(recordsApi);
   const setRecordState = useSetRecoilState(recordRequestState);
   const resetRecordState = useResetRecoilState(recordRequestState);
 
+  // NOTE: get endDate function
+  const onSetEndDate = (str: string): string => {
+    const [num, kind] = [...str];
+    const kinds = ["y", "m", "d"];
+    const idx = kinds.indexOf(kind);
+    const prevDate = new Date(startDate);
+    const currDate = new Date(startDate);
+
+    if (idx === 0) currDate.setFullYear(currDate.getFullYear() - +num);
+    if (idx === 1) currDate.setMonth(currDate.getMonth() - +num);
+    if (idx === 2) currDate.setDate(currDate.getDate() - +num);
+
+    const prevDay = prevDate.getDate();
+    const currDay = currDate.getDate();
+    if (idx === 0 || idx === 1) {
+      if (prevDay !== currDay) {
+        const newDate = new Date(currDate.getFullYear(), currDate.getMonth(), 0);
+        return dateToString(newDate);
+      }
+    }
+    return dateToString(currDate);
+  }
+
   const onSearchConfirm = () => {
-    if (!recordDate) {
+    if (!startDate) {
       return {
         queryKey: queryKeys.records.listDongHo(addname, dong, ho),
         queryFn: () => recordsService.searchRecordByCustomer({addname, dong, ho})
       }
     }
     return {
-      queryKey: queryKeys.records.listDate(recordDate),
-      queryFn: () => recordsService.searchRecordByDate(recordDate),
+      queryKey: queryKeys.records.listDate(startDate, onSetEndDate(recordDateKind)),
+      queryFn: () => recordsService.searchRecordByDate(startDate, onSetEndDate(recordDateKind)),
     }
   }
 

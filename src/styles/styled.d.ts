@@ -9,9 +9,12 @@ declare module 'styled-components' {
     bgColorThi: string;
     bgColorFur: string;
     bgColorBlur: string;
+    bgColorFocus: string;
+    bgColorHover: string;
     textColor: string;
     borderColor: string;
     borderColorSub: string;
+    borderColorFocus: string;
     sameColor: string;
     inputColor: string;
     inputFocusColor: string;

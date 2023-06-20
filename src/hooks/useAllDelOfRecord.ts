@@ -2,7 +2,7 @@ import { IRecordsOflaundry, IRecordsOfRepair } from "../services/records";
 
 type ISetState = IRecordsOflaundry | IRecordsOfRepair;
 
-// NOTE: 주문목록 상단 - + (주문 삭제, 추가) 버튼 이벤트 Hook
+// NOTE: 주문 목록 상단 '휴지통' 아이콘 클릭 이벤트 Hook
 export const useAllDelOfRecord = <T extends ISetState>(
   setState: React.Dispatch<React.SetStateAction<T[]>>,
   clickItems: string[],

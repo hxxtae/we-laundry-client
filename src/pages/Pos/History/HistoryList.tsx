@@ -7,17 +7,18 @@ import { buttonStyle, dragging, includes, media, scroll } from '../../../styles'
 import { useHistoryFetch } from '../../../hooks';
 import { LoadingComponent, Overlay } from '../../../components';
 import { dateToString } from '../../../components/DateComponent';
-import { IRecordObjResponse } from '../../../services/records';
+import { IRecordObjResponse, IRecordSearchRequest } from '../../../services/records';
 import HistoryListItem from './HistoryListItem';
 import HistoryDateSearch from './HistorySearchPopup/HistoryDateSearch';
 import HistoryCustomerSearch from './HistorySearchPopup/HistoryCustomerSearch';
 
 function HistoryList() {
-  const [searchObj, setSearchObj] = useState({
+  const [searchObj, setSearchObj] = useState<IRecordSearchRequest>({
     recordDate: dateToString(),
+    recordDateKind: '1m',
     addname: '',
     dong: '',
-    ho: ''
+    ho: '',
   });
   const [dateActive, setDateActive] = useState(false);
   const [customerActive, setCustomerActive] = useState(false);
@@ -25,13 +26,23 @@ function HistoryList() {
   const { historyLoading, reHistoryLoading, historyDatas } = useHistoryFetch(searchObj);
   const searchLoading = historyLoading || reHistoryLoading;
 
-  const findIdx = (datas: IRecordObjResponse[], value: string) => {
-    return datas.findIndex((obj) => obj.recordDate === value);
+  const onHistoryDatas = (datas: IRecordObjResponse[]) => {
+    const historyMap = new Map();
+    historyMap.set(dateToString(datas[0].recordDate), []);
+    for (const history of datas) {
+      const key = dateToString(history.recordDate);
+      if (historyMap.get(key)) {
+        historyMap.get(key).push(history);
+        continue;
+      }
+      historyMap.set(key, []);
+    }
+    return [...historyMap];
   }
 
   const onClickItem = useCallback((itemId: string) => {
     setClickId(itemId);
-  }, [clickId]);
+  }, []);
 
   return (
     <>
@@ -41,22 +52,22 @@ function HistoryList() {
           <CusButton onClick={() => setCustomerActive(true)}>{'주소로 검색'}</CusButton>
         </ButtonGroup>
         <List>
-          {!!(historyDatas?.length) ?
-            historyDatas.map((obj, index, arr) => (
-              findIdx(arr, obj.recordDate) === index && (
+          {
+            !!(historyDatas?.length) ? 
+              onHistoryDatas(historyDatas).map(([date, historyArr]) => (
                 <HistoryListItem
-                  key={obj.id}
-                  recordObjs={arr}
-                  recordObjRecordDate={obj.recordDate}
-                  recordObjIndex={index}
+                  key={date}
+                  recordObjs={historyArr}
+                  recordObjRecordDate={date}
                   onClickId={onClickItem}
-                  clickId={clickId} />
-              ))) : 
-            <NotFound>
-              <FontAwesomeIcon icon={faClipboard} />
-              <span>{'(주문 내역 없음)'}</span>
-            </NotFound>
-            }
+                  clickId={clickId}
+                />
+              )) : 
+              <NotFound>
+                <FontAwesomeIcon icon={faClipboard} />
+                <span>{'(주문 내역 없음)'}</span>
+              </NotFound>
+          }
         </List>
       </Wrapper>
 
