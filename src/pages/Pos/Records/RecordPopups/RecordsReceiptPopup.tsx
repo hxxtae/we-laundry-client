@@ -39,7 +39,7 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
         setClickItems([]);
         setReceiptOkAct(true);  // 접수 완료 확인 창
         setReceiptExeChk(true); // 접수 완료 확인
-        client.invalidateQueries(queryKeys.records.listDate(nowDate));
+        client.invalidateQueries(queryKeys.records.listDateNow(nowDate));
         client.invalidateQueries(queryKeys.records.listDong(recordState.addname, recordState.dong));
         client.invalidateQueries(queryKeys.sale.statsOfProduct());
       },
