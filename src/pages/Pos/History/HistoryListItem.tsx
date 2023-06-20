@@ -8,17 +8,16 @@ import { recordRequestState } from '../../../global';
 interface IHistoryListItem {
   recordObjs: IRecordObjResponse[];
   recordObjRecordDate: string;
-  recordObjIndex: number;
   onClickId: (itemId: string) => void;
   clickId: string;
 }
 
-function HistoryListItem({ recordObjs, recordObjRecordDate, recordObjIndex, onClickId, clickId }: IHistoryListItem) {
+function HistoryListItem({ recordObjs, recordObjRecordDate, onClickId, clickId }: IHistoryListItem) {
   const setRecordState = useSetRecoilState(recordRequestState);
 
   const itemDay = (strDate: string) => {
     // NOTE: IOS에서는 날짜를 렌더링 하는 방식이 다르다. -> "/" 로 날짜를 구분해 주면 된다. ex) 2022. 5. 5. -> 2022/5/5
-    const dateFormat = strDate.trim().replace(/[\.\s]+/g, '/').slice(0, -1);
+    const dateFormat = strDate.trim().replace(/[.\s]+/g, '/').slice(0, -1);
     const days = ['일', '월', '화', '수', '목', '금', '토'];
     const day = new Date(dateFormat).getDay();
     return days[day];
@@ -54,24 +53,25 @@ function HistoryListItem({ recordObjs, recordObjRecordDate, recordObjIndex, onCl
         <span>{new Date(recordObjRecordDate).toLocaleDateString()}</span>
         <span>{`(${itemDay(new Date(recordObjRecordDate).toLocaleDateString())})`}</span>
       </DateItem>
-      {recordObjs.slice(recordObjIndex).map((obj) => (
-        recordObjRecordDate === obj.recordDate && (
-          <AnyItem key={obj.id} onClick={() => onClickItem(obj)} select={clickId === obj.id}>
+      {
+        recordObjs?.map((history) => (
+          <AnyItem key={history.id} onClick={() => onClickItem(history)} select={clickId === history.id}>
             <TopGroup>
-              <span>{obj.addname}</span>
-              <span>{obj.dong}</span>
-              <span>{obj.ho}</span>
+              <span>{history.addname}</span>
+              <span>{history.dong}</span>
+              <span>{history.ho}</span>
             </TopGroup>
             <BottomGroup>
-              <span>{`${obj.recordPrice.toLocaleString()}원`}</span>
-              <span>{`${obj.records.laundry[0].productName} ${remainCnt(obj.recordCount)}`}</span>
+              <span>{`${history.recordPrice.toLocaleString()}원`}</span>
+              <span>{`${history.records.laundry[0].productName} ${remainCnt(history.recordCount)}`}</span>
             </BottomGroup>
-            {!!obj.records.repair.length && 
+            {!!history.records.repair.length && 
               <RepairChk>
                 {'수선'}
               </RepairChk> }
           </AnyItem>
-      )))}
+        ))
+      }
     </ItemBox>
   )
 }

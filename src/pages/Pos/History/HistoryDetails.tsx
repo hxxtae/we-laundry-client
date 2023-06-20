@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { buttonStyle, colors, dragging, includes, media, toastStyle } from '../../../styles';
 import { DeleteConfirm, LoadingComponent, Overlay } from '../../../components';
 import { recordRequestState, recordsApi } from '../../../global';
-import { dateToString } from '../../../components/DateComponent';
 import { queryKeys } from '../../../util';
 import HistoryDetailList from './HistoryDetailList';
 

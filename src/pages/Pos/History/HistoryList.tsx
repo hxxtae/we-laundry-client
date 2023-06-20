@@ -20,20 +20,29 @@ function HistoryList() {
     dong: '',
     ho: '',
   });
-  console.log(searchObj);
   const [dateActive, setDateActive] = useState(false);
   const [customerActive, setCustomerActive] = useState(false);
   const [clickId, setClickId] = useState('');
   const { historyLoading, reHistoryLoading, historyDatas } = useHistoryFetch(searchObj);
   const searchLoading = historyLoading || reHistoryLoading;
 
-  const findIdx = (datas: IRecordObjResponse[], value: string) => {
-    return datas.findIndex((obj) => obj.recordDate === value);
+  const onHistoryDatas = (datas: IRecordObjResponse[]) => {
+    const historyMap = new Map();
+    historyMap.set(dateToString(datas[0].recordDate), []);
+    for (const history of datas) {
+      const key = dateToString(history.recordDate);
+      if (historyMap.get(key)) {
+        historyMap.get(key).push(history);
+        continue;
+      }
+      historyMap.set(key, []);
+    }
+    return [...historyMap];
   }
 
   const onClickItem = useCallback((itemId: string) => {
     setClickId(itemId);
-  }, [clickId]);
+  }, []);
 
   return (
     <>
@@ -43,22 +52,22 @@ function HistoryList() {
           <CusButton onClick={() => setCustomerActive(true)}>{'주소로 검색'}</CusButton>
         </ButtonGroup>
         <List>
-          {!!(historyDatas?.length) ?
-            historyDatas.map((obj, index, arr) => (
-              findIdx(arr, obj.recordDate) === index && (
+          {
+            !!(historyDatas?.length) ? 
+              onHistoryDatas(historyDatas).map(([date, historyArr]) => (
                 <HistoryListItem
-                  key={obj.id}
-                  recordObjs={arr}
-                  recordObjRecordDate={obj.recordDate}
-                  recordObjIndex={index}
+                  key={date}
+                  recordObjs={historyArr}
+                  recordObjRecordDate={date}
                   onClickId={onClickItem}
-                  clickId={clickId} />
-              ))) : 
-            <NotFound>
-              <FontAwesomeIcon icon={faClipboard} />
-              <span>{'(주문 내역 없음)'}</span>
-            </NotFound>
-            }
+                  clickId={clickId}
+                />
+              )) : 
+              <NotFound>
+                <FontAwesomeIcon icon={faClipboard} />
+                <span>{'(주문 내역 없음)'}</span>
+              </NotFound>
+          }
         </List>
       </Wrapper>
 
