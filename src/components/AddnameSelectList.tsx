@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { dragging, includes, scroll } from '../styles';
+import { scroll, selectStyle } from '../styles';
 import { IAddressResponse } from '../services/address';
 import { useAddressFetch } from '../hooks';
 import { LoadingItem } from './index';
@@ -32,9 +32,7 @@ function AddnameSelectList({ selectAct, onSelectClick }: IAddnameSelectList) {
               key={item.id}
               chk={item.id === selectChk ? 'true' : 'false'}
               onClick={() => onClick(item.id, item.addname, item.addfullname)}>
-              <ItemText>
-                {item.addname}
-              </ItemText>
+              {item.addname}
             </SelectItem>
           ))}
         </SelectBox>}
@@ -63,32 +61,17 @@ const selectVariant = {
 }
 
 const SelectBox = styled(motion.ul)`
-  position: absolute;
-  top: 40px;
-  left: 0;
-  ${includes.flexBox('center', 'flex-start')}
-  flex-direction: column;
-  width: 100%;
-  max-height: 300px;
-  background-color: ${(props) => props.theme.bgColor};
-  border: 1px solid ${(props) => props.theme.borderColor};
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  overflow-y: auto;
-  ${(props) => scroll.custom(8, props.theme.borderColorSub, props.theme.textColor)}
+  ${selectStyle.select(40)}
+  background-color: ${({ theme }) => theme.bgColor};
+  border: 1px solid ${({ theme }) => theme.borderColor};
+  ${({ theme }) => scroll.custom(8, theme.borderColorSub, theme.textColor)}
 `;
 
-const SelectItem = styled(motion.li)<{chk: string}>`
-  ${dragging.stop}
-  width: 100%;
-  padding: 10px 16px;
-  background-color: ${(props) => props.chk === 'true' ? props.theme.borderColor : 'transparent' };
+const SelectItem = styled(motion.li) <{ chk: string }>`
+  ${selectStyle.option()}
+  background-color: ${({ theme, chk }) => chk === 'true' ? theme.borderColor : 'transparent' };
+  color: ${(props) => props.theme.textColor};
   &:hover {
     background-color: ${(props) => props.theme.borderColor};
-    opacity: .6;
   }
-`;
-
-const ItemText = styled.span`
-  color: ${(props) => props.theme.textColor};
 `;
