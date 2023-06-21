@@ -35,7 +35,7 @@ function HistoryList() {
         historyMap.get(key).push(history);
         continue;
       }
-      historyMap.set(key, []);
+      historyMap.set(key, [history]);
     }
     return [...historyMap];
   }
