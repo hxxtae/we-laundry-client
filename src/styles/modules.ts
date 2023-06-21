@@ -1,5 +1,5 @@
 import { colors } from './constants';
-import { media } from './mixins';
+import { dragging } from './mixins';
 
 /*  
 --------------------------------
@@ -16,7 +16,6 @@ export const inputStyle = {
     border: 1px solid ${colors.borderLight};
     border-radius: 4px;
     appearance: none;
-    transition: background-color border-color 200ms ease-in-out;
     font-weight: 400;
     font-size: 16px;
 
@@ -50,11 +49,11 @@ export const buttonStyle = {
   primary: (chk: boolean = false) => `
     ${buttonStyle.base()}
     color: white;
-    background-color: ${chk ? colors.green : colors.blue};
+    background-color: ${chk ? colors.lightGreen : colors.blue};
     transition: background-color 200ms ease-in-out;
 
     &:not(:disabled):hover {
-      background-color: ${chk ? colors.greenBlur : colors.blueLight};
+      background-color: ${chk ? colors.lightGreenBlur : colors.blueLight};
     }
   `,
 
@@ -108,3 +107,28 @@ export const buttonStyle = {
   Select Style
 --------------------------------
 */
+export const selectStyle = {
+  select: (top: number) => `
+    top: ${top}px;
+    position: absolute;
+    left: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    max-height: 300px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    overflow-y: auto;
+  `,
+  
+  option: () => `
+    ${dragging.stop()}
+    width: 100%;
+    padding: 10px 16px;
+    &:hover {
+      opacity: .6;
+    }
+  `,
+}
