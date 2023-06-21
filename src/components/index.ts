@@ -15,3 +15,4 @@ export { default as DateComponent } from './DateComponent';
 export { default as AddnameSelectList } from './AddnameSelectList';
 export { default as Pagination } from './Pagination';
 export { default as PageRouterTitle } from './PageRouterTitle';
+export { default as DateKind } from './DateKind';

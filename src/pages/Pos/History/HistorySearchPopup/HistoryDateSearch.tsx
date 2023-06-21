@@ -4,8 +4,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import { dateToString } from '../../../../components/DateComponent';
-import { buttonStyle, includes, inputStyle, media } from '../../../../styles';
-import { InputTitles, DateComponent } from '../../../../components';
+import { buttonStyle, includes, media } from '../../../../styles';
+import { InputTitles, DateComponent, DateKind } from '../../../../components';
 import { IRecordSearchRequest } from '../../../../services/records';
 
 interface IHistoryDateSearch {
@@ -16,22 +16,28 @@ interface IHistoryDateSearch {
 
 function HistoryDateSearch({ setDateActive, setSearchObj, searchObj }: IHistoryDateSearch) {
   const [searchDate, setSearchDate] = useState(dateToString(searchObj.recordDate));
-  const [select, setSelect] = useState(searchObj.recordDateKind);
+  const [searchKind, setSearchKind] = useState(searchObj.recordDateKind);
+  const [searchKindAct, setSearchKindAct] = useState(false);
 
   const onSearch = () => {
     setSearchObj(prev => ({
       ...prev,
       recordDate: searchDate,
-      recordDateKind: select,
+      recordDateKind: searchKind,
       addname: '',
       dong: '',
       ho: ''
     }));
     setDateActive(false);
+  };
+
+  const onClickSelect = () => {
+    setSearchKindAct((prev) => !prev);
   }
 
-  const onChange = (e: any) => {
-    setSelect(e.target.value);
+  const onChangeSelect = (kind: string) => {
+    setSearchKind(kind);
+    setSearchKindAct(false);
   }
 
   return (
@@ -43,11 +49,12 @@ function HistoryDateSearch({ setDateActive, setSearchObj, searchObj }: IHistoryD
         <InputTitles title='날짜 선택' des='원하는 날짜를 선택해주세요.' />
         <InputBox>
           <DateComponent thisDate={searchDate} setThisDate={setSearchDate} />
-          <DateKind onChange={onChange} defaultValue={select}>
-            <option value="1d">하루</option>
-            <option value="7d">일주일</option>
-            <option value="1m">한 달</option>
-          </DateKind>
+          <DateKind
+            selectKindAct={searchKindAct}
+            selectKind={searchKind}
+            onChangeSelect={onChangeSelect}
+            onClickSelect={onClickSelect}
+          />
         </InputBox>
         <ButtonGroup>
           <Submit type='button' onClick={onSearch}>{'조회'}</Submit>
@@ -104,20 +111,6 @@ const Close = styled.button`
 const InputBox = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-const DateKind = styled.select`
-  ${inputStyle.base()}
-  background-color: ${({ theme }) => theme.inputColor};
-  border-color: ${(props) => props.theme.borderColor };
-  color: ${({ theme }) => theme.textColor};
-  max-width: 80px;
-  cursor: pointer;
-
-  & option {
-    cursor: pointer;
-    text-align: center;
-  }
 `;
 
 const ButtonGroup = styled.div`

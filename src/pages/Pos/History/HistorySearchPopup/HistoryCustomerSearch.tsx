@@ -40,7 +40,7 @@ function HistoryCustomerSearch({ setCustomerActive, setSearchObj, searchObj }: I
         <RecordDong searchActive={false} />
         <RecordHo searchActive={true} />
         <ButtonBox>
-          <Submit>{'확인'}</Submit>
+          <Submit>{'조회'}</Submit>
         </ButtonBox>
         <Close type='button' onClick={() => setCustomerActive(false)}>
           <FontAwesomeIcon icon={faXmark} />

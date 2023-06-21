@@ -55,7 +55,7 @@ export interface IRecordRequest {
 
 export interface IRecordSearchRequestByDate {
   recordDate: string;
-  recordDateKind: '1d' | '7d' | '1m';
+  recordDateKind: string;
 }
 
 export interface IRecordSearchRequestByAdd {
