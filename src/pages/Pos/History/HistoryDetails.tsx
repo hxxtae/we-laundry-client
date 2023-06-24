@@ -16,6 +16,7 @@ function HistoryDetails() {
   const client = useQueryClient();
   const { isLoading, mutate } = useMutation((id: string) => recordService.deleteRecord(id));
 
+  console.log('detail')
   const onUpdateClick = () => {
     alert('준비중 입니다. *^^*');
   }
@@ -28,6 +29,11 @@ function HistoryDetails() {
     setDeletePopup(true);
   }
 
+  const onDeleteContent = () => {
+    const { addname, dong, ho } = recordState;
+    return `${addname} ${dong} - ${ho}`;
+  }
+
   const onDelete = (id: string) => {
     const recordId = id;
     if (!recordId) return;
@@ -35,13 +41,7 @@ function HistoryDetails() {
     mutate(recordId, {
       onSuccess: () => {
         toastStyle.info('주문 내역이 삭제되었습니다.');
-        const { recordDate, addname, dong } = recordState;
-        if (!recordDate) {
-          client.invalidateQueries(queryKeys.records.list());
-          return;
-        }
         client.invalidateQueries(queryKeys.records.list());
-        client.invalidateQueries(queryKeys.records.listDong(addname, dong));
         client.invalidateQueries(queryKeys.sale.statsOfProduct());
       },
       onError: (error: any) => {
@@ -66,14 +66,18 @@ function HistoryDetails() {
           </ReceiptGroup>
         </GroupBox>
         <Control>
-          <UpdateButton type='button' onClick={onUpdateClick}>{`내역 수정`}</UpdateButton>
+          {/* <UpdateButton type='button' onClick={onUpdateClick}>{`내역 수정`}</UpdateButton> */}
           <DeleteButton type='button' onClick={onDeleteClick}>{`내역 삭제`}</DeleteButton>
         </Control>
       </Wrapper>
 
       {deletePopup && 
         <Overlay>
-          <DeleteConfirm deleteId={recordState.id || ''} onDelete={onDelete} setDeletePop={setDeletePopup} />
+          <DeleteConfirm
+            deleteId={recordState.id || ''}
+            content={onDeleteContent()}
+            onDelete={onDelete}
+            setDeletePop={setDeletePopup} />
         </Overlay>}
       {isLoading && 
         <Overlay>

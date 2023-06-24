@@ -154,6 +154,7 @@ POST /auth/logout    - User logout
 
 ### **customer**
 ```
+GET /customer/all                - Get list of customers
 GET /customer?addname&dong&ho    - Find customers by its address name, dong, ho
 POST /customer                   - Create a new customer
 PUT /customer/:id                - Update an existing customer by its ID
@@ -181,10 +182,10 @@ DELETE /products/:id     - Delete an existing category by its ID
 
 ### **records**
 ```
-GET /records?addname&dong&ho    - Find records by customer's address name, dong, ho
-GET /records/:recordDate        - Find records by its Date
-POST /records                   - Create a new record
-DELETE /records/:id             - Delete an existing record by its ID
+GET /records?addname&dong&ho        - Find records by customer's address name, dong, ho
+GET /records/date?startDate&endDate - Find records by its Date
+POST /records                       - Create a new record
+DELETE /records/:id                 - Delete an existing record by its ID
 ```
 
 ### **sale**
