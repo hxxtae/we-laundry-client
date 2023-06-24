@@ -23,10 +23,6 @@ function HistoryListItem({ recordObjs, recordObjRecordDate, onClickId, clickId }
     return days[day];
   }
 
-  const remainCnt = (count: number) => {
-    return count === 1 ? '' : `외 ${count - 1}건`;
-  }
-
   const onClickItem = (recordObj: IRecordObjResponse) => {
     const { id, recordDate, recordCount, recordPrice, cusid, addid, addname, addfullname, dong, ho, records } = recordObj;
     setRecordState((prevObj) => ({
@@ -47,6 +43,17 @@ function HistoryListItem({ recordObjs, recordObjRecordDate, onClickId, clickId }
     onClickId(id);
   }
 
+  const remainCnt = (count: number) => {
+    return count === 1 ? '' : `외 ${count - 1}건`;
+  }
+
+  const onListItemNames = (recordObj: IRecordObjResponse) => {
+    const { laundry, repair } = recordObj.records;
+    const firstName = laundry?.length ? laundry[0].productName : repair[0].repairName;
+    const otherCount = (laundry?.length + repair?.length);
+    return `${firstName} ${remainCnt(otherCount)}`;
+  }
+
   return (
     <ItemBox>
       <DateItem>
@@ -63,7 +70,7 @@ function HistoryListItem({ recordObjs, recordObjRecordDate, onClickId, clickId }
             </TopGroup>
             <BottomGroup>
               <span>{`${history.recordPrice.toLocaleString()}원`}</span>
-              <span>{`${history.records.laundry[0].productName} ${remainCnt(history.recordCount)}`}</span>
+              <span>{onListItemNames(history)}</span>
             </BottomGroup>
             {!!history.records.repair.length && 
               <RepairChk>
