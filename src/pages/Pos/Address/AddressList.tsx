@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useState } from 'react';
 import '@fortawesome/fontawesome-svg-core';
 import styled from 'styled-components';
@@ -10,16 +10,15 @@ import { usePaging, useAddressFetch } from '../../../hooks';
 import { addressRequestState } from '../../../global';
 import { addressApi } from '../../../global/atoms';
 import { queryKeys } from '../../../util';
-import { IAddressResponse } from '../../../services/address';
+import { IAddressRequest, IAddressResponse } from '../../../services/address';
 
 interface IAddressList {
   setUpdateActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function AddressList({ setUpdateActive }: IAddressList) {
-  const setData = useSetRecoilState(addressRequestState);
+  const [addressState, setAddressState] = useRecoilState<IAddressRequest>(addressRequestState);
   const [deletePop, setDeletePop] = useState(false);
-  const [deleteId, setDeleteId] = useState('');
   const addressService = useRecoilValue(addressApi);
   const client = useQueryClient();
 
@@ -29,21 +28,33 @@ function AddressList({ setUpdateActive }: IAddressList) {
   const pageObj = usePaging<IAddressResponse>(addDatas, addDatas?.length, 10, 5);
 
   const onUpdateActive = (id: string, addname: string, addfullname: string) => {
-    setData({
+    if (!id) return;
+    setAddressState((prev) => ({
+      ...prev,
       id,
       addname,
       addfullname,
-    });
+    }));
     setUpdateActive(true);
   };
 
-  const onDeleteActive = (id: string) => {
+  const onDeleteActive = (id: string, addname: string) => {
+    if (!id) return;
     setDeletePop(true);
-    setDeleteId(id);
+    setAddressState((prev) => ({
+      ...prev,
+      id,
+      addname,
+    }));
     setUpdateActive(false);
   }
 
+  const onDeleteContent = (address: IAddressRequest) => {
+    return address.addname;
+  }
+
   const onDelete = (id: string) => {
+    if (!id) return;
     mutate(id, {
       onSuccess: () => {
         client.invalidateQueries(queryKeys.address.all);
@@ -76,7 +87,7 @@ function AddressList({ setUpdateActive }: IAddressList) {
           <Item>{item.createdAt}</Item>
           <Item>
             <Update type='button' onClick={() => onUpdateActive(item.id, item.addname, item.addfullname)} disabled={reLoading}>{'변경'}</Update>
-            <Delete type='button' onClick={() => onDeleteActive(item.id)}
+            <Delete type='button' onClick={() => onDeleteActive(item.id, item.addname)}
               disabled={deleteLoading || loading || reLoading}>{'삭제'}</Delete>
           </Item>
         </Items>))}
@@ -85,7 +96,12 @@ function AddressList({ setUpdateActive }: IAddressList) {
 
       {deletePop &&
         <Overlay>
-          <DeleteConfirm deleteId={deleteId} onDelete={onDelete} setDeletePop={setDeletePop} loading={deleteLoading} />
+          <DeleteConfirm
+            deleteId={addressState.id!}
+            content={onDeleteContent(addressState)}
+            onDelete={onDelete}
+            setDeletePop={setDeletePop}
+            loading={deleteLoading} />
         </Overlay>}
       {(addLoading || deleteLoading) ?
         <Overlay>

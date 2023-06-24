@@ -39,7 +39,7 @@ const Box = styled.div`
   ${includes.flexBox()}
   flex-direction: column;
   width: 300px;
-  height: 120px;
+  padding: 20px 0;
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 5px;
   background-color: ${(props) => props.theme.bgColor};
@@ -48,12 +48,11 @@ const Box = styled.div`
 const Text = styled.p`
   ${includes.flexBox('center', 'flex-start')}
   flex-direction: column;
-  gap: 5px;
+  gap: 15px;
   width: 100%;
-  height: 40px;
   font-size: 14px;
   color: ${(props) => props.theme.textColor};
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   /* text-align: center; */
 `;
 
