@@ -9,9 +9,10 @@ import { recordLaundryState, recordReceiptExeState, recordRepairState, recordReq
 import { buttonStyle, colors, dragging, includes, media, scroll, toastStyle } from '../../../../styles';
 import { LoadingComponent, Overlay } from '../../../../components';
 import { IRecordRequest } from '../../../../services/records';
-import ReceiptSuccess from './RecordReceiptComponent/ReceiptSuccess';
 import { dateToString } from '../../../../components/DateComponent';
 import { queryKeys } from '../../../../util';
+import ReceiptSuccess from './RecordReceiptComponent/ReceiptSuccess';
+import RecordSalePopup from './RecordSalePopup';
 
 interface IRecordReceiptPopup {
   totalPay: { price: number, count: number };
@@ -28,8 +29,8 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
   const [sumLaundry, setSumLaundry] = useState({ price: 0, count: 0 });
   const [sumRepair, setSumRepair] = useState({ price: 0, count: 0 });
   const [receiptOkAct, setReceiptOkAct] = useState(false);
+  const [saleAct, setSaleAct] = useState(false);
   const client = useQueryClient();
-  const nowDate = dateToString();
   
   const { isLoading, mutate } = useMutation((_recordState: IRecordRequest) => recordsService.createRecord(_recordState));
 
@@ -39,7 +40,7 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
         setClickItems([]);
         setReceiptOkAct(true);  // 접수 완료 확인 창
         setReceiptExeChk(true); // 접수 완료 확인
-        client.invalidateQueries(queryKeys.records.listDateNow(nowDate));
+        client.invalidateQueries(queryKeys.records.listDateNow(dateToString()));
         client.invalidateQueries(queryKeys.records.listDong(recordState.addname, recordState.dong));
         client.invalidateQueries(queryKeys.sale.statsOfProduct());
       },
@@ -49,6 +50,10 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
       }
     });
   };
+
+  const onToggleSalePopup = () => {
+    setSaleAct((prev) => !prev);
+  }
 
   useEffect(() => {
     const sumLaundryObj = laundry.reduce((prev, curr) => ({
@@ -109,7 +114,7 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
             <Amount>{`${totalPay.price.toLocaleString()}원`}</Amount>
           </ReceiptAmount>
           <ReceiptSale>
-            <SaleButton type='button'>
+            <SaleButton type='button' onClick={onToggleSalePopup}>
               <p>
                 {'할인'}
                 <FontAwesomeIcon icon={faChevronRight} />
@@ -143,6 +148,10 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
             sumRepair={sumRepair}
             setReceiptAct={setReceiptAct}
             setReceiptOkAct={setReceiptOkAct} />
+        </Overlay>}
+      {saleAct && 
+        <Overlay>
+          <RecordSalePopup totalPay={totalPay} onClose={onToggleSalePopup} />
         </Overlay>}
     </>
   )
@@ -289,9 +298,7 @@ const Amount = styled.strong`
 `;
 
 const ReceiptSale = styled.div`
-  width: 100%;
   padding: 15px 0;
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
 `;
 
 const SaleButton = styled.button`
@@ -313,9 +320,11 @@ const SaleButton = styled.button`
 `;
 
 const ReceiptPayBox = styled.div`
-  ${includes.flexBox()}
-  padding-top: 15px;
+  ${includes.flexBox('center', 'flex-start')}
   ${dragging.stop}
+  border-top: 1px solid ${(props) => props.theme.borderColor};
+  padding-top: 15px;
+  width: 100%;
 `;
 
 const ReceiptPayment = styled.button`
