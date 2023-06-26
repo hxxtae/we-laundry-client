@@ -2,25 +2,29 @@ import '@fortawesome/fontawesome-svg-core';
 import styled from 'styled-components';
 import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FieldValues, UseFormSetValue } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 import { dragging, includes } from '../styles';
 
 interface IKeyboardBox {
-  setValue: UseFormSetValue<FieldValues>;
+  setValue: (key: string, value: string) => void;
   name: string;
   value: string;
+  maxNum?: number;
 }
 
-function KeyboardBox({ setValue, name, value }: IKeyboardBox) {
+function KeyboardBox({ setValue, name, value, maxNum }: IKeyboardBox) {
   const keys = useRef(value);
   const keyPad = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const onClick = (num: string) => {
     const newKeys = [...keys.current];
     newKeys.push(num);
+    if (maxNum !== undefined) {
+      const newNum = parseInt(newKeys.join(''));
+      if (newNum > maxNum) return;
+    }
     const result = newKeys.join('');
     setValue(name, result);
     keys.current = result;
@@ -39,8 +43,19 @@ function KeyboardBox({ setValue, name, value }: IKeyboardBox) {
     keys.current = result;
   }
 
+  useEffect(() => {
+    if (maxNum !== undefined) {
+      keys.current = '0';
+    }
+  }, [maxNum]);
+
   return (
-    <SelectBox variants={boxVariant} initial="init" animate="start" exit="end">
+    <SelectBox
+      variants={boxVariant}
+      initial="init"
+      animate="start"
+      exit="end"
+    >
       <SelectItems variants={itemsVariant}>
         {keyPad.map((item) => (
           <SelectItem

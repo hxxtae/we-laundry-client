@@ -83,13 +83,15 @@ export const useHistoryFetch = ({ recordDate: startDate, recordDateKind, addname
       return;
     }
 
-    const { id, recordDate, recordCount, recordPrice, cusid, addid, addname, addfullname, dong, ho, records } = fetchDatas[0];
+    const { id, recordDate, recordCount, recordPrice, recordSale, recordSalePrice, cusid, addid, addname, addfullname, dong, ho, records } = fetchDatas[0];
     setRecordState((prevObj) => ({
       ...prevObj,
       id,
       recordDate,
       recordCount,
       recordPrice,
+      recordSale,
+      recordSalePrice,
       cusid,
       addid,
       addname,

@@ -16,7 +16,6 @@ function HistoryDetails() {
   const client = useQueryClient();
   const { isLoading, mutate } = useMutation((id: string) => recordService.deleteRecord(id));
 
-  console.log('detail')
   const onUpdateClick = () => {
     alert('준비중 입니다. *^^*');
   }

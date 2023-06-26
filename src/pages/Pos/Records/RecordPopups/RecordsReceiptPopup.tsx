@@ -1,17 +1,18 @@
-import { faArrowLeft, faCashRegister, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCashRegister, faChevronRight, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { recordLaundryState, recordReceiptExeState, recordRepairState, recordRequestState, recordsApi } from '../../../../global';
 import { buttonStyle, colors, dragging, includes, media, scroll, toastStyle } from '../../../../styles';
 import { LoadingComponent, Overlay } from '../../../../components';
 import { IRecordRequest } from '../../../../services/records';
-import ReceiptSuccess from './RecordReceiptComponent/ReceiptSuccess';
 import { dateToString } from '../../../../components/DateComponent';
 import { queryKeys } from '../../../../util';
+import ReceiptSuccess from './RecordReceiptComponent/ReceiptSuccess';
+import RecordSalePopup from './RecordSalePopup';
 
 interface IRecordReceiptPopup {
   totalPay: { price: number, count: number };
@@ -22,14 +23,14 @@ interface IRecordReceiptPopup {
 function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecordReceiptPopup) {
   const laundry = useRecoilValue(recordLaundryState);
   const repair = useRecoilValue(recordRepairState);
-  const recordState = useRecoilValue(recordRequestState);
+  const [recordState, setRecordState] = useRecoilState(recordRequestState);
   const recordsService = useRecoilValue(recordsApi);
   const setReceiptExeChk = useSetRecoilState(recordReceiptExeState);
   const [sumLaundry, setSumLaundry] = useState({ price: 0, count: 0 });
   const [sumRepair, setSumRepair] = useState({ price: 0, count: 0 });
   const [receiptOkAct, setReceiptOkAct] = useState(false);
+  const [saleAct, setSaleAct] = useState(false);
   const client = useQueryClient();
-  const nowDate = dateToString();
   
   const { isLoading, mutate } = useMutation((_recordState: IRecordRequest) => recordsService.createRecord(_recordState));
 
@@ -39,7 +40,7 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
         setClickItems([]);
         setReceiptOkAct(true);  // 접수 완료 확인 창
         setReceiptExeChk(true); // 접수 완료 확인
-        client.invalidateQueries(queryKeys.records.listDateNow(nowDate));
+        client.invalidateQueries(queryKeys.records.listDateNow(dateToString()));
         client.invalidateQueries(queryKeys.records.listDong(recordState.addname, recordState.dong));
         client.invalidateQueries(queryKeys.sale.statsOfProduct());
       },
@@ -49,6 +50,24 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
       }
     });
   };
+
+  const onAmountPay = () => {
+    const { recordPrice, recordSalePrice, recordSale } = recordState;
+    return recordSale ? recordSalePrice : recordPrice;
+  }
+
+  const onPrevReceipt = () => {
+    setRecordState((prevRecord) => ({
+      ...prevRecord,
+      recordSale: 0,
+      recordSalePrice: 0,
+    }))
+    setReceiptAct(false);
+  }
+
+  const onToggleSalePopup = () => {
+    setSaleAct((prev) => !prev);
+  }
 
   useEffect(() => {
     const sumLaundryObj = laundry.reduce((prev, curr) => ({
@@ -106,14 +125,18 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
         <RightGroup>
           <ReceiptAmount>
             <AmountTitle>{'결제 금액'}</AmountTitle>
-            <Amount>{`${totalPay.price.toLocaleString()}원`}</Amount>
+            <Amount>{`${onAmountPay().toLocaleString()}원`}</Amount>
           </ReceiptAmount>
           <ReceiptSale>
-            <SaleButton type='button'>
+            <SaleButton type='button' onClick={onToggleSalePopup}>
               <p>
                 {'할인'}
                 <FontAwesomeIcon icon={faChevronRight} />
               </p>
+              {
+                recordState.recordSale ?
+                <span><FontAwesomeIcon icon={faMinus} />{recordState.recordSale.toLocaleString()}</span> : null
+              }
             </SaleButton>
           </ReceiptSale>
           <ReceiptPayBox>
@@ -123,7 +146,7 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
             </ReceiptPayment>
             <ReceiptCancel
               type='button'
-              onClick={() => setReceiptAct(false)} >
+              onClick={onPrevReceipt} >
               <FontAwesomeIcon icon={faArrowLeft} />
               {'뒤로가기'}
             </ReceiptCancel>
@@ -143,6 +166,13 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
             sumRepair={sumRepair}
             setReceiptAct={setReceiptAct}
             setReceiptOkAct={setReceiptOkAct} />
+        </Overlay>}
+      {saleAct && 
+        <Overlay>
+          <RecordSalePopup
+            totalPay={totalPay}
+            prevSale={recordState.recordSale}
+            onClose={onToggleSalePopup} />
         </Overlay>}
     </>
   )
@@ -289,13 +319,11 @@ const Amount = styled.strong`
 `;
 
 const ReceiptSale = styled.div`
-  width: 100%;
   padding: 15px 0;
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
 `;
 
 const SaleButton = styled.button`
-  ${includes.flexBox('flex-start', 'flex-start')}
+  ${includes.flexBox('flex-start', 'space-between')}
   ${buttonStyle.outline}
   width: 200px;
   height: 70px;
@@ -303,6 +331,20 @@ const SaleButton = styled.button`
   
   svg {
     padding-left: 5px;
+    padding-right: 2px;
+  }
+
+  span {
+    color: ${colors.red};
+    font-size: 18px;
+    font-weight: 600;
+    align-self: flex-end;
+
+    &:after {
+      content: '원';
+      color: inherit;
+      font-size: 16px;
+    }
   }
 
   @media ${media.pc_s} {
@@ -313,9 +355,11 @@ const SaleButton = styled.button`
 `;
 
 const ReceiptPayBox = styled.div`
-  ${includes.flexBox()}
-  padding-top: 15px;
+  ${includes.flexBox('center', 'flex-start')}
   ${dragging.stop}
+  border-top: 1px solid ${(props) => props.theme.borderColor};
+  padding-top: 15px;
+  width: 100%;
 `;
 
 const ReceiptPayment = styled.button`
