@@ -1,8 +1,8 @@
-import { faArrowLeft, faCashRegister, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCashRegister, faChevronRight, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { recordLaundryState, recordReceiptExeState, recordRepairState, recordRequestState, recordsApi } from '../../../../global';
@@ -23,7 +23,7 @@ interface IRecordReceiptPopup {
 function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecordReceiptPopup) {
   const laundry = useRecoilValue(recordLaundryState);
   const repair = useRecoilValue(recordRepairState);
-  const recordState = useRecoilValue(recordRequestState);
+  const [recordState, setRecordState] = useRecoilState(recordRequestState);
   const recordsService = useRecoilValue(recordsApi);
   const setReceiptExeChk = useSetRecoilState(recordReceiptExeState);
   const [sumLaundry, setSumLaundry] = useState({ price: 0, count: 0 });
@@ -50,6 +50,20 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
       }
     });
   };
+
+  const onAmountPay = () => {
+    const { recordPrice, recordSalePrice, recordSale } = recordState;
+    return recordSale ? recordSalePrice : recordPrice;
+  }
+
+  const onPrevReceipt = () => {
+    setRecordState((prevRecord) => ({
+      ...prevRecord,
+      recordSale: 0,
+      recordSalePrice: 0,
+    }))
+    setReceiptAct(false);
+  }
 
   const onToggleSalePopup = () => {
     setSaleAct((prev) => !prev);
@@ -111,7 +125,7 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
         <RightGroup>
           <ReceiptAmount>
             <AmountTitle>{'결제 금액'}</AmountTitle>
-            <Amount>{`${totalPay.price.toLocaleString()}원`}</Amount>
+            <Amount>{`${onAmountPay().toLocaleString()}원`}</Amount>
           </ReceiptAmount>
           <ReceiptSale>
             <SaleButton type='button' onClick={onToggleSalePopup}>
@@ -119,6 +133,10 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
                 {'할인'}
                 <FontAwesomeIcon icon={faChevronRight} />
               </p>
+              {
+                recordState.recordSale ?
+                <span><FontAwesomeIcon icon={faMinus} />{recordState.recordSale.toLocaleString()}</span> : null
+              }
             </SaleButton>
           </ReceiptSale>
           <ReceiptPayBox>
@@ -128,7 +146,7 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
             </ReceiptPayment>
             <ReceiptCancel
               type='button'
-              onClick={() => setReceiptAct(false)} >
+              onClick={onPrevReceipt} >
               <FontAwesomeIcon icon={faArrowLeft} />
               {'뒤로가기'}
             </ReceiptCancel>
@@ -151,7 +169,10 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
         </Overlay>}
       {saleAct && 
         <Overlay>
-          <RecordSalePopup totalPay={totalPay} onClose={onToggleSalePopup} />
+          <RecordSalePopup
+            totalPay={totalPay}
+            prevSale={recordState.recordSale}
+            onClose={onToggleSalePopup} />
         </Overlay>}
     </>
   )
@@ -302,7 +323,7 @@ const ReceiptSale = styled.div`
 `;
 
 const SaleButton = styled.button`
-  ${includes.flexBox('flex-start', 'flex-start')}
+  ${includes.flexBox('flex-start', 'space-between')}
   ${buttonStyle.outline}
   width: 200px;
   height: 70px;
@@ -310,6 +331,20 @@ const SaleButton = styled.button`
   
   svg {
     padding-left: 5px;
+    padding-right: 2px;
+  }
+
+  span {
+    color: ${colors.red};
+    font-size: 18px;
+    font-weight: 600;
+    align-self: flex-end;
+
+    &:after {
+      content: '원';
+      color: inherit;
+      font-size: 16px;
+    }
   }
 
   @media ${media.pc_s} {

@@ -26,6 +26,8 @@ export interface IRecordObjResponse {
   recordDate: string;
   recordCount: number;
   recordPrice: number;
+  recordSale: number;
+  recordSalePrice: number;
   cusid: string;
   addid: string;
   addname: string;
@@ -43,6 +45,8 @@ export interface IRecordRequest {
   recordDate?: string;
   recordCount: number;
   recordPrice: number;
+  recordSale: number;
+  recordSalePrice: number;
   cusid: string;
   addid: string;
   addname: string;
@@ -67,7 +71,7 @@ export interface IRecordSearchRequestByAdd {
 export type IRecordSearchRequest = IRecordSearchRequestByDate & IRecordSearchRequestByAdd;
 
 interface IRecordsService {
-  createRecord: ({ recordCount, recordPrice, cusid, addid, addname, dong, ho, addfullname, laundry, repair }: IRecordRequest) => Promise<AxiosResponse>;
+  createRecord: ({ recordCount, recordPrice, recordSale, recordSalePrice, cusid, addid, addname, dong, ho, addfullname, laundry, repair }: IRecordRequest) => Promise<AxiosResponse>;
   searchRecordByDate: (startDate: string, endDate: string) => Promise<AxiosResponse>;
   searchRecordByCustomer: ({ addname, dong, ho }: IRecordSearchRequestByAdd) => Promise<AxiosResponse>;
   deleteRecord: (id: string) => Promise<AxiosResponse>;
@@ -78,13 +82,15 @@ export default class RecordsService implements IRecordsService {
     this.http = http;
   }
 
-  async createRecord({ recordCount, recordPrice, cusid, addid, addname, dong, ho, addfullname, laundry, repair }: IRecordRequest) {
+  async createRecord({ recordCount, recordPrice, recordSale, recordSalePrice, cusid, addid, addname, dong, ho, addfullname, laundry, repair }: IRecordRequest) {
     const data = await this.http.fetch('/records', {
       method: 'POST',
       body: JSON.stringify({
         recordDate: dateToString(),
         recordCount,
         recordPrice,
+        recordSale,
+        recordSalePrice,
         cusid,
         addid,
         addname,

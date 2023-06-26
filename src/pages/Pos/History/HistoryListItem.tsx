@@ -24,13 +24,15 @@ function HistoryListItem({ recordObjs, recordObjRecordDate, onClickId, clickId }
   }
 
   const onClickItem = (recordObj: IRecordObjResponse) => {
-    const { id, recordDate, recordCount, recordPrice, cusid, addid, addname, addfullname, dong, ho, records } = recordObj;
+    const { id, recordDate, recordCount, recordPrice, recordSale, recordSalePrice, cusid, addid, addname, addfullname, dong, ho, records } = recordObj;
     setRecordState((prevObj) => ({
       ...prevObj,
       id,
       recordDate,
       recordCount,
       recordPrice,
+      recordSale,
+      recordSalePrice,
       cusid,
       addid,
       addname,

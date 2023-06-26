@@ -11,24 +11,27 @@ import { useSetRecoilState } from 'recoil';
 
 interface IRecordSalePopup {
   totalPay: { price: number, count: number };
+  prevSale: number;
   onClose: () => void;
 }
 
-function RecordSalePopup({ totalPay, onClose }: IRecordSalePopup) {
-  const [saleInput, setSaleInput] = useState(0);
+function RecordSalePopup({ totalPay, prevSale, onClose }: IRecordSalePopup) {
+  const [saleInput, setSaleInput] = useState(prevSale);
   const [saleKind, setSaleKind] = useState<'price' | 'rate'>('price');
   const [salePrice, setSalePrice] = useState(0);
   const setRecordState = useSetRecoilState(recordRequestState);
 
   const onSetValue = (key: string, value: string) => {
-    // 할인 로직 함수
     let inputValue = +value;
+    
+    // '금액'으로 할인
     if (saleKind === 'price') {
       setSaleInput(() => inputValue);
       setSalePrice(() => inputValue);
       return;
     }
 
+    // '비율'로 할인
     if (saleKind === 'rate') {
       const price = Math.round((totalPay.price * inputValue) / 100);
       setSaleInput(() => inputValue);
@@ -52,10 +55,23 @@ function RecordSalePopup({ totalPay, onClose }: IRecordSalePopup) {
     });
   }
 
+  const onApplyOfSale = () => {
+    setRecordState((prevRecord) => ({
+      ...prevRecord,
+      recordSale: salePrice,
+      recordSalePrice: salePrice ? (totalPay.price - salePrice) : 0,
+    }));
+    onClose();
+  }
+
   useEffect(() => {
     setSaleInput(0);
     setSalePrice(0);
   }, [saleKind]);
+
+  useEffect(() => {
+    onSetValue('recordSale', prevSale.toString());
+  }, []);
 
   return (
     <Section>
@@ -97,7 +113,7 @@ function RecordSalePopup({ totalPay, onClose }: IRecordSalePopup) {
               <span>할인 금액</span>
               <strong>{salePrice.toLocaleString()}원</strong>
             </Wrapper>
-            <Confirm>적용</Confirm>
+            <Confirm type='button' onClick={onApplyOfSale}>적용</Confirm>
           </SaleResult>
         </SaleBox>
 
