@@ -50,17 +50,39 @@ function HistoryDetails() {
     })
   }
 
+  const onReceiptPrice = () => {
+    const { recordPrice, recordSale, recordSalePrice } = recordState;
+    return recordSale ? recordSalePrice : recordPrice;
+  }
+
+  const onSaleComponent = () => {
+    return (
+      recordState.recordSale ? 
+      <SalePrice>
+        <h3>{'결제 할인'}</h3>
+        <strong>{`${recordState.recordSale.toLocaleString()}원`}</strong>
+      </SalePrice> : null
+    )
+  }
+
   return (
     <>
       <Wrapper>
         <Title>{'주문 상세'}</Title>
         <GroupBox>
           <SumGroup>
-            <SumTitle>{'총 주문 금액'}</SumTitle>
-            <Sum>{`${recordState.recordPrice.toLocaleString()}원`}</Sum>
+            <SumTitle>{'총 결제 금액'}</SumTitle>
+            <Sum>{`${onReceiptPrice().toLocaleString()}원`}</Sum>
           </SumGroup>
+          <SaleGroup>
+            <Total>
+              <h3>{'합계'}</h3>
+              <strong>{`${recordState.recordPrice.toLocaleString()}원`}</strong>
+            </Total>
+            {onSaleComponent()}
+          </SaleGroup>
           <ReceiptGroup>
-            <ReceiptTitle>{'주문 내역'}</ReceiptTitle>
+            <ReceiptTitle>{'결제 내역'}</ReceiptTitle>
             <HistoryDetailList />
           </ReceiptGroup>
         </GroupBox>
@@ -93,12 +115,10 @@ const Wrapper = styled.section`
   ${dragging.stop}
   ${includes.flexBox('flex-start', 'flex-start')}
   flex-direction: column;
-  padding-top: 10px;
   margin-left: 30px;
   align-items: stretch;
 
   @media ${media.pc_s} {
-    padding-top: 13px;
     margin-left: 40px;
   }
 
@@ -122,8 +142,12 @@ const GroupBox = styled.div`
 `;
 
 const SumGroup = styled.div`
-  padding: 20px 0;
+  padding: 20px 0 10px;
   border-bottom: 1px solid ${(props) => props.theme.borderColor};
+
+  @media ${media.pc_s} {
+    padding: 20px 0;
+  }
 `;
 
 const SumTitle = styled.h3`
@@ -146,8 +170,34 @@ const Sum = styled.span`
   }
 `;
 
+const SaleGroup = styled.div`
+  padding: 10px 0;
+  border-bottom: 1px solid ${(props) => props.theme.borderColor};
+  font-size: 15px;
+
+  strong {
+    font-size: 18px;
+  }
+
+  @media ${media.pc_s} {
+    padding: 20px 0;
+  }
+`;
+
+const Total = styled.div`
+  ${includes.flexBox('center', 'space-between')}
+  width: 70%;
+  font-weight: 600;
+`;
+
+const SalePrice = styled.div`
+  ${includes.flexBox('center', 'space-between')}
+  width: 70%;
+  margin-top: 20px;
+`;
+
 const ReceiptGroup = styled.div`
-  padding: 20px 0;
+  padding-top: 20px;
   border-bottom: 1px solid ${(props) => props.theme.borderColor};
 `;
 
@@ -155,6 +205,7 @@ const ReceiptTitle = styled.h3`
   font-size: 14px;
   font-weight: 600;
   color: ${colors.blueDark};
+  padding-bottom: 5px;
 
   @media ${media.pc_s} {
     font-size: 15px;
