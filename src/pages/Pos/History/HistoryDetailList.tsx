@@ -75,12 +75,12 @@ const ReceiptItem = styled.li`
   }
 
   strong {
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid ${({ theme }) => theme.textColor};
     font-size: 12px;
     font-weight: 600;
-    background-color: ${colors.lightGreen};
-    color: ${colors.white};
-    border-radius: 3px;
-    padding: 3px 8px;
+    color: ${({ theme }) => theme.textColor};
   }
 
   @media ${media.pc_s} {

@@ -5,7 +5,7 @@ import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { IRecordsOfRepair } from '../../../../services/records';
-import { buttonStyle, includes } from '../../../../styles';
+import { buttonStyle, includes, media } from '../../../../styles';
 import { recordRepairState } from '../../../../global';
 import { RecordRepairName } from '../RecordsInputs';
 import { RecordRepairPrice } from '../RecordsInputs';
@@ -57,11 +57,12 @@ export default RecordsRepairPopup;
 
 const InputGroup = styled.form`
   position: relative;
-  ${includes.flexBox("center", "flex-start")}
+  ${includes.flexBox("center", "center")}
   flex-direction: column;
-  width: 350px;
-  height: 350px;
-  padding: 20px;
+  gap: 25px;
+  width: 315px;
+  height: 315px;
+  padding: 25px;
   border: 1px solid ${(props) => props.theme.borderColor};
   border-radius: 4px;
   background-color: ${(props) => props.theme.bgColor};
@@ -88,6 +89,5 @@ const Close = styled.button`
 
 const Submit = styled.button`
   ${buttonStyle.open()}
-  margin-top: 50px;
   width: 100px;
 `;

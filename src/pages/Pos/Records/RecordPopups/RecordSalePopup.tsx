@@ -59,7 +59,7 @@ function RecordSalePopup({ totalPay, prevSale, onClose }: IRecordSalePopup) {
     setRecordState((prevRecord) => ({
       ...prevRecord,
       recordSale: salePrice,
-      recordSalePrice: salePrice ? (totalPay.price - salePrice) : 0,
+      recordSalePrice: salePrice ? (totalPay.price - salePrice) : totalPay.price,
     }));
     onClose();
   }
