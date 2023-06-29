@@ -60,6 +60,7 @@ function RecordsOrder() {
         ...prevRecordState,
         recordCount: totalPay.count,
         recordPrice: totalPay.price,
+        recordSalePrice: totalPay.price,
         laundry,
         repair,
       }

@@ -60,7 +60,7 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
     setRecordState((prevRecord) => ({
       ...prevRecord,
       recordSale: 0,
-      recordSalePrice: 0,
+      recordSalePrice: recordState.recordPrice,
     }))
     setReceiptAct(false);
   }
@@ -162,8 +162,7 @@ function RecordsReceiptPopup({ totalPay, setReceiptAct, setClickItems }: IRecord
       {receiptOkAct && 
         <Overlay>
           <ReceiptSuccess
-            sumLaundry={sumLaundry}
-            sumRepair={sumRepair}
+            recordObj={recordState}
             setReceiptAct={setReceiptAct}
             setReceiptOkAct={setReceiptOkAct} />
         </Overlay>}
