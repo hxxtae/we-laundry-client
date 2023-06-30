@@ -2,7 +2,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import { pathStr } from '../../routers/path';
@@ -11,6 +11,8 @@ import { buttonStyle, includes } from '../../styles';
 import { LoginPassword, LoginUserName } from './LoginInputs';
 import { LoadingButtonItem } from '../../components';
 
+type IBtnKind = 'customer' | 'interviewer';
+
 interface ILoginForm {
   username: string;
   password: string;
@@ -18,15 +20,15 @@ interface ILoginForm {
 
 function LoginForm() {
   const history = useHistory();
-  const [interviewer, setInterviewer] = useState(false);
   const authService = useRecoilValue(authApi);
   const setUser = useSetRecoilState(userState);
+  const [btnKind, setBtnKind] = useState<IBtnKind>('customer');
   const method = useForm<ILoginForm>();
   const { isLoading, mutate } = useMutation((loginData: ILoginForm) => authService.login(loginData));
 
   const onSubmit = ({ username, password }: ILoginForm) => {
     const data = { username, password };
-    setInterviewer(false);
+    setBtnKind('customer');
     isLoading || mutate(data, {
       onSuccess: () => {
         method.setValue('username', '');
@@ -43,7 +45,7 @@ function LoginForm() {
 
   const onInterviewerSubmit = () => {
     const data = { username: process.env.REACT_APP_INTERVIEWER_ID!, password: process.env.REACT_APP_INTERVIEWER_PW! };
-    setInterviewer(true);
+    setBtnKind('interviewer');
     isLoading || mutate(data, {
       onSuccess: () => {
         history.push(pathStr('pos'));
@@ -59,10 +61,9 @@ function LoginForm() {
     history.push(pathStr('signup'));
   }
 
-  const showLoading = useCallback((text: string, thisBtn: boolean) => {
-    if (interviewer !== thisBtn) return text;
-    return isLoading ? <><LoadingButtonItem />{text}</> : text
-  }, [isLoading, interviewer]);
+  const showLoading = (text: string, kind: IBtnKind) => {
+    return (btnKind === kind && isLoading) ? <><LoadingButtonItem />{text}</> : text;
+  }
 
   return (
     <FormProvider {...method}>
@@ -70,10 +71,15 @@ function LoginForm() {
         <LoginUserName />
         <LoginPassword />
         <ButtonBox>
-          <Submit interviewer={false}>{showLoading("시작하기", false)}</Submit>
+          <Submit interviewer={false} disabled={isLoading}>{showLoading("시작하기", 'customer')}</Submit>
           <Line aria-hidden />
           <Button type='button' onClick={onSingup}>{"가입하기"}</Button>
-          <Submit type='button' interviewer={true} onClick={onInterviewerSubmit}>{showLoading("둘러보기", true)}</Submit>
+          <Submit
+            type='button'
+            interviewer={true}
+            onClick={onInterviewerSubmit}
+            disabled={isLoading}>{showLoading("둘러보기", 'interviewer')}
+          </Submit>
         </ButtonBox>
       </Form>
     </FormProvider>
