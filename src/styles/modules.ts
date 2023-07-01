@@ -41,7 +41,7 @@ export const buttonStyle = {
     cursor: pointer;
 
     &:disabled {
-      opacity: 0.4;
+      opacity: 0.7;
       cursor: not-allowed;
     }
   `,

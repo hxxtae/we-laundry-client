@@ -8,21 +8,20 @@ import styled from 'styled-components';
 import { recordLaundryState, recordReceiptExeState, recordRepairState, recordRequestState } from '../../../../../global';
 import { buttonStyle, colors, dragging, includes, media } from '../../../../../styles';
 import { useAudio } from '../../../../../hooks';
+import { IRecordRequest } from '../../../../../services/records';
 
 interface IReceiptSuccess {
-  sumLaundry: { price: number, count: number };
-  sumRepair: { price: number, count: number };
+  recordObj: IRecordRequest;
   setReceiptAct: React.Dispatch<React.SetStateAction<boolean>>;
   setReceiptOkAct: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ReceiptSuccess({ sumLaundry, sumRepair, setReceiptAct, setReceiptOkAct }: IReceiptSuccess) {
+function ReceiptSuccess({ recordObj, setReceiptAct, setReceiptOkAct }: IReceiptSuccess) {
   const resetLaundry = useResetRecoilState(recordLaundryState);
   const resetRepair = useResetRecoilState(recordRepairState);
   const resetRecord = useResetRecoilState(recordRequestState);
   const resetReceiptExe = useResetRecoilState(recordReceiptExeState);
   const { toggle } = useAudio('./assets/sound/note.mp3');
-  const sumTotal = (sumLaundry.price + sumRepair.price).toLocaleString();
 
   const onExit = () => {
     setReceiptAct(false);
@@ -48,16 +47,16 @@ function ReceiptSuccess({ sumLaundry, sumRepair, setReceiptAct, setReceiptOkAct 
       </TitleBox>
       <DetailList>
         <DetailItem>
-          <Text>{'세탁 금액'}</Text>
-          <Sum>{`${sumLaundry.price.toLocaleString()}원`}</Sum>
-        </DetailItem>
-        <DetailItem>
-          <Text>{'수선 금액'}</Text>
-          <Sum>{`${sumRepair.price.toLocaleString()}원`}</Sum>
-        </DetailItem>
-        <DetailItem>
           <Text>{'접수 금액'}</Text>
-          <Sum>{`${sumTotal}원`}</Sum>
+          <Sum>{`${recordObj.recordPrice.toLocaleString()}원`}</Sum>
+        </DetailItem>
+        <DetailItem>
+          <Text>{'할인 금액'}</Text>
+          <Sum>{`${recordObj.recordSale.toLocaleString()}원`}</Sum>
+        </DetailItem>
+        <DetailItem>
+          <Text>{'결제 금액'}</Text>
+          <Sum>{`${recordObj.recordSalePrice.toLocaleString()}원`}</Sum>
         </DetailItem>
       </DetailList>
       <Exit onClick={onExit}>{'닫기'}</Exit>
@@ -142,6 +141,12 @@ const DetailItem = styled.li`
   ${includes.flexBox('center', 'space-between')}
   padding: 5px 0;
   color: ${(props) => props.theme.textColor};
+
+  &:last-child {
+    padding-top: 10px;
+    border-top: 1px solid ${({ theme }) => theme.borderColor};
+    margin-top: 10px;
+  }
 `;
 
 const Text = styled.span`

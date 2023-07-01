@@ -56,6 +56,11 @@ function HistoryListItem({ recordObjs, recordObjRecordDate, onClickId, clickId }
     return `${firstName} ${remainCnt(otherCount)}`;
   }
 
+  const onReceiptPrice = (recordObj: IRecordObjResponse) => {
+    const { recordPrice, recordSale, recordSalePrice } = recordObj;
+    return recordSale ? recordSalePrice : recordPrice;
+  }
+
   return (
     <ItemBox>
       <DateItem>
@@ -71,7 +76,7 @@ function HistoryListItem({ recordObjs, recordObjRecordDate, onClickId, clickId }
               <span>{history.ho}</span>
             </TopGroup>
             <BottomGroup>
-              <span>{`${history.recordPrice.toLocaleString()}원`}</span>
+              <span>{`${onReceiptPrice(history).toLocaleString()}원`}</span>
               <span>{onListItemNames(history)}</span>
             </BottomGroup>
             {!!history.records.repair.length && 
@@ -194,7 +199,7 @@ const RepairChk = styled.p`
   width: 40px;
   height: 20px;
   border-radius: 4px;
-  background-color: ${colors.lightGreen};
+  border: 1px solid ${({ theme }) => theme.textColor};
   font-weight: 600;
-  color: ${colors.white};
+  color: ${({ theme }) => theme.textColor};
 `;
