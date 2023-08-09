@@ -1,24 +1,25 @@
 import { useHistory } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { memo } from 'react';
 import styled from 'styled-components';
 
 import { colors, includes, media } from '../../styles';
 
 interface IItem {
   path: string;
-  clickPath: string;
+  clickState: boolean;
   name: string;
   children: JSX.Element;
 }
 
-function SidebarItem({ children, clickPath, path, name }: IItem) {
+function SidebarItem({ children, clickState, path, name }: IItem) {
   const history = useHistory();
 
   return (
-    <Item clicked={clickPath} path={path} onClick={() => history.push(path)}>
+    <Item clicked={clickState+""} path={path} onClick={() => history.push(path)}>
       {children}
       <ItemTitle>{name}</ItemTitle>
-      {clickPath === path ?
+      {clickState ?
         <ItemChk key={path} layoutId='side' />
         : null
       }
@@ -26,7 +27,9 @@ function SidebarItem({ children, clickPath, path, name }: IItem) {
   );
 }
 
-export default SidebarItem;
+export default memo(SidebarItem, (prev, next) => prev.clickState === next.clickState);
+// props.children은 react.memo() 를 사용하여도 리렌더링이 수행되기 때문에, memo의 두 번째 파리미터에
+// props의 값을 비교하여 false인 경우에 리렌더링 되도록 propsAreEqual callback 함수를 사용하였습니다.
 
 const Item = styled(motion.li)<{clicked: string, path: string}>`
   position: relative;
@@ -35,7 +38,7 @@ const Item = styled(motion.li)<{clicked: string, path: string}>`
   padding: 16px;
   font-size: 12px;
   color: ${colors.white};
-  opacity: ${(props) => props.clicked === `${props.path}` ? 1 : .6 };
+  opacity: ${(props) => props.clicked === 'true' ? 1 : .6 };
   cursor: pointer;
 
   &:hover {
