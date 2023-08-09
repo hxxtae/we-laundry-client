@@ -19,6 +19,7 @@ export const colors = {
   black: '#000',
 
   light: '#e7e7e7',
+  lightUp: '#E9EBF1',
   dark: '#191A20',
 
   darkSlate: '#0d1117',
