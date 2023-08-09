@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { openState, sidebarClickState } from '../../../global/atoms';
-import { buttonStyle, dragging, includes, media } from '../../../styles';
+import { buttonStyle, colors, dragging, includes, media } from '../../../styles';
 import { openStorage } from '../../../util';
 
 function OpenAndClose() {
@@ -14,7 +14,7 @@ function OpenAndClose() {
   
   useEffect(() => {
     setSideClick(path);
-  }, []);
+  }, [path, setSideClick]);
 
   const onClick = () => {
     if (open) {
@@ -27,10 +27,14 @@ function OpenAndClose() {
 
   return (
     <Group>
-      <LogoBox>
-        <Logo src={process.env.PUBLIC_URL + '/assets/svg/welaundry_medium_v2_darkblue.svg'} />
-      </LogoBox>
-      <StartButton state={open.toString()} onClick={onClick} type='button'>{open ? '영업 마감하기' : '영업 시작하기'}</StartButton>
+      <Wrapper>
+        <Contents>
+          우리동네 세탁소 맞춤 포스 <br/>
+          <strong>welaundry</strong> 하나면 충분해요.
+        </Contents>
+        <Button state={open.toString()} onClick={onClick} type='button' >{open ? '영업 마감하기' : '영업 시작하기'}</Button>
+      </Wrapper>
+      <Image src="/assets/img/tablet.png" alt="welaundry logo image" />
     </Group>
   );
 }
@@ -40,34 +44,56 @@ export default OpenAndClose;
 const Group = styled.div`
   ${dragging.stop}
   ${includes.flexBox()}
-  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
   width: 100%;
   height: 100%;
   padding: 20px;
-  background-image: linear-gradient(rgba(200, 200, 200, 0), rgba(200, 200, 200, .8)), url(${process.env.PUBLIC_URL + '/assets/img/introduce_1.jpg'});
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-`;
-
-const LogoBox = styled.div`
-  ${includes.flexBox('flex-start', 'center')}
-  width: 300px;
-  margin-bottom: 50px;
+  background-color: ${colors.lightUp};
 
   @media ${media.pc_s} {
-    width: 400px;
+    gap: 80px;
+  }
+
+  @media ${media.pc_l} {
+    gap: 160px;
   }
 `;
 
-const Logo = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 `;
 
-const StartButton = styled.button<{state: string}>`
+const Contents = styled.p`
+  font-size: 24px;
+  line-height: 1.8;
+
+  strong {
+    font-weight: 600;
+  }
+`;
+
+const Button = styled.button<{state: string}>`
   ${(props) => props.state === 'true' ? `${buttonStyle.close()}` : `${buttonStyle.open()}` }
+  padding: 12px 8px;
   border: transparent;
-  margin-bottom: 100px;
+  border-radius: 7px;
+  margin-right: 20%;
+`;
+
+const Image = styled.img`
+  width: 390px;
+
+  @media ${media.pc_s} {
+    width: 410px;
+  }
+
+  @media ${media.pc_l} {
+    width: 510px;
+    content: url("/assets/img/desktop.png");
+  }
 `;
