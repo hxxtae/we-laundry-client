@@ -19,25 +19,25 @@ function Sidebar() {
       {sideToggle ? (
         <Nav variants={navVariant} initial="init" animate="start" exit="end">
           <List variants={listVariant}>
-            <SidebarItem path={pathStr('records')} name='주문접수' clickPath={sideClick} >
+            <SidebarItem path={pathStr('records')} name='주문접수' clickState={sideClick === pathStr('records')} >
               <FontAwesomeIcon icon={faReceipt} size="2x" />
             </SidebarItem>
-            <SidebarItem path={pathStr('history')} name='주문내역' clickPath={sideClick} >
+            <SidebarItem path={pathStr('history')} name='주문내역' clickState={sideClick === pathStr('history')} >
               <FontAwesomeIcon icon={faClipboardList} size="2x" />
             </SidebarItem>
-            <SidebarItem path={pathStr('customer')} name='고객관리' clickPath={sideClick} >
+            <SidebarItem path={pathStr('customer')} name='고객관리' clickState={sideClick === pathStr('customer')} >
               <FontAwesomeIcon icon={faAddressBook} size="2x" />
             </SidebarItem>
-            <SidebarItem path={pathStr('products')} name='품목관리' clickPath={sideClick} >
+            <SidebarItem path={pathStr('products')} name='품목관리' clickState={sideClick === pathStr('products')} >
               <FontAwesomeIcon icon={faShirt} size="2x" />
             </SidebarItem>
-            <SidebarItem path={pathStr('address')} name='주소관리' clickPath={sideClick} >
+            <SidebarItem path={pathStr('address')} name='주소관리' clickState={sideClick === pathStr('address')} >
               <FontAwesomeIcon icon={faBuilding} size="2x" />
             </SidebarItem>
-            <SidebarItem path={pathStr('sales')} name='매출관리' clickPath={sideClick} >
+            <SidebarItem path={pathStr('sales')} name='매출관리' clickState={sideClick === pathStr('sales')} >
               <FontAwesomeIcon icon={faChartColumn} size="2x" />
             </SidebarItem>
-            <SidebarItem path={pathStr('pos')} name='영업관리' clickPath={sideClick} >
+            <SidebarItem path={pathStr('pos')} name='영업관리' clickState={sideClick === pathStr('pos')} >
               <FontAwesomeIcon icon={faPowerOff} size="2x" />
             </SidebarItem>
           </List>

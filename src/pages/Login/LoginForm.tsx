@@ -73,7 +73,7 @@ function LoginForm() {
         <ButtonBox>
           <Submit interviewer={false} disabled={isLoading}>{showLoading("시작하기", 'customer')}</Submit>
           <Line aria-hidden />
-          <Button type='button' onClick={onSingup}>{"가입하기"}</Button>
+          <Button type='button' onClick={onSingup} disabled={isLoading}>{"가입하기"}</Button>
           <Submit
             type='button'
             interviewer={true}
