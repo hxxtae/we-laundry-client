@@ -6,18 +6,32 @@ import '@fortawesome/fontawesome-svg-core';
 
 import { includes } from '../../styles';
 
-function LoadingItem() {
+type LoadingSize = '1x' | '2x' | '3x';
+
+interface ILoadingItem {
+  inline?: boolean;
+  size?: LoadingSize;
+}
+
+function LoadingItem({ inline = false, size = '1x' }: ILoadingItem) {
   return (
-    <Loading animate={{rotate: 360}} transition={{repeatType: "loop", repeat: Infinity, duration: 1}} >
-      <FontAwesomeIcon icon={faSpinner} size="2x" />
-    </Loading>
+    <Wrapper inline={inline.toString()}>
+      <Loading animate={{rotate: 360}} transition={{repeatType: "loop", repeat: Infinity, duration: 1}} >
+        <FontAwesomeIcon icon={faSpinner} size={size} />
+      </Loading>
+    </Wrapper>
   )
 };
 
 export default LoadingItem;
 
-const Loading = styled(motion.div)`
+const Wrapper = styled.div<{ inline: string }>`
   ${includes.flexBox()}
+  display: ${({ inline }) => inline === 'true' ? 'inline-flex' : 'flex'};
+  margin: 0 10px;
+`;
+
+const Loading = styled(motion.div)`
+  display: inline-block;
   color: ${(props) => props.theme.textColor};
-  margin: 10px 0;
 `;

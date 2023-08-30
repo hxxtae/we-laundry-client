@@ -9,7 +9,7 @@ import { pathStr } from '../../routers/path';
 import { authApi, userState } from '../../global';
 import { buttonStyle, includes } from '../../styles';
 import { LoginPassword, LoginUserName } from './LoginInputs';
-import { LoadingButtonItem } from '../../components';
+import { LoadingItem } from '../../components';
 
 type IBtnKind = 'customer' | 'interviewer';
 
@@ -62,7 +62,7 @@ function LoginForm() {
   }
 
   const showLoading = (text: string, kind: IBtnKind) => {
-    return (btnKind === kind && isLoading) ? <><LoadingButtonItem />{text}</> : text;
+    return (btnKind === kind && isLoading) ? <><LoadingItem inline={true} />{text}</> : text;
   }
 
   return (
