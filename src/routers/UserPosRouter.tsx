@@ -14,7 +14,7 @@ const OpenAndClose = lazy(() => import("../pages/Pos/OpenAndClose/OpenAndClose")
 
 function UserPosRouter() {
   return (
-    <Suspense fallback={<LoadingItem />}>
+    <Suspense fallback={<LoadingItem size='2x'/>}>
       <Switch>
         <Route exact path={[pathStr('pos', true), process.env.PUBLIC_URL + '/']}>
           <OpenAndClose />

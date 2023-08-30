@@ -26,7 +26,7 @@ function AddnameSelectList({ selectAct, onSelectClick }: IAddnameSelectList) {
       {selectAct &&
         <SelectBox variants={selectVariant} initial="init" animate="start" exit="end">
           {loading ?
-              <LoadingItem /> :
+              <LoadingItem size='2x'/> :
             addDatas?.map((item: IAddressResponse) => (
             <SelectItem
               key={item.id}

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import styled from 'styled-components';
 import { LoadingItem } from '../../../../../components';
 import { useProductObjFetch } from '../../../../../hooks';
 import { IProductStats } from '../../../../../services/sales';
+import styled from 'styled-components';
 
 import { dragging, includes } from '../../../../../styles';
 import { sortKinds } from '../SalesContext';
@@ -55,7 +55,7 @@ function CategorySale({ productStats }: ICategorySale) {
             productStats={dataSortPriceAndCount()}
             sortKind={sortKind} />
             <CategorySaleChart />
-          </> : <LoadingItem />}
+          </> : <LoadingItem size='2x'/>}
       </StatsGroup>
     </Section>
   )
