@@ -9,7 +9,7 @@ import { recordLaundryState, recordReceiptExeState, recordRepairState, recordReq
 import { buttonStyle, colors, dragging, includes, media, scroll, toastStyle } from '../../../../styles';
 import { LoadingComponent, Overlay } from '../../../../components';
 import { IRecordRequest } from '../../../../services/records';
-import { dateToString } from '../../../../components/DateComponent';
+import { dateToString } from '../../../../util';
 import { queryKeys } from '../../../../util';
 import ReceiptSuccess from './RecordReceiptComponent/ReceiptSuccess';
 import RecordSalePopup from './RecordSalePopup';

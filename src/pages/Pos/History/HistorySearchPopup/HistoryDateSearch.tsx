@@ -3,7 +3,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { dateToString } from '../../../../components/DateComponent';
+import { dateToString } from '../../../../util';
 import { buttonStyle, includes, media } from '../../../../styles';
 import { InputTitles, DateComponent, DateKind } from '../../../../components';
 import { IRecordSearchRequest } from '../../../../services/records';

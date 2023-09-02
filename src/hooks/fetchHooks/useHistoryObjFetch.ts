@@ -6,7 +6,7 @@ import { recordRequestState, recordsApi } from '../../global';
 import { toastStyle } from '../../styles';
 import { queryKeys } from '../../util';
 import { useEffect } from 'react';
-import { dateToString } from '../../components/DateComponent';
+import { dateToString } from '../../util';
 
 interface IHistoryFetch {
   historyLoading: boolean;

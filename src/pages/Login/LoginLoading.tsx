@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 import { Background } from '../../components';
-import LoadingLogo from '../../components/Loadings/LoadingLogo';
 import { includes } from '../../styles';
+import LoadingLogo from '../../components/Loadings/LoadingLogo';
 
 function LoginLoading() {
   return (
