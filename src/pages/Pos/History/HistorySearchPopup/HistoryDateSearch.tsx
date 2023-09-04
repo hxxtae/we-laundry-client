@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { dateToString } from '../../../../util';
 import { buttonStyle, includes, media } from '../../../../styles';
-import { InputTitles, DateComponent, DateKind } from '../../../../components';
+import { InputTitles, DateCalendar, DateKind } from '../../../../components';
 import { IRecordSearchRequest } from '../../../../services/records';
 
 interface IHistoryDateSearch {
@@ -48,7 +48,7 @@ function HistoryDateSearch({ setDateActive, setSearchObj, searchObj }: IHistoryD
         </Close>
         <InputTitles title='날짜 선택' des='원하는 날짜를 선택해주세요.' />
         <InputBox>
-          <DateComponent thisDate={searchDate} setThisDate={setSearchDate} />
+          <DateCalendar thisDate={searchDate} setThisDate={setSearchDate} />
           <DateKind
             selectKindAct={searchKindAct}
             selectKind={searchKind}

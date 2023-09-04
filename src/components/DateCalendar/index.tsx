@@ -23,12 +23,12 @@ interface IRenderDateHeader {
   nextYearButtonDisabled: boolean;
 }
 
-interface IDateComponent {
+interface IDateCalendar {
   thisDate: string;
   setThisDate: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function DateComponent({ thisDate, setThisDate }: IDateComponent) {
+function DateCalendar({ thisDate, setThisDate }: IDateCalendar) {
   const [months] = useState([
     "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"
   ]);
@@ -67,5 +67,5 @@ function DateComponent({ thisDate, setThisDate }: IDateComponent) {
   )
 }
 
-export default DateComponent;
+export default DateCalendar;
 
