@@ -4,7 +4,7 @@ export { default as LoadingLogo } from './Loadings/LoadingLogo';
 export { default as AddnameSelectList } from './AddnameSelectList';
 export { default as Background } from './Background';
 export { default as Containers } from './Containers';
-export { default as DateComponent } from './DateComponent';
+export { default as DateCalendar } from './DateCalendar';
 export { default as ErrorMessage } from './ErrorMessage';
 export { default as InputTitles } from './InputTitles';
 export { default as NotFoundPage } from './NotFoundPage';
