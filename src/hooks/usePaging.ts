@@ -22,12 +22,8 @@ export interface IPageing<T> {
  * @param pageBtnPost - 보여질 페이지 번호 버튼 개수
  */
 export function usePaging<T>(datas: T[], dataLen: number, pagePost: number, pageBtnPost: number): IPageing<T> {
-  if (pagePost === 0) {
-    pagePost = 1;
-  }
-  if (pageBtnPost === 0) {
-    pageBtnPost = 1;
-  }
+  if (pagePost === 0) pagePost = 1;
+  if (pageBtnPost === 0) pageBtnPost = 1;
 
   const [currentPage, setCurrentPage] = useState(1); // 선택한 페이지 번호 ex) 1, 2, 3, ... (선택)
   const fetchDatas = fetchDataPost(datas, pagePost, currentPage);

@@ -2,12 +2,12 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { createGlobalStyle } from 'styled-components';
 import { ToastContainer } from 'react-toastify';
-import ReactDOM from 'react-dom/client';
 import { reset } from 'styled-reset';
 import { RecoilRoot } from 'recoil';
+import { Suspense } from 'react';
+import ReactDOM from 'react-dom/client';
 import "react-toastify/dist/ReactToastify.css";
 
-import { Suspense } from 'react';
 import LoginLoading from './pages/Login/LoginLoading';
 import App from './App';
 
@@ -73,7 +73,7 @@ root.render(
   //</React.StrictMode>
 );
 
-console.log('Website by %c https://heetae.me ', `
+console.log('Website by %c https://heetae.dev ', `
   font-size: 14px; 
   line-height: 44px;
   color: #e7e7e7;
