@@ -1,20 +1,9 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-import { includes, media } from '../../styles';
+import { includes, media } from '../../../styles';
 
-function LoadingLogo() {
-  return (
-    <LoadingBox>
-      <Logo src={process.env.PUBLIC_URL + '/assets/svg/welaundry_medium_v2_darkblue.svg'} alt='Welaundry logo'></Logo>
-      <Message>잠시만 기다려주세요</Message>
-    </LoadingBox>
-  )
-}
-
-export default LoadingLogo;
-
-const LoadingBox = styled(motion.div)`
+export const Box = styled(motion.div)`
   position: relative;
   ${includes.flexBox()}
   flex-direction: column;
@@ -23,13 +12,13 @@ const LoadingBox = styled(motion.div)`
   padding: 20px;
 `;
 
-const Logo = styled.img`
+export const Logo = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
 `;
 
-const Message = styled.p`
+export const Message = styled.p`
   position: absolute;
   bottom: -20px;
   color: ${({ theme }) => theme.borderColorSub};

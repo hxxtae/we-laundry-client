@@ -22,7 +22,7 @@ function RecordsListContext() {
           {!loading ?
             <RecordsList categoryIdx={categoryIdx} productObjs={productObjs} /> :
             <LoadingBox>
-              <LoadingItem />
+              <LoadingItem size='2x'/>
             </LoadingBox>}
         </Wrapper>
       </> :

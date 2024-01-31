@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { buttonStyle, dragging, includes, media, scroll } from '../../../styles';
 import { useHistoryFetch } from '../../../hooks';
 import { LoadingComponent, Overlay } from '../../../components';
-import { dateToString } from '../../../components/DateComponent';
+import { dateToString } from '../../../util';
 import { IRecordObjResponse, IRecordSearchRequest } from '../../../services/records';
 import HistoryListItem from './HistoryListItem';
 import HistoryDateSearch from './HistorySearchPopup/HistoryDateSearch';

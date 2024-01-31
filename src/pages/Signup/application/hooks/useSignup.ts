@@ -5,12 +5,12 @@ import { useRecoilValue } from 'recoil';
 import { authApi } from '../../../../global';
 import { dto } from '../interface';
 
-interface useSignup {
+interface useSignupReturn {
   isLoading: boolean;
   mutate: UseMutateFunction<AxiosResponse<any, any>, unknown, dto.ISignup, unknown>;
 }
 
-export const useSignup = (): useSignup => {
+export const useSignup = (): useSignupReturn => {
   const authService = useRecoilValue(authApi);
   const { isLoading, mutate } = useMutation((signData: dto.ISignup) => authService.signup(signData));
 

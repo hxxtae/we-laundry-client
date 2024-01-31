@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { dateToString } from '../components/DateComponent';
+import { dateToString } from '../util';
 import HttpClient from './http';
 
 // 세탁 주문 object
