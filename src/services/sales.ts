@@ -25,6 +25,7 @@ export default class SalesService implements ISalesService {
     this.http = http;
   }
 
+  // 매출 내역 Fetch API
   async getAllProductSale() {
     const data = await this.http.fetch('/sales', {
       method: 'GET',

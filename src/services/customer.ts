@@ -51,6 +51,7 @@ export default class CustomerService implements ICustomerService {
     this.http = http;
   }
 
+  // 고객 단지 정보 데이터 Fetch API (All)
   async fetchAllCus(): Promise<AxiosResponse>  {
     const data = await this.http.fetch('/customer/all', {
       method: 'GET',
@@ -58,6 +59,7 @@ export default class CustomerService implements ICustomerService {
     return data;
   }
 
+  // 고객 단지 정보 데이터 Fetch API (Filter)
   async searchFetchCus({ addname, dong, ho }: ICustomerSearchRequest): Promise<AxiosResponse> {
     const data = await this.http.fetch(`/customer?addname=${addname}&dong=${dong}&ho=${ho}`, {
       method: 'GET',
@@ -65,6 +67,7 @@ export default class CustomerService implements ICustomerService {
     return data;
   }
 
+  // 고객 단지 정보 데이터 Create API
   async createCus({ addid, addname, addfullname, name, dong, ho }: ICustomerCreateRequest): Promise<AxiosResponse> {
     const data = await this.http.fetch('/customer', {
       method: 'POST',
@@ -80,6 +83,7 @@ export default class CustomerService implements ICustomerService {
     return data;
   }
   
+  // 고객 단지 정보 데이터 Update API
   async updateCus({ id, addid, addname, addfullname, name, dong, ho }: ICustoemrUpdateRequest) {
     const data = await this.http.fetch(`/customer/${id}`, {
       method: 'PUT',
@@ -95,6 +99,7 @@ export default class CustomerService implements ICustomerService {
     return data;
   }
 
+  // 고객 단지 정보 데이터 Delete API
   async deleteCus(id: string) {
     const data = await this.http.fetch(`/customer/${id}`, {
       method: 'DELETE',

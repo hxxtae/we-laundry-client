@@ -82,6 +82,7 @@ export default class RecordsService implements IRecordsService {
     this.http = http;
   }
 
+  // 주문 접수 API
   async createRecord({ recordCount, recordPrice, recordSale, recordSalePrice, cusid, addid, addname, dong, ho, addfullname, laundry, repair }: IRecordRequest) {
     const data = await this.http.fetch('/records', {
       method: 'POST',
@@ -104,6 +105,7 @@ export default class RecordsService implements IRecordsService {
     return data;
   }
 
+  // 주문 내역 Fetch API (날짜로 조회)
   async searchRecordByDate(startDate: string, endDate: string) {
     const data = this.http.fetch(`/records/date/?startDate=${startDate}&endDate=${endDate}`, {
       method: 'GET',
@@ -111,6 +113,7 @@ export default class RecordsService implements IRecordsService {
     return data;
   }
 
+  // 주문 내역 Fetch API (고객 정보로 조회: 단지 번호 및 주소)
   async searchRecordByCustomer({ addname, dong, ho }: IRecordSearchRequestByAdd) {
     const data = this.http.fetch(`/records?addname=${addname}&dong=${dong}&ho=${ho}`, {
       method: 'GET',
@@ -118,6 +121,7 @@ export default class RecordsService implements IRecordsService {
     return data;
   }
 
+  // 주문 내역 Delete API
   async deleteRecord(id: string) {
     const data = await this.http.fetch(`/records/${id}`, {
       method: 'DELETE',

@@ -27,6 +27,7 @@ export default class AddressService implements IAddressService {
     this.http = http;
   }
 
+  // 주소 데이터 Fetch API
   async fetchAdd(): Promise<AxiosResponse> {
     const data = await this.http.fetch('/address', {
       method: 'GET',
@@ -34,6 +35,7 @@ export default class AddressService implements IAddressService {
     return data;
   };
 
+  // 주소 데이터 Create API
   async createAdd({ addname, addfullname }: IAddressRequest): Promise<AxiosResponse> {
     const data = await this.http.fetch('/address', {
       method: 'POST',
@@ -45,6 +47,7 @@ export default class AddressService implements IAddressService {
     return data;
   };
 
+  // 주소 데이터 Update API
   async updateAdd({ id, addname, addfullname }: IAddressRequest): Promise<AxiosResponse> {
     const data = await this.http.fetch(`/address/${id}`, {
       method: 'PUT',
@@ -56,6 +59,7 @@ export default class AddressService implements IAddressService {
     return data;
   }
 
+  // 주소 데이터 Delete API
   async deleteAdd(id: string): Promise<AxiosResponse> {
     const data = await this.http.fetch(`/address/${id}`, {
       method: 'DELETE',
