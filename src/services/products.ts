@@ -56,6 +56,7 @@ export default class ProductsService implements IProductsService {
     this.http = http;
   }
 
+  // 세탁 품목 데이터 Fetch API
   async fetchProductObjs(): Promise<AxiosResponse> {
     const data = await this.http.fetch('/products', {
       method: 'GET',
@@ -63,6 +64,7 @@ export default class ProductsService implements IProductsService {
     return data;
   };
 
+  // 세탁 품목 데이터 Create API (Category)
   async createCategory({ categoryName }: ICategoryRequest) {
     const data = await this.http.fetch('/products', {
       method: 'POST',
@@ -73,6 +75,7 @@ export default class ProductsService implements IProductsService {
     return data;
   };
 
+  // 세탁 품목 데이터 Create API (Product)
   async createProduct({ id, productName, price }: IProductCreateRequest) {
     const data = await this.http.fetch(`/products/list`, {
       method: 'POST',
@@ -85,6 +88,7 @@ export default class ProductsService implements IProductsService {
     return data;
   };
 
+  // 세탁 품목 데이터 Update API (Category)
   async updateCategory({ id, categoryName }: ICategoryRequest) {
     const data = await this.http.fetch(`/products/${id}`, {
       method: 'PUT',
@@ -95,6 +99,7 @@ export default class ProductsService implements IProductsService {
     return data;
   };
 
+  // 세탁 품목 데이터 Update API (Product)
   async updateProduct({ id, products }: IProductsUpdateRequest) {
     const data = await this.http.fetch(`/products/list/${id}`, {
       method: 'PUT',
@@ -105,6 +110,7 @@ export default class ProductsService implements IProductsService {
     return data;
   };
 
+  // 세탁 품목 데이터 Delete API (Category)
   async deleteCategory(id: string) {
     const data = await this.http.fetch(`/products/${id}`, {
       method: 'DELETE',
