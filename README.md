@@ -368,7 +368,7 @@ export default ThemeButton;
 
 ## Router
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/79623316/203274607-945e1ac7-e953-4796-b1c3-5cb932713aec.jpg" alt="welaundry Router Flow">
+  <img src="https://github.com/hxxtae/we-laundry-client/assets/79623316/4bd1e648-a852-4ef5-8fb7-ed5d31b53779" alt="welaundry Router Flow">
 </p>
 
 ### Before Login (NonUserRouter)

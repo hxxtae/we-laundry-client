@@ -4,6 +4,11 @@ import { PageRouterTitle } from '../components';
 import Login from '../pages/Login/Login';
 import Signup from '../pages/Signup/Signup';
 import { pathStr } from './path';
+import { loginImg } from '../pages/Login/LoginContext';
+
+// --- NOTE: Login Image Preload
+const img = new Image();
+loginImg.forEach((obj) => img.src = obj.path);
 
 function NonUserRouter() {
   return (

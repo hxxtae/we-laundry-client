@@ -31,6 +31,7 @@ export default class AuthService implements IAuthService {
     this.http = http;
   }
 
+  // 회원가입 API
   async signup({ username, password, tel }: SignupRequest): Promise<AxiosResponse> {
     const data = await this.http.fetch('/auth/signup', {
       method: 'POST',
@@ -43,6 +44,7 @@ export default class AuthService implements IAuthService {
     return data;
   }
 
+  // 로그인 API
   async login({ username, password }: LoginRequest): Promise<AxiosResponse> {
     const data = await this.http.fetch('/auth/login', {
       method: 'POST',
@@ -55,6 +57,7 @@ export default class AuthService implements IAuthService {
     return data;
   }
 
+  // 로그아웃 API
   async logout() {
     const data = this.http.fetch('/auth/logout', {
       method: 'POST',
@@ -63,6 +66,7 @@ export default class AuthService implements IAuthService {
     return data;
   }
 
+  // 로그인 여부 확인 API
   async me(): Promise<AxiosResponse> {
     const data = await this.http.fetch('/auth/me', {
       method: 'GET',
@@ -70,6 +74,7 @@ export default class AuthService implements IAuthService {
     return data;
   }
 
+  // CSRF 공격 방지 API
   async csrfToken(): Promise<AxiosResponse> {
     const data = await this.http.fetch('/auth/csrf-token', {
       method: 'GET'

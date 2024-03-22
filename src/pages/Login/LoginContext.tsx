@@ -8,20 +8,24 @@ import { Background, Containers } from '../../components';
 export interface IloginKey {
   id: number;
   path: string;
+  path2?: string;
 }
 
 export const loginImg: IloginKey[] = [
   {
     id: 1,
-    path: `${process.env.PUBLIC_URL}/assets/img/img_login.jpg`,
+    path: `${process.env.PUBLIC_URL}/assets/img/img_login_w800.jpg`,
+    path2: `${process.env.PUBLIC_URL}/assets/img/img_login_w400.jpg`,
   },
   {
     id: 2,
-    path: `${process.env.PUBLIC_URL}/assets/img/img_login3.jpg`,
+    path: `${process.env.PUBLIC_URL}/assets/img/img_login3_w800.jpg`,
+    path2: `${process.env.PUBLIC_URL}/assets/img/img_login3_w400.jpg`,
   },
   {
     id: 3,
-    path: `${process.env.PUBLIC_URL}/assets/img/img_login4.jpg`,
+    path: `${process.env.PUBLIC_URL}/assets/img/img_login4_w800.jpg`,
+    path2: `${process.env.PUBLIC_URL}/assets/img/img_login4_w400.jpg`,
   },
 ];
 
@@ -36,10 +40,6 @@ function LoginContext({ children }: ILoginContext) {
   const imgPathProps = imgPaths.find((imgPath) => imgPath.id === next);
 
   useEffect(() => {
-    // --- Image Preload
-    const img = new Image();
-    loginImg.forEach((obj) => img.src = obj.path);
-
     opcityStart.current = setInterval(() => setNext((prev) => {
       if (prev === imgPaths.length) {
         return 1;
