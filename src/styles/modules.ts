@@ -49,11 +49,11 @@ export const buttonStyle = {
   primary: (chk: boolean = false) => `
     ${buttonStyle.base()}
     color: white;
-    background-color: ${chk ? colors.lightGreen : colors.blue};
+    background-color: ${chk ? colors.green : colors.blue};
     transition: background-color 200ms ease-in-out;
 
     &:not(:disabled):hover {
-      background-color: ${chk ? colors.lightGreenBlur : colors.blueLight};
+      background-color: ${chk ? colors.greenBlur : colors.blueLight};
     }
   `,
 

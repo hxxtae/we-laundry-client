@@ -12,6 +12,9 @@ const Address = lazy(() => import("../pages/Pos/Address/Address"));
 const Sales = lazy(() => import("../pages/Pos/Sales/Sales"));
 const OpenAndClose = lazy(() => import("../pages/Pos/OpenAndClose/OpenAndClose"));
 
+const img = new Image();
+img.src = `${process.env.PUBLIC_URL}/assets/img/tablet.png`
+
 function UserPosRouter() {
   return (
     <Suspense fallback={<LoadingItem size='2x'/>}>

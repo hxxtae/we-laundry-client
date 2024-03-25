@@ -34,7 +34,7 @@ function OpenAndClose() {
         </Contents>
         <Button state={open.toString()} onClick={onClick} type='button' >{open ? '영업 마감하기' : '영업 시작하기'}</Button>
       </Wrapper>
-      <Image src="/assets/img/tablet.png" alt="welaundry logo image" />
+      <Image src="/assets/img/tablet.png" alt="welaundry logo image" width={100} />
     </Group>
   );
 }
