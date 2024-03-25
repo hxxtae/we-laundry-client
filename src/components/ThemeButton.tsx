@@ -24,7 +24,7 @@ function ThemeButton() {
       <AnimatePresence>
         <ToggleButton type='button' onClick={onClick}>
           <Wrapper>
-          {!theme ?
+          {theme ?
             <Circle key='dark' layoutId='theme' /> :
             <Text
               variants={textVariants}
@@ -34,7 +34,7 @@ function ThemeButton() {
             >{'Light'}</Text>}
           </Wrapper>
           <Wrapper>
-          {theme ?
+          {!theme ?
             <Circle key='light' layoutId='theme' /> :
             <Text
               variants={textVariants}
@@ -82,7 +82,7 @@ const ToggleButton = styled(motion.button)`
   ${includes.flexBox()}
   width: 100%;
   height: 100%;
-  background-color: ${colors.borderLight};
+  background-color: ${({ theme }) => theme.bgColorThi};
   border-radius: 20px;
   box-shadow: 0 0 15px ${(props) => props.theme.textColor};
   overflow: hidden;

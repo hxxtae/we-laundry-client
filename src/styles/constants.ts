@@ -40,7 +40,7 @@ export const colors = {
   backgroundDark2: '#161b22',
   backgroundNavy: '#101d2d',
   
-  blue: '#3DA5F5',
+  blue: '#0ba3f5',
   blueDark: '#3186C4',
   blueLight: '#59b4f7',
   blueGray: '#ECF6FE',
