@@ -59,6 +59,7 @@ function LoginContext({ children }: ILoginContext) {
             <Wrapper>
               <ImgBox>
                 <Img
+                  alt='Login Banner Image'
                   key={imgPathProps?.id}
                   src={imgPathProps?.path}
                   variants={opacityVariants}

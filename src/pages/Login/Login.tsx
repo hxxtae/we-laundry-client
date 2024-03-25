@@ -10,7 +10,7 @@ function Login() {
     <LoginContext>
       <InputBox>
         <Logo>
-          <LogoImg src={process.env.PUBLIC_URL + '/assets/svg/welaundry_medium_v2_darkblue.svg'} draggable='false' />
+          <LogoImg alt='welaundry logo' src={process.env.PUBLIC_URL + '/assets/svg/welaundry_medium_v2_darkblue.svg'} draggable='false' />
         </Logo>
         <LoginForm />
         <Info>{"All Right Reserved © 2022 hxxtae."}</Info>
